@@ -16,10 +16,11 @@
             <!-- Navigation -->
             <nav class="navbar" id="navbar">
                 <ul>
-                    <li><a href="#">Shop By Category</a></li>
-                    <li><a href="#">Shop By Size</a></li>
-                    <li><a href="#">Best Sellers</a></li>
-                    <li><a href="#">Shop All</a></li>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About us</a></li>
+                    <li><a href="#">Become a partner</a></li>
+                    <li><a href="#">Period Education</a></li>
+                    <li><a href="#">Contact us</a></li>
                 </ul>
             </nav>
 
