@@ -16,56 +16,6 @@ body {
     background-color: #fdfdfd;
 }
 
-/* Topbar Styles */
-.topbar {
-    background-color: var(--primary-color);
-    color: white;
-    padding: 10px 0;
-    /* Increased padding */
-    font-size: 13px;
-    width: 100%;
-}
-
-.topbar-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.topbar-left p {
-    margin: 0;
-    font-weight: 500;
-}
-
-.topbar-center {
-    display: flex;
-    gap: 20px;
-}
-
-.topbar-center a {
-    color: white;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    font-weight: 500;
-}
-
-.topbar-right {
-    display: flex;
-    gap: 15px;
-}
-
-.topbar-right a {
-    color: white;
-    font-size: 14px;
-    transition: opacity 0.3s;
-}
-
-.topbar-right a:hover {
-    opacity: 0.8;
-}
-
 /* Header Styles */
 .header-main {
     background-color: var(--bg-color);
@@ -153,23 +103,6 @@ body {
 
 /* Mobile Responsive */
 @media (max-width: 991px) {
-    .topbar-left {
-        display: none !important;
-        /* Force hide branding text on smaller screens */
-    }
-
-    .topbar-content {
-        justify-content: center;
-        gap: 10px;
-        flex-wrap: wrap;
-    }
-
-    .topbar-center {
-        gap: 15px;
-        font-size: 12px;
-        /* Slightly smaller text for mobile */
-    }
-
     .mobile-toggle {
         display: block;
         margin-left: 15px;
