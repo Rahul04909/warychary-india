@@ -238,18 +238,47 @@
 }
 
 /* Bottom CTA */
+/* Bottom CTA Card */
 .referral-bottom-cta {
-    background-color: #3b4a3b;
-    /* Dark Green from Ref */
-    background-color: #2c2c2c;
-    /* Dark Grey/Black for WaryChary Professional look? Or Dark Purple? */
-    background-color: #3e3e3e;
-    padding: 60px 0 30px;
-    border-radius: 60px 60px 0 0;
-    /* Unique curve */
+    background: linear-gradient(135deg, #fdfbf7 0%, #f4eee5 100%);
+    /* Match Header Card */
+    padding: 60px 40px;
+    border-radius: 24px;
+    /* Rounded card */
     text-align: center;
-    color: white;
+    color: #333;
     margin-top: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-content h3 {
+    font-size: 28px;
+    margin-bottom: 25px;
+    color: #333;
+    font-weight: 700;
+}
+
+.btn-cta {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 15px 40px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 18px;
+    display: inline-block;
+    margin-bottom: 20px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 15px rgba(126, 75, 187, 0.3);
+}
+
+.btn-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(126, 75, 187, 0.4);
+    background-color: #6a3da0;
+    color: white;
 }
 
 .cta-content h3 {
@@ -306,17 +335,50 @@
     }
 
     .referral-steps {
-        flex-wrap: wrap;
-        gap: 15px;
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        gap: 10px;
+        padding-bottom: 20px;
+        /* Space for touch scroll */
+        justify-content: flex-start;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        /* Firefox */
+    }
+
+    .referral-steps::-webkit-scrollbar {
+        display: none;
+        /* Chrome/Safari */
     }
 
     .step-item {
-        width: calc(50% - 15px);
-        /* 2 columns */
+        min-width: 130px;
+        width: 130px;
+        flex-shrink: 0;
+        padding: 15px 10px;
+        min-height: 120px;
+    }
+
+    .step-item h4 {
+        font-size: 13px;
+    }
+
+    .step-icon {
+        font-size: 24px;
+        margin-bottom: 10px;
     }
 
     .step-arrow {
-        display: none;
+        display: block;
+        /* Show arrows */
+        min-width: 20px;
+        flex-shrink: 0;
+        color: #ddd;
+    }
+
+    .referral-bottom-cta {
+        padding: 40px 20px;
     }
 
     .referral-features {
@@ -333,10 +395,7 @@
         font-size: 24px;
     }
 
-    .step-item {
-        width: 100%;
-        /* 1 column */
-    }
+    /* Keep horizontal scroll for steps */
 
     .referral-features {
         grid-template-columns: 1fr;
