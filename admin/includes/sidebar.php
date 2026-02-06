@@ -17,27 +17,12 @@
         <li class="menu-item has-submenu">
             <a href="#" class="menu-link">
                 <div class="menu-text">
-                    <i class="fas fa-thumbtack"></i> <span>Posts</span>
+                    <i class="fas fa-thumbtack"></i> <span>Products</span>
                 </div>
                 <i class="fas fa-chevron-right arrow"></i>
             </a>
             <ul class="submenu">
-                <li><a href="#">All Posts</a></li>
-                <li><a href="#">Add New</a></li>
-                <li><a href="#">Categories</a></li>
-                <li><a href="#">Tags</a></li>
-            </ul>
-        </li>
-
-        <li class="menu-item has-submenu">
-            <a href="#" class="menu-link">
-                <div class="menu-text">
-                    <i class="fas fa-images"></i> <span>Media</span>
-                </div>
-                <i class="fas fa-chevron-right arrow"></i>
-            </a>
-            <ul class="submenu">
-                <li><a href="#">Library</a></li>
+                <li><a href="#">All Products</a></li>
                 <li><a href="#">Add New</a></li>
             </ul>
         </li>
@@ -45,41 +30,57 @@
         <li class="menu-item has-submenu">
             <a href="#" class="menu-link">
                 <div class="menu-text">
-                    <i class="fas fa-file-alt"></i> <span>Pages</span>
+                    <i class="fas fa-images"></i> <span>Orders</span>
                 </div>
                 <i class="fas fa-chevron-right arrow"></i>
             </a>
             <ul class="submenu">
-                <li><a href="#">All Pages</a></li>
-                <li><a href="#">Add New</a></li>
+                <li><a href="#">All Orders</a></li>
+                <li><a href="#">Pending Orders</a></li>
+                <li><a href="#">Completed Orders</a></li>
             </ul>
         </li>
 
         <li class="menu-item has-submenu">
             <a href="#" class="menu-link">
                 <div class="menu-text">
-                    <i class="fas fa-users"></i> <span>Users</span>
+                    <i class="fas fa-file-alt"></i> <span>Senior Partners</span>
+                </div>
+                <i class="fas fa-chevron-right arrow"></i>
+            </a>
+            <ul class="submenu">
+                <li><a href="#">All Senior Partners</a></li>
+                <li><a href="#">Add Senior Partner</a></li>
+                <li><a href="#">Senior Partner Earnings</a></li>
+                <li><a href="#">Senior Partner Payouts</a></li>
+            </ul>
+        </li>
+
+        <li class="menu-item has-submenu">
+            <a href="#" class="menu-link">
+                <div class="menu-text">
+                    <i class="fas fa-users"></i> <span>Partners</span>
+                </div>
+                <i class="fas fa-chevron-right arrow"></i>
+            </a>
+            <ul class="submenu">
+                <li><a href="#">All Partners</a></li>
+                <li><a href="#">Add Partner</a></li>
+                <li><a href="#">Partner Earnings</a></li>
+                <li><a href="#">Partner Payouts</a></li>
+            </ul>
+        </li>
+
+        <li class="menu-item has-submenu">
+            <a href="#" class="menu-link">
+                <div class="menu-text">
+                    <i class="fas fa-tools"></i> <span>Users</span>
                 </div>
                 <i class="fas fa-chevron-right arrow"></i>
             </a>
             <ul class="submenu">
                 <li><a href="#">All Users</a></li>
-                <li><a href="#">Add New</a></li>
-                <li><a href="#">Profile</a></li>
-            </ul>
-        </li>
-
-        <li class="menu-item has-submenu">
-            <a href="#" class="menu-link">
-                <div class="menu-text">
-                    <i class="fas fa-tools"></i> <span>Tools</span>
-                </div>
-                <i class="fas fa-chevron-right arrow"></i>
-            </a>
-            <ul class="submenu">
-                <li><a href="#">Available Tools</a></li>
-                <li><a href="#">Import</a></li>
-                <li><a href="#">Export</a></li>
+                <li><a href="#">Add User</a></li>
             </ul>
         </li>
 
@@ -92,9 +93,9 @@
             </a>
             <ul class="submenu">
                 <li><a href="#">General</a></li>
-                <li><a href="#">Writing</a></li>
-                <li><a href="#">Reading</a></li>
-                <li><a href="#">Discussion</a></li>
+                <li><a href="#">Smtp Settings</a></li>
+                <li><a href="#">Razorpay Settings</a></li>
+                <li><a href="#">Manage Commisions</a></li>
             </ul>
         </li>
     </ul>
