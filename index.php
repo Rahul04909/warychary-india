@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="assets/css/topbar.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="assets/css/hero.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="assets/css/standards.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="assets/css/referral.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="assets/css/footer.css?v=<?php echo time(); ?>">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -22,6 +23,7 @@
     <main>
         <?php include 'components/hero.php'; ?>
         <?php include 'components/standards.php'; ?>
+        <?php include 'components/referral-program.php'; ?>
     </main>
 
     <?php include 'includes/footer.php'; ?>

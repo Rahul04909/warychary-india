@@ -1,0 +1,357 @@
+/* Referral Section */
+.referral-section {
+    padding: 60px 0;
+    background-color: #fdfdfd;
+}
+
+/* Header Card */
+.referral-header-card {
+    background: linear-gradient(135deg, #fdfbf7 0%, #f4eee5 100%);
+    border-radius: 24px;
+    padding: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+    overflow: hidden;
+}
+
+.referral-content {
+    max-width: 60%;
+    z-index: 2;
+}
+
+.ref-badge {
+    background-color: #fff;
+    color: var(--primary-color);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.referral-header-card h2 {
+    font-size: 32px;
+    color: #333;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.referral-header-card p {
+    color: #666;
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    max-width: 90%;
+}
+
+.ref-buttons {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.btn-primary {
+    background-color: #558b2f;
+    /* Greenish/Natural tone for "Join" or keep Purple? Reference had Green. Let's stick to Brand Purple for consistency or Green for "Money"? User said "Match with header.. give professional look". I will use Brand Purple. */
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px 30px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: transform 0.2s;
+}
+
+.btn-outline {
+    background-color: white;
+    color: #333;
+    border: 1px solid #ddd;
+    padding: 12px 30px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.btn-primary:hover,
+.btn-outline:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Image Placeholder */
+.referral-image {
+    font-size: 180px;
+    color: rgba(126, 75, 187, 0.1);
+    /* Primary color faded */
+    position: absolute;
+    right: 50px;
+    bottom: -20px;
+    z-index: 1;
+}
+
+/* Process Steps */
+.referral-steps {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 50px 0;
+    gap: 20px;
+}
+
+.step-item {
+    background: white;
+    padding: 20px;
+    border-radius: 16px;
+    text-align: center;
+    width: 100%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    min-height: 140px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.step-icon {
+    font-size: 28px;
+    color: #b59f84;
+    /* Goldish/Earth tone from reference, or purple? Let's use Gold/Bronze for Money vibe */
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+.step-item h4 {
+    font-size: 14px;
+    color: #444;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.step-arrow {
+    color: #ddd;
+    font-size: 20px;
+}
+
+/* Features Grid */
+.referral-features {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.feature-card {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.04);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Large Feature Specifics */
+.large-feature {
+    background: linear-gradient(135deg, #eecda3 0%, #dbb688 100%);
+    /* Gold gradient */
+    color: #4a3b2a;
+    align-items: flex-start;
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+}
+
+.large-feature .feature-bg-icon {
+    position: absolute;
+    right: -20px;
+    bottom: -20px;
+    font-size: 120px;
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.large-feature h3 {
+    font-size: 20px;
+    margin: 15px 0;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.feature-list {
+    list-style: none;
+    margin-top: 10px;
+}
+
+.feature-list li {
+    font-size: 13px;
+    margin-bottom: 8px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.feature-icon-circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    background: rgba(255, 255, 255, 0.9);
+    margin-bottom: 15px;
+}
+
+.feature-icon-circle.gold {
+    color: #dbb688;
+}
+
+.feature-icon-circle.blue {
+    color: #4facfe;
+}
+
+.feature-icon-circle.orange {
+    color: #f093fb;
+}
+
+.feature-icon-circle.green {
+    color: #43e97b;
+}
+
+.referral-features h4 {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.referral-features p {
+    font-size: 13px;
+    color: #777;
+}
+
+/* Bottom CTA */
+.referral-bottom-cta {
+    background-color: #3b4a3b;
+    /* Dark Green from Ref */
+    background-color: #2c2c2c;
+    /* Dark Grey/Black for WaryChary Professional look? Or Dark Purple? */
+    background-color: #3e3e3e;
+    padding: 60px 0 30px;
+    border-radius: 60px 60px 0 0;
+    /* Unique curve */
+    text-align: center;
+    color: white;
+    margin-top: 40px;
+}
+
+.cta-content h3 {
+    font-size: 28px;
+    margin-bottom: 25px;
+}
+
+.btn-cta {
+    background-color: #8dbf68;
+    /* Light Green CTA */
+    background-color: var(--primary-color);
+    color: white;
+    padding: 15px 40px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 18px;
+    display: inline-block;
+    margin-bottom: 30px;
+    transition: transform 0.2s;
+}
+
+.btn-cta:hover {
+    transform: scale(1.05);
+    background-color: white;
+    color: var(--primary-color);
+}
+
+.cta-footer {
+    font-size: 12px;
+    opacity: 0.6;
+}
+
+/* Responsive Design */
+@media (max-width: 991px) {
+    .referral-header-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 40px 20px;
+    }
+
+    .referral-content {
+        max-width: 100%;
+    }
+
+    .referral-image {
+        position: static;
+        margin-top: 30px;
+        font-size: 100px;
+    }
+
+    .ref-buttons {
+        justify-content: center;
+    }
+
+    .referral-steps {
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .step-item {
+        width: calc(50% - 15px);
+        /* 2 columns */
+    }
+
+    .step-arrow {
+        display: none;
+    }
+
+    .referral-features {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .large-feature {
+        grid-column: span 2;
+    }
+}
+
+@media (max-width: 576px) {
+    .referral-header-card h2 {
+        font-size: 24px;
+    }
+
+    .step-item {
+        width: 100%;
+        /* 1 column */
+    }
+
+    .referral-features {
+        grid-template-columns: 1fr;
+    }
+
+    .large-feature {
+        grid-column: span 1;
+    }
+
+    .referral-bottom-cta {
+        border-radius: 30px 30px 0 0;
+        padding: 40px 15px 20px;
+    }
+
+    .cta-content h3 {
+        font-size: 22px;
+    }
+}
