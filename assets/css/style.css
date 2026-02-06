@@ -50,6 +50,11 @@ body {
 }
 
 /* Navigation */
+.nav-header {
+    display: none;
+    /* Hidden on desktop */
+}
+
 .navbar ul {
     list-style: none;
     display: flex;
