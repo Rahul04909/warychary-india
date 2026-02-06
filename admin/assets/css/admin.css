@@ -99,17 +99,67 @@ a {
 .menu-link {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    /* Space for arrow */
     padding: 12px 20px;
     color: var(--sidebar-text-muted);
     font-weight: 500;
     border-left: 3px solid transparent;
+    cursor: pointer;
 }
 
-.menu-link i {
+.menu-text {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.menu-link .arrow {
+    font-size: 10px;
+    transition: transform 0.3s ease;
+}
+
+.menu-item.open .arrow {
+    transform: rotate(90deg);
+}
+
+.menu-link i:first-child {
     width: 25px;
+    /* Fixed width for alignment */
     font-size: 16px;
     opacity: 0.8;
 }
+
+/* Submenu Styles */
+.submenu {
+    max-height: 0;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.1);
+    /* Slightly darker */
+    transition: max-height 0.3s ease-out;
+}
+
+.menu-item.open .submenu {
+    max-height: 500px;
+    /* Arbitrary large height */
+    transition: max-height 0.3s ease-in;
+}
+
+.submenu li a {
+    display: block;
+    padding: 8px 10px 8px 50px;
+    /* Indented */
+    color: var(--sidebar-text-muted);
+    font-size: 13px;
+    transition: color 0.2s;
+}
+
+.submenu li a:hover {
+    color: #fff;
+    background: none;
+    /* No bg change for submenu items usually */
+}
+
 
 .menu-link:hover {
     background-color: var(--sidebar-hover);
@@ -127,6 +177,31 @@ a {
 .sidebar-footer {
     padding: 20px;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
+    margin-top: auto;
+    /* Push to bottom */
+}
+
+.btn-logout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 12px;
+    background-color: rgba(214, 54, 56, 0.1);
+    /* Muted Red */
+    color: #ff8082;
+    border: 1px solid rgba(214, 54, 56, 0.2);
+    border-radius: 6px;
+    font-weight: 600;
+    gap: 8px;
+    transition: all 0.2s;
+}
+
+.btn-logout:hover {
+    background-color: var(--danger);
+    color: #fff;
+    border-color: var(--danger);
+    box-shadow: 0 4px 12px rgba(214, 54, 56, 0.3);
 }
 
 /* --- Main Content --- */

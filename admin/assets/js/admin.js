@@ -52,6 +52,31 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    // Sidebar Sub-menu Toggle (Accordion)
+    const submenuToggles = document.querySelectorAll('.has-submenu > .menu-link');
+
+    submenuToggles.forEach(toggle => {
+        toggle.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const parent = this.parentElement;
+            const isOpen = parent.classList.contains('open');
+
+            // Close all other submenus? (Optional accordion style)
+            // Uncomment below if you want only one open at a time
+            /*
+            document.querySelectorAll('.menu-item.has-submenu').forEach(item => {
+                if (item !== parent) {
+                    item.classList.remove('open');
+                }
+            });
+            */
+
+            // Toggle current
+            parent.classList.toggle('open');
+        });
+    });
+
     // Simple Dropdown interactions (if any added later)
     const dropdowns = document.querySelectorAll('.dropdown-toggle');
     dropdowns.forEach(btn => {
