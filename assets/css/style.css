@@ -160,14 +160,20 @@ body {
         justify-content: center;
         /* Center remaining items */
         gap: 15px;
+        flex-wrap: wrap;
+        /* Allow wrapping for very small screens */
     }
 
     .topbar-center {
         gap: 15px;
+        font-size: 12px;
+        /* Slightly smaller text for mobile */
     }
 
     .mobile-toggle {
         display: block;
+        margin-left: 15px;
+        /* Add spacing from icons */
     }
 
     .navbar {
