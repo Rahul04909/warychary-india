@@ -13,6 +13,6 @@
 </div> <!-- End admin-wrapper -->
 
 <!-- Admin JS -->
-<script src="assets/js/admin.js"></script>
+<script src="assets/js/admin.js?v=<?php echo time(); ?>"></script>
 </body>
 </html>
