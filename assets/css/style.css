@@ -19,7 +19,7 @@ body {
 /* Header Styles */
 .header-main {
     background-color: var(--bg-color);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -99,22 +99,7 @@ body {
     color: var(--text-color);
 }
 
-/* Best Deals Badge (Simulated from image) */
-.nav-badge {
-    background-color: #ff3b3b;
-    color: white;
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-size: 10px;
-    text-transform: uppercase;
-    font-weight: bold;
-    position: absolute;
-    top: -15px;
-    right: 0;
-}
-.nav-item-badge {
-    position: relative;
-}
+
 
 /* Mobile Responsive */
 @media (max-width: 991px) {
@@ -131,7 +116,7 @@ body {
         background-color: white;
         transition: 0.3s ease-in-out;
         padding: 20px;
-        box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
         display: flex;
         flex-direction: column;
     }
@@ -145,7 +130,7 @@ body {
         gap: 20px;
         text-align: center;
     }
-    
+
     .navbar ul li a {
         font-size: 18px;
         display: block;

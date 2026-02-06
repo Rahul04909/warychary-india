@@ -12,12 +12,7 @@
 
     <?php include 'includes/header.php'; ?>
 
-    <main>
-        <div class="container" style="padding: 50px 20px; text-align: center;">
-            <h1>Welcome to WaryChary India</h1>
-            <p>Your premium shopping destination.</p>
-        </div>
-    </main>
+
 
 </body>
 </html>
