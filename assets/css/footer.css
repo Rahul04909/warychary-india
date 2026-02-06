@@ -1,0 +1,195 @@
+/* Footer Variables */
+:root {
+    --footer-bg: #7e4bbb;
+    --footer-text: #ffffff;
+    --footer-link: #e0e0e0;
+    --footer-link-hover: #ffffff;
+}
+
+.footer-main {
+    background-color: var(--footer-bg);
+    color: var(--footer-text);
+    padding: 60px 0 20px;
+    margin-top: 50px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1.5fr;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+/* Brand Column */
+.footer-logo {
+    height: 40px;
+    /* Adjusted specifically for footer context if needed */
+    width: auto;
+    margin-bottom: 20px;
+    filter: brightness(0) invert(1);
+    /* Helper to make standard logo white if it's black */
+}
+
+.brand-col p {
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: var(--footer-link);
+}
+
+.social-links {
+    display: flex;
+    gap: 15px;
+}
+
+.social-links a {
+    height: 35px;
+    width: 35px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+    background: white;
+    color: var(--footer-bg);
+    transform: translateY(-3px);
+}
+
+/* Column Headings */
+.footer-col h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.footer-col h3::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -8px;
+    width: 30px;
+    height: 2px;
+    background-color: #fff;
+    opacity: 0.5;
+}
+
+/* Links */
+.footer-col ul {
+    list-style: none;
+}
+
+.footer-col ul li {
+    margin-bottom: 12px;
+}
+
+.footer-col ul li a {
+    color: var(--footer-link);
+    text-decoration: none;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.footer-col ul li a:hover {
+    color: var(--footer-link-hover);
+    padding-left: 5px;
+}
+
+/* Newsletter */
+.newsletter-col p {
+    font-size: 14px;
+    margin-bottom: 20px;
+    color: var(--footer-link);
+}
+
+.newsletter-form {
+    display: flex;
+    position: relative;
+    border-radius: 4px;
+    /* Optional rounded */
+    overflow: hidden;
+}
+
+.newsletter-form input {
+    width: 100%;
+    padding: 12px 15px;
+    border: none;
+    outline: none;
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.newsletter-form button {
+    background-color: #333;
+    /* Dark contrast button */
+    color: white;
+    border: none;
+    padding: 0 20px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s ease;
+}
+
+.newsletter-form button:hover {
+    background-color: black;
+}
+
+/* Footer Bottom */
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Mobile Responsive */
+@media (max-width: 991px) {
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .footer-col {
+        text-align: center;
+        /* Center align for mobile look */
+    }
+
+    .footer-col h3::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .brand-col {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .newsletter-form {
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+}
