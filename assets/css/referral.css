@@ -151,6 +151,11 @@
     display: contents;
 }
 
+/* Wrapper for small cards to preserve grid on desktop */
+.small-features-row {
+    display: contents;
+}
+
 .feature-card {
     background: white;
     border-radius: 20px;
