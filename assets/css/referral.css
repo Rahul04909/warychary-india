@@ -405,41 +405,66 @@
         font-size: 24px;
     }
 
-    /* Keep horizontal scroll for steps */
+    /* Keep horizontal scroll for process steps */
 
-    /* Features Horizontal Scroll */
+    /* Features Mobile Layout */
     .referral-features {
         display: flex;
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        gap: 15px;
-        padding-bottom: 20px;
-        grid-template-columns: none;
-        /* Reset grid */
-        justify-content: flex-start;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-    }
-
-    .referral-features::-webkit-scrollbar {
-        display: none;
-    }
-
-    .feature-card {
-        min-width: 200px;
-        flex-shrink: 0;
-        height: auto;
-        /* Allow flexible height */
-        display: flex;
         flex-direction: column;
-        justify-content: center;
+        gap: 15px;
+        overflow: visible;
+        /* Disable scroll on parent */
+        grid-template-columns: none;
+        padding-bottom: 0;
     }
 
     .large-feature {
-        min-width: 280px;
-        /* Give more space to the wide card */
-        grid-column: auto;
-        /* Reset grid column */
+        width: 100%;
+        min-width: 0;
+        margin-bottom: 5px;
+    }
+
+    .small-features-row {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        gap: 10px;
+        padding-bottom: 15px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        margin-left: -5px;
+        /* Slight alignment fix */
+        padding-left: 5px;
+    }
+
+    .small-features-row::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Smaller Feature Cards for Mobile */
+    .feature-card {
+        min-width: 140px;
+        /* Reduced size */
+        padding: 20px 15px;
+        border-radius: 16px;
+        flex-shrink: 0;
+    }
+
+    .feature-card .feature-icon-circle {
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+
+    .feature-card h4 {
+        font-size: 13px;
+        margin-bottom: 4px;
+        line-height: 1.3;
+    }
+
+    .feature-card p {
+        font-size: 11px;
     }
 
     .referral-bottom-cta {
