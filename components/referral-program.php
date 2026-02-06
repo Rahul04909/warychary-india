@@ -66,31 +66,34 @@
                 <div class="feature-bg-icon"><i class="fas fa-coins"></i></div>
             </div>
 
-            <!-- Small Feature 1 -->
-            <div class="feature-card">
-                <div class="feature-icon-circle blue">
-                    <i class="fas fa-infinity"></i>
+            <!-- Small Features Wrapper -->
+            <div class="small-features-row">
+                <!-- Small Feature 1 -->
+                <div class="feature-card">
+                    <div class="feature-icon-circle blue">
+                        <i class="fas fa-infinity"></i>
+                    </div>
+                    <h4>Lifetime Referral Link</h4>
+                    <p>Passive income for life</p>
                 </div>
-                <h4>Lifetime Referral Link</h4>
-                <p>Passive income for life</p>
-            </div>
 
-            <!-- Small Feature 2 -->
-            <div class="feature-card">
-                <div class="feature-icon-circle orange">
-                    <i class="fas fa-hand-holding-usd"></i>
+                <!-- Small Feature 2 -->
+                <div class="feature-card">
+                    <div class="feature-icon-circle orange">
+                        <i class="fas fa-hand-holding-usd"></i>
+                    </div>
+                    <h4>Transparent Earnings</h4>
+                    <p>Monitor your progress easily</p>
                 </div>
-                <h4>Transparent Earnings</h4>
-                <p>Monitor your progress easily</p>
-            </div>
 
-            <!-- Small Feature 3 -->
-            <div class="feature-card">
-                <div class="feature-icon-circle green">
-                    <i class="fas fa-shield-alt"></i>
+                <!-- Small Feature 3 -->
+                <div class="feature-card">
+                    <div class="feature-icon-circle green">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h4>Trusted Brand</h4>
+                    <p>Partner with a leader</p>
                 </div>
-                <h4>Trusted Brand</h4>
-                <p>Partner with a leader</p>
             </div>
         <!-- Bottom CTA Card -->
         <div class="referral-bottom-cta">
