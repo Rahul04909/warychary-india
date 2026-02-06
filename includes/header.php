@@ -12,6 +12,12 @@
 
             <!-- Navigation -->
             <nav class="navbar" id="navbar">
+                <div class="nav-header">
+                    <span class="nav-title">Menu</span>
+                    <button class="mobile-menu-close" id="mobile-menu-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
                 <ul>
                     <li><a href="#">Home</a></li>
                     <li><a href="#">About us</a></li>
@@ -41,16 +47,27 @@
     </div>
 </header>
 
+</header>
+<!-- Mobile Menu Overlay -->
+<div class="menu-overlay" id="menu-overlay"></div>
+
 <script>
-    document.getElementById('mobile-menu-btn').addEventListener('click', function() {
-        document.getElementById('navbar').classList.toggle('active');
-        const icon = this.querySelector('i');
-        if (icon.classList.contains('fa-bars')) {
-            icon.classList.remove('fa-bars');
-            icon.classList.add('fa-times');
-        } else {
-            icon.classList.remove('fa-times');
-            icon.classList.add('fa-bars');
-        }
-    });
+    const navbar = document.getElementById('navbar');
+    const overlay = document.getElementById('menu-overlay');
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const closeBtn = document.getElementById('mobile-menu-close');
+
+    function toggleMenu() {
+        navbar.classList.toggle('active');
+        overlay.classList.toggle('active');
+        document.body.classList.toggle('no-scroll');
+    }
+
+    mobileBtn.addEventListener('click', toggleMenu);
+    
+    if(closeBtn) {
+        closeBtn.addEventListener('click', toggleMenu);
+    }
+    
+    overlay.addEventListener('click', toggleMenu);
 </script>
