@@ -17,7 +17,7 @@
         <li class="menu-item has-submenu">
             <a href="#" class="menu-link">
                 <div class="menu-text">
-                    <i class="fas fa-thumbtack"></i> <span>Products</span>
+                    <i class="fas fa-box"></i> <span>Products</span>
                 </div>
                 <i class="fas fa-chevron-right arrow"></i>
             </a>
@@ -30,7 +30,7 @@
         <li class="menu-item has-submenu">
             <a href="#" class="menu-link">
                 <div class="menu-text">
-                    <i class="fas fa-images"></i> <span>Orders</span>
+                    <i class="fas fa-shopping-cart"></i> <span>Orders</span>
                 </div>
                 <i class="fas fa-chevron-right arrow"></i>
             </a>
@@ -44,7 +44,7 @@
         <li class="menu-item has-submenu">
             <a href="#" class="menu-link">
                 <div class="menu-text">
-                    <i class="fas fa-file-alt"></i> <span>Senior Partners</span>
+                    <i class="fas fa-crown"></i> <span>Senior Partners</span>
                 </div>
                 <i class="fas fa-chevron-right arrow"></i>
             </a>
@@ -59,7 +59,7 @@
         <li class="menu-item has-submenu">
             <a href="#" class="menu-link">
                 <div class="menu-text">
-                    <i class="fas fa-users"></i> <span>Partners</span>
+                    <i class="fas fa-handshake"></i> <span>Partners</span>
                 </div>
                 <i class="fas fa-chevron-right arrow"></i>
             </a>
@@ -74,7 +74,7 @@
         <li class="menu-item has-submenu">
             <a href="#" class="menu-link">
                 <div class="menu-text">
-                    <i class="fas fa-tools"></i> <span>Users</span>
+                    <i class="fas fa-users"></i> <span>Users</span>
                 </div>
                 <i class="fas fa-chevron-right arrow"></i>
             </a>
