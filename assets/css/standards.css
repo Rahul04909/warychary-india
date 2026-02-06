@@ -122,7 +122,22 @@
 
 @media (max-width: 576px) {
     .standards-grid {
-        grid-template-columns: 1fr;
-        gap: 40px;
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 columns for mobile as requested */
+        gap: 20px;
+    }
+
+    .icon-wrapper i {
+        font-size: 32px;
+        /* Smaller icons for mobile */
+    }
+
+    .standard-item h3 {
+        font-size: 14px;
+        /* Smaller headings */
+    }
+
+    .standard-item p {
+        font-size: 12px;
     }
 }

@@ -154,16 +154,14 @@ body {
 /* Mobile Responsive */
 @media (max-width: 991px) {
     .topbar-left {
-        display: none;
-        /* Hide branding text on smaller screens */
+        display: none !important;
+        /* Force hide branding text on smaller screens */
     }
 
     .topbar-content {
         justify-content: center;
-        /* Center remaining items */
-        gap: 15px;
+        gap: 10px;
         flex-wrap: wrap;
-        /* Allow wrapping for very small screens */
     }
 
     .topbar-center {
