@@ -8,7 +8,9 @@
     <ul class="sidebar-menu">
         <li class="menu-item <?php echo ($page == 'dashboard') ? 'active' : ''; ?>">
             <a href="index.php" class="menu-link">
-                <i class="fas fa-tachometer-alt"></i> <span>Dashboard</span>
+                <div class="menu-text">
+                    <i class="fas fa-tachometer-alt"></i> <span>Dashboard</span>
+                </div>
             </a>
         </li>
         
