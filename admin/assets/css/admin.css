@@ -74,17 +74,24 @@ a {
     height: var(--header-height);
     display: flex;
     align-items: center;
+    justify-content: center;
+    /* Center aligned */
     padding: 0 20px;
     background-color: rgba(0, 0, 0, 0.1);
 }
 
 .sidebar-brand {
-    font-size: 18px;
-    font-weight: 700;
-    color: #fff;
     display: flex;
     align-items: center;
-    gap: 10px;
+    justify-content: center;
+}
+
+.sidebar-logo {
+    height: 40px;
+    width: auto;
+    filter: brightness(0) invert(1);
+    /* Make logo white */
+    object-fit: contain;
 }
 
 .sidebar-menu {

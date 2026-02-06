@@ -1,7 +1,7 @@
 <aside class="admin-sidebar">
     <div class="sidebar-header">
         <div class="sidebar-brand">
-            <i class="fas fa-shield-alt"></i> WaryChary Admin
+            <img src="../assets/logo/logo.png" alt="WaryChary Admin" class="sidebar-logo">
         </div>
     </div>
     
