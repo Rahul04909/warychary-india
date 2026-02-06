@@ -1,5 +1,4 @@
-<!-- included the topbar here -->
-<?php include 'topbar.php'; ?>
+
 <header class="header-main">
     <div class="container">
         <div class="header-wrapper">
