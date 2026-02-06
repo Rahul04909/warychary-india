@@ -3,202 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>WaryChary India</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>hello world</h1>
-    <p>hello world</p>
-    <a href="https://www.google.com">Google</a>
-    <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_120x44dp.png" alt="Google Logo">
-    <button>Click Me</button>
-    <input type="text">
-    <textarea name="" id="" cols="30" rows="10"></textarea>
-    <select name="" id="">
-        <option value="">Option 1</option>
-        <option value="">Option 2</option>
-        <option value="">Option 3</option>
-    </select>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button>Click Me</button>
-    <button
+
+    <?php include 'includes/header.php'; ?>
+
+    <main>
+        <div class="container" style="padding: 50px 20px; text-align: center;">
+            <h1>Welcome to WaryChary India</h1>
+            <p>Your premium shopping destination.</p>
+        </div>
+    </main>
+
+</body>
+</html>

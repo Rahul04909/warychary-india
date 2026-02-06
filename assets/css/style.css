@@ -1,0 +1,158 @@
+:root {
+    --primary-color: #7e4bbb;
+    --text-color: #333;
+    --bg-color: #fff;
+    --header-height: 80px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #fdfdfd;
+}
+
+/* Header Styles */
+.header-main {
+    background-color: var(--bg-color);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    height: var(--header-height);
+    display: flex;
+    align-items: center;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+}
+
+.header-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+/* Logo */
+.logo a img {
+    height: 50px;
+    width: auto;
+    display: block;
+}
+
+/* Navigation */
+.navbar ul {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+}
+
+.navbar ul li a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 500;
+    font-size: 16px;
+    transition: color 0.3s ease;
+    text-transform: capitalize;
+}
+
+.navbar ul li a:hover {
+    color: var(--primary-color);
+}
+
+/* Header Icons */
+.header-icons {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.icon-btn {
+    text-decoration: none;
+    color: var(--text-color);
+    font-size: 20px;
+    transition: color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-btn:hover {
+    color: var(--primary-color);
+}
+
+.mobile-toggle {
+    display: none;
+    font-size: 24px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: var(--text-color);
+}
+
+/* Best Deals Badge (Simulated from image) */
+.nav-badge {
+    background-color: #ff3b3b;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: bold;
+    position: absolute;
+    top: -15px;
+    right: 0;
+}
+.nav-item-badge {
+    position: relative;
+}
+
+/* Mobile Responsive */
+@media (max-width: 991px) {
+    .mobile-toggle {
+        display: block;
+    }
+
+    .navbar {
+        position: fixed;
+        top: var(--header-height);
+        left: -100%;
+        width: 100%;
+        height: calc(100vh - var(--header-height));
+        background-color: white;
+        transition: 0.3s ease-in-out;
+        padding: 20px;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .navbar.active {
+        left: 0;
+    }
+
+    .navbar ul {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+    
+    .navbar ul li a {
+        font-size: 18px;
+        display: block;
+        padding: 10px;
+    }
+
+    .header-icons {
+        gap: 15px;
+    }
+}
