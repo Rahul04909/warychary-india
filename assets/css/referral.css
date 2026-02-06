@@ -397,12 +397,39 @@
 
     /* Keep horizontal scroll for steps */
 
+    /* Features Horizontal Scroll */
     .referral-features {
-        grid-template-columns: 1fr;
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        gap: 15px;
+        padding-bottom: 20px;
+        grid-template-columns: none;
+        /* Reset grid */
+        justify-content: flex-start;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .referral-features::-webkit-scrollbar {
+        display: none;
+    }
+
+    .feature-card {
+        min-width: 200px;
+        flex-shrink: 0;
+        height: auto;
+        /* Allow flexible height */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 
     .large-feature {
-        grid-column: span 1;
+        min-width: 280px;
+        /* Give more space to the wide card */
+        grid-column: auto;
+        /* Reset grid column */
     }
 
     .referral-bottom-cta {
