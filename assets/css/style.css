@@ -20,8 +20,10 @@ body {
 .topbar {
     background-color: var(--primary-color);
     color: white;
-    padding: 8px 0;
+    padding: 10px 0;
+    /* Increased padding */
     font-size: 13px;
+    width: 100%;
 }
 
 .topbar-content {
