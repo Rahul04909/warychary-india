@@ -9,7 +9,7 @@
         <li class="menu-item <?php echo ($page == 'dashboard') ? 'active' : ''; ?>">
             <a href="index.php" class="menu-link">
                 <div class="menu-text">
-                    <i class="fas fa-tachometer-alt"></i> <span>Dashboard</span>
+                    <i class="fas fa-home"></i> <span>Dashboard</span>
                 </div>
             </a>
         </li>
