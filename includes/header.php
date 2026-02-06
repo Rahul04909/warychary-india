@@ -3,10 +3,10 @@
     <div class="container">
         <div class="topbar-content">
             <div class="topbar-left">
-                <p>Your One-Stop Solution Design Development Manufacturing</p>
+                <p>Care With Awareness</p>
             </div>
             <div class="topbar-center">
-                <a href="tel:+917988472662"><i class="fas fa-phone-alt"></i> +91-7988472662</a>
+                <a href="tel:+917988472662"><i class="fas fa-phone-alt"></i> +91-9813716032</a>
                 <a href="mailto:Support@WaryChary.com"><i class="fas fa-envelope"></i> Support@WaryChary.com</a>
             </div>
             <div class="topbar-right">
