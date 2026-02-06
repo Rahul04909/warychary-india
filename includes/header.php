@@ -48,18 +48,14 @@
 </header>
 
 </header>
-<!-- Mobile Menu Overlay -->
-<div class="menu-overlay" id="menu-overlay"></div>
 
 <script>
     const navbar = document.getElementById('navbar');
-    const overlay = document.getElementById('menu-overlay');
     const mobileBtn = document.getElementById('mobile-menu-btn');
     const closeBtn = document.getElementById('mobile-menu-close');
 
     function toggleMenu() {
         navbar.classList.toggle('active');
-        overlay.classList.toggle('active');
         document.body.classList.toggle('no-scroll');
     }
 
@@ -68,6 +64,4 @@
     if(closeBtn) {
         closeBtn.addEventListener('click', toggleMenu);
     }
-    
-    overlay.addEventListener('click', toggleMenu);
 </script>
