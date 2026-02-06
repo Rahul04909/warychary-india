@@ -92,17 +92,13 @@
                 <h4>Trusted Brand</h4>
                 <p>Partner with a leader</p>
             </div>
+        <!-- Bottom CTA Card -->
+        <div class="referral-bottom-cta">
+            <div class="cta-content">
+                <h3>Start Earning with WaryChary Care Today</h3>
+                <a href="#" class="btn-cta">Become a Partner Now</a>
+                <p class="cta-footer">© <?php echo date('Y'); ?> WaryChary Care. All rights reserved.</p>
+            </div>
         </div>
     </div>
 </section>
-
-<!-- Bottom CTA Strip -->
-<div class="referral-bottom-cta">
-    <div class="container">
-        <div class="cta-content">
-            <h3>Start Earning with WaryChary Care Today</h3>
-            <a href="#" class="btn-cta">Become a Partner Now</a>
-            <p class="cta-footer">© <?php echo date('Y'); ?> WaryChary Care. All rights reserved.</p>
-        </div>
-    </div>
-</div>
