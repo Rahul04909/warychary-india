@@ -1,0 +1,128 @@
+/* Standards Section */
+.standards-section {
+    padding: 60px 0;
+    background-color: #ffffff;
+    text-align: center;
+}
+
+.section-header {
+    margin-bottom: 50px;
+}
+
+.section-header h2 {
+    color: #2c3e50;
+    /* Dark heading color based on image, or could be var(--primary-color) */
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #003b5c;
+    /* Dark Blue from image reference or similar deep tone */
+}
+
+/* Override with brand color if preferred, but image shows Dark Blue */
+.section-header h2 {
+    color: #0f3460;
+    /* Deep blue/navy tone */
+}
+
+.section-header p {
+    color: #666;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.standards-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    position: relative;
+}
+
+.standard-item {
+    position: relative;
+    padding: 20px;
+}
+
+/* Vertical Separators (Desktop only) */
+.standard-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: -15px;
+    top: 10%;
+    height: 80%;
+    width: 1px;
+    background-color: #e0e0e0;
+}
+
+.icon-wrapper {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.icon-wrapper i {
+    font-size: 48px;
+    color: #0f3460;
+    /* Matching the deep blue/navy text */
+}
+
+.cert-code {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #666;
+    margin-top: 5px;
+}
+
+.standard-item h3 {
+    font-size: 18px;
+    color: #005f73;
+    /* Teal/Blue tone from image */
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+/* User asked to match frontend color scheme (Purple) */
+/* Overriding colors to match WaryChary Brand */
+.section-header h2 {
+    color: var(--primary-color);
+}
+
+.icon-wrapper i {
+    color: var(--primary-color);
+}
+
+.standard-item h3 {
+    color: #333;
+    /* Darker neutral for readability or secondary color */
+}
+
+.standard-item p {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #666;
+}
+
+/* Mobile Responsive */
+@media (max-width: 991px) {
+    .standards-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 40px 20px;
+    }
+
+    .standard-item:not(:last-child)::after {
+        display: none;
+        /* Remove vertical dividers on tablet/mobile */
+    }
+
+    /* Optional: Add bottom border for first row? No, cleaner without. */
+}
+
+@media (max-width: 576px) {
+    .standards-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+}

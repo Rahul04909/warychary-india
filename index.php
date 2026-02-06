@@ -6,6 +6,7 @@
     <title>WaryChary India</title>
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/hero.css">
+    <link rel="stylesheet" href="assets/css/standards.css">
     <link rel="stylesheet" href="assets/css/footer.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -16,6 +17,7 @@
     
     <main>
         <?php include 'components/hero.php'; ?>
+        <?php include 'components/standards.php'; ?>
     </main>
 
     <?php include 'includes/footer.php'; ?>
