@@ -18,7 +18,7 @@ $page = $page ?? 'dashboard';
         </li>
         
         <li class="menu-item <?php echo ($page == 'profile') ? 'active' : ''; ?>">
-            <a href="#" class="menu-link">
+            <a href="<?php echo $url_prefix; ?>profile.php" class="menu-link">
                 <div class="menu-text">
                     <i class="fas fa-user-circle"></i> <span>My Profile</span>
                 </div>
