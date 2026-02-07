@@ -8,6 +8,37 @@ $db = $database->getConnection();
 $message = "";
 $messageType = "";
 
+// Handle AJAX Referral Verification
+if (isset($_GET['action']) && $_GET['action'] == 'validate_referral' && isset($_GET['code'])) {
+    // Prevent any implicit output
+    ob_clean();
+    header('Content-Type: application/json');
+    
+    $code = trim($_GET['code']);
+    
+    try {
+        $query = "SELECT id, name FROM senior_partners WHERE referral_code = :code OR email = :email LIMIT 1";
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(':code', $code);
+        $stmt->bindParam(':email', $code);
+        $stmt->execute();
+
+        if ($stmt->rowCount() > 0) {
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            echo json_encode([
+                'valid' => true,
+                'id' => $row['id'],
+                'name' => $row['name']
+            ]);
+        } else {
+            echo json_encode(['valid' => false]);
+        }
+    } catch (Exception $e) {
+        echo json_encode(['valid' => false, 'error' => $e->getMessage()]);
+    }
+    exit; // Stop execution after JSON response
+}
+
 // Handle Registration
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $senior_partner_id = $_POST['senior_partner_id'];
@@ -266,7 +297,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         const hiddenId = document.getElementById('senior_partner_id');
         
         // Define API URL dynamically using PHP
-        const apiUrl = "<?php echo $url_prefix; ?>api/validate-referral.php";
+        const apiUrl = "<?php echo $_SERVER['PHP_SELF']; ?>?action=validate_referral";
 
         if (!code) {
             statusDiv.innerHTML = '<span class="text-danger"><i class="fas fa-exclamation-circle"></i> Please enter a code or email.</span>';
