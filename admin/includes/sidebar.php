@@ -64,8 +64,7 @@
                 <i class="fas fa-chevron-right arrow"></i>
             </a>
             <ul class="submenu">
-                <li><a href="#">All Partners</a></li>
-                <li><a href="#">Add Partner</a></li>
+                <li><a href="<?php echo $url_prefix; ?>partners/index.php">All Partners</a></li>
                 <li><a href="#">Partner Earnings</a></li>
                 <li><a href="#">Partner Payouts</a></li>
             </ul>
