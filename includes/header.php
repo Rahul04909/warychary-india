@@ -20,7 +20,7 @@
                 <ul>
                     <li><a href="#">Home</a></li>
                     <li><a href="#">About us</a></li>
-                    <li><a href="#">Become a partner</a></li>
+                    <li><a href="../../become-a-partner.php">Become a partner</a></li>
                     <li><a href="#">Period Education</a></li>
                     <li><a href="#">Contact us</a></li>
                 </ul>
