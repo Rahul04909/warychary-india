@@ -18,6 +18,16 @@ use PHPMailer\PHPMailer\Exception;
 $database = new Database();
 $db = $database->getConnection();
 
+// Fetch SMTP Settings
+$smtpSettings = [];
+try {
+    $stmt = $db->prepare("SELECT * FROM smtp_settings LIMIT 1");
+    $stmt->execute();
+    $smtpSettings = $stmt->fetch(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    error_log("Error fetching SMTP settings: " . $e->getMessage());
+}
+
 // Function to generate an 8-digit alphanumeric ID
 function generatePartnerId($length = 8) {
     $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -42,34 +52,94 @@ function validateReferralCode($db, $referral_code) {
 }
 
 // Function to send welcome email
+// Function to send welcome email
 function sendPartnerEmail($toEmail, $toName, $partnerId, $password, $smtpSettings) {
-    if (!class_exists('PHPMailer\\PHPMailer\\PHPMailer')) {
+    if (!class_exists('PHPMailer\\PHPMailer\\PHPMailer') || empty($smtpSettings)) {
         return false; 
     }
 
     $mail = new PHPMailer(true);
     try {
-        if (!empty($smtpSettings)) {
-            $mail->SMTPDebug = SMTP::DEBUG_OFF;
-            $mail->isSMTP();
-            $mail->Host = $smtpSettings['smtp_host'] ?? '';
-            $mail->SMTPAuth = true;
-            $mail->Username = $smtpSettings['smtp_username'] ?? '';
-            $mail->Password = $smtpSettings['smtp_password'] ?? '';
-            $mail->SMTPSecure = $smtpSettings['smtp_encryption'] ?? '';
-            $mail->Port = $smtpSettings['smtp_port'] ?? 587;
-    
-            $mail->setFrom($smtpSettings['smtp_from_email'] ?? 'noreply@warychary.com', $smtpSettings['smtp_from_name'] ?? 'WaryChary');
-            $mail->addAddress($toEmail, $toName);
-    
-            $mail->isHTML(true);
-            $mail->Subject = 'Welcome to WaryCharyCare - Your Partner Account Details';
-            $mail->Body    = "Welcome $toName! Your Partner ID is: $partnerId. Your Referral Code is: " . $partnerId; // Simplified logic, assuming ID is used or separate code
-    
-            $mail->send();
-            return true;
-        }
-        return false;
+        $mail->isSMTP();
+        $mail->Host       = $smtpSettings['host'];
+        $mail->SMTPAuth   = true;
+        $mail->Username   = $smtpSettings['username'];
+        $mail->Password   = $smtpSettings['password'];
+        $mail->SMTPSecure = $smtpSettings['encryption'];
+        $mail->Port       = $smtpSettings['port'];
+
+        $mail->setFrom($smtpSettings['from_email'], $smtpSettings['from_name']);
+        $mail->addAddress($toEmail, $toName);
+
+        $mail->isHTML(true);
+        $mail->Subject = 'Welcome to WaryChary Partner Program';
+        
+        $emailBody = "
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <style>
+                body { font-family: 'Poppins', Arial, sans-serif; line-height: 1.6; color: #333; background-color: #f7f9fc; margin: 0; padding: 0; }
+                .email-container { max-width: 600px; margin: 20px auto; background: #ffffff; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+                .email-header { background: #0f172a; padding: 30px; text-align: center; }
+                .email-header h1 { color: #ffffff; margin: 0; font-size: 24px; }
+                .email-body { padding: 30px; }
+                .welcome-text { font-size: 18px; color: #0f172a; margin-bottom: 20px; }
+                .details-box { background: #f8fafc; border: 1px dashed #6366f1; border-radius: 8px; padding: 20px; margin: 20px 0; }
+                .detail-row { margin-bottom: 10px; font-size: 15px; }
+                .detail-label { font-weight: 600; color: #64748b; width: 120px; display: inline-block; }
+                .detail-value { color: #0f172a; font-weight: 500; }
+                .btn-login { display: block; width: 200px; margin: 30px auto; background: #6366f1; color: #ffffff; text-align: center; padding: 12px; border-radius: 6px; text-decoration: none; font-weight: 600; }
+                .email-footer { background: #f1f5f9; padding: 20px; text-align: center; font-size: 12px; color: #64748b; }
+                .footer-links a { color: #6366f1; text-decoration: none; margin: 0 10px; }
+            </style>
+        </head>
+        <body>
+            <div class='email-container'>
+                <div class='email-header'>
+                    <h1>Welcome to WaryChary</h1>
+                </div>
+                <div class='email-body'>
+                    <p class='welcome-text'>Hello $toName,</p>
+                    <p>Congratulations! You have successfully registered as a partner with WaryChary. We are thrilled to have you on board.</p>
+                    
+                    <p>Here are your account credentials:</p>
+                    <div class='details-box'>
+                        <div class='detail-row'>
+                            <span class='detail-label'>Partner ID:</span>
+                            <span class='detail-value'>$partnerId</span>
+                        </div>
+                        <div class='detail-row'>
+                            <span class='detail-label'>Referral Code:</span>
+                            <span class='detail-value'>$partnerId</span>
+                        </div>
+                        <div class='detail-row'>
+                            <span class='detail-label'>Password:</span>
+                            <span class='detail-value'>$password</span>
+                        </div>
+                    </div>
+                    
+                    <a href='https://warychary.com/partner/login.php' class='btn-login'>Login to Dashboard</a>
+                    
+                    <p style='font-size: 14px; text-align: center;'>Please change your password after your first login for security.</p>
+                </div>
+                <div class='email-footer'>
+                    <p><strong>Need Help?</strong></p>
+                    <p>Phone: +91-9813716032 | Email: Support@WaryChary.com</p>
+                    <div class='footer-links' style='margin-top: 10px;'>
+                        <a href='#'>Website</a> • <a href='#'>Privacy Policy</a>
+                    </div>
+                    <p style='margin-top: 15px;'>&copy; " . date('Y') . " WaryChary. All rights reserved.</p>
+                </div>
+            </div>
+        </body>
+        </html>";
+
+        $mail->Body = $emailBody;
+        $mail->AltBody = "Welcome $toName! Partner ID: $partnerId, Referral Code: $partnerId, Password: $password. Login at https://warychary.com/partner/login.php. Support: +91-9813716032";
+
+        $mail->send();
+        return true;
     } catch (Exception $e) {
         error_log("Message could not be sent. Mailer Error: {$mail->ErrorInfo}");
         return false;
@@ -186,7 +256,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register_partner'])) 
                 if ($result) {
                     $new_partner_id = $db->lastInsertId();
                     // Attempt to send email but don't block success
-                    sendPartnerEmail($partner_email, $partner_name, $new_referral_code, $partner_password, []);
+                    sendPartnerEmail($partner_email, $partner_name, $new_referral_code, $partner_password, $smtpSettings);
                     $success_message = "Registration successful! You can now login.";
                 } else {
                      $error_message = "Registration failed. Database insert error.";
