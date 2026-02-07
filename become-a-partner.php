@@ -1,4 +1,5 @@
 <?php
+ob_start();
 $url_prefix = '';
 include_once 'database/db_config.php';
 
@@ -308,7 +309,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         statusDiv.innerHTML = '<span class="text-muted"><i class="fas fa-spinner fa-spin"></i> Verifying...</span>';
 
         // Add timestamp to prevent caching
-        const fetchUrl = `${apiUrl}?code=${encodeURIComponent(code)}&_=${new Date().getTime()}`;
+        const fetchUrl = `${apiUrl}&code=${encodeURIComponent(code)}&_=${new Date().getTime()}`;
         console.log("Fetching:", fetchUrl);
 
         fetch(fetchUrl)
