@@ -269,19 +269,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         statusDiv.innerHTML = '<span class="text-muted"><i class="fas fa-spinner fa-spin"></i> Verifying...</span>';
 
         fetch(`api/validate-referral.php?code=${encodeURIComponent(code)}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.valid) {
-                    statusDiv.innerHTML = `<div class="alert alert-success py-2 mb-0"><i class="fas fa-check-circle me-1"></i> Verified! Your Senior Partner is <strong>${data.name}</strong></div>`;
-                    hiddenId.value = data.id;
-                } else {
-                    statusDiv.innerHTML = '<div class="alert alert-danger py-2 mb-0"><i class="fas fa-times-circle me-1"></i> Invalid Referral Code or Email.</div>';
-                    hiddenId.value = '';
+            .then(response => response.text()) // Get text first to debug
+            .then(text => {
+                try {
+                    const data = JSON.parse(text);
+                    if (data.valid) {
+                        statusDiv.innerHTML = `<div class="alert alert-success py-2 mb-0"><i class="fas fa-check-circle me-1"></i> Verified! Your Senior Partner is <strong>${data.name}</strong></div>`;
+                        hiddenId.value = data.id;
+                    } else {
+                        statusDiv.innerHTML = '<div class="alert alert-danger py-2 mb-0"><i class="fas fa-times-circle me-1"></i> Invalid Referral Code or Email.</div>';
+                        hiddenId.value = '';
+                    }
+                } catch (e) {
+                    console.error("JSON Parse Error:", e, "Response:", text);
+                    statusDiv.innerHTML = '<span class="text-danger">Error verifying code (Server Error).</span>';
                 }
             })
             .catch(error => {
-                statusDiv.innerHTML = '<span class="text-danger">Error verifying code.</span>';
-                console.error('Error:', error);
+                statusDiv.innerHTML = '<span class="text-danger">Error verifying code (Network Error).</span>';
+                console.error('Network Error:', error);
             });
     });
 
