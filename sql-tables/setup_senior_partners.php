@@ -1,7 +1,7 @@
 <?php
 $host = 'localhost';
-$username = 'root';
-$password = '';
+$username = 'jhdindus_warycharycare';
+$password = 'Rd14072003@./';
 $db_name = 'jhdindus_warycharycare';
 
 try {
