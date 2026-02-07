@@ -1,0 +1,257 @@
+<?php
+include_once 'includes/header.php';
+include_once 'database/db_config.php';
+
+$database = new Database();
+$db = $database->getConnection();
+
+$message = "";
+$messageType = "";
+
+// Handle Registration
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $senior_partner_id = $_POST['senior_partner_id'];
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $mobile = $_POST['mobile'];
+    $gender = $_POST['gender'];
+    $state = $_POST['state'];
+    $city = $_POST['city'];
+    $pincode = $_POST['pincode'];
+    $address = $_POST['address'];
+    $password = $_POST['password'];
+    $confirm_password = $_POST['confirm_password'];
+
+    // Validation
+    if ($password !== $confirm_password) {
+        $message = "Passwords do not match.";
+        $messageType = "danger";
+    } elseif (empty($senior_partner_id)) {
+        $message = "Invalid Referral Code. Please verify the Senior Partner.";
+        $messageType = "danger";
+    } else {
+        // Check if email already exists
+        $stmt = $db->prepare("SELECT id FROM partners WHERE email = :email");
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        
+        if ($stmt->rowCount() > 0) {
+            $message = "Email already registered.";
+            $messageType = "danger";
+        } else {
+            // Image Upload
+            $image_path = "";
+            if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] == 0) {
+                $target_dir = "uploads/partners/";
+                if (!file_exists($target_dir)) {
+                    mkdir($target_dir, 0777, true);
+                }
+                $file_extension = pathinfo($_FILES["profile_image"]["name"], PATHINFO_EXTENSION);
+                $new_filename = "partner_reg_" . time() . "." . $file_extension;
+                $target_file = $target_dir . $new_filename;
+                
+                if (move_uploaded_file($_FILES["profile_image"]["tmp_name"], $target_file)) {
+                    $image_path = $target_file;
+                }
+            }
+
+            try {
+                $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+                $sql = "INSERT INTO partners (senior_partner_id, name, email, mobile, gender, image, state, city, pincode, address, password, status) 
+                        VALUES (:sp_id, :name, :email, :mobile, :gender, :image, :state, :city, :pincode, :address, :password, 'active')";
+                
+                $stmt = $db->prepare($sql);
+                $stmt->bindParam(':sp_id', $senior_partner_id);
+                $stmt->bindParam(':name', $name);
+                $stmt->bindParam(':email', $email);
+                $stmt->bindParam(':mobile', $mobile);
+                $stmt->bindParam(':gender', $gender);
+                $stmt->bindParam(':image', $image_path);
+                $stmt->bindParam(':state', $state);
+                $stmt->bindParam(':city', $city);
+                $stmt->bindParam(':pincode', $pincode);
+                $stmt->bindParam(':address', $address);
+                $stmt->bindParam(':password', $hashed_password);
+                
+                if ($stmt->execute()) {
+                    $message = "Registration successful! You can now login.";
+                    $messageType = "success";
+                } else {
+                    $message = "Registration failed. Please try again.";
+                    $messageType = "danger";
+                }
+            } catch (PDOException $e) {
+                $message = "Error: " . $e->getMessage();
+                $messageType = "danger";
+            }
+        }
+    }
+}
+?>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4 p-md-5">
+                    <h2 class="text-center mb-4 fw-bold text-primary">Become a Partner</h2>
+                    
+                    <?php if (!empty($message)): ?>
+                        <div class="alert alert-<?php echo $messageType; ?>"><?php echo $message; ?></div>
+                    <?php endif; ?>
+
+                    <form action="" method="POST" enctype="multipart/form-data" id="partnerForm">
+                        
+                        <!-- Step 1: Referral Verification -->
+                        <div class="mb-4 p-3 bg-light rounded border">
+                            <h5 class="mb-3">Referral Details</h5>
+                            <div class="row g-3">
+                                <div class="col-md-8">
+                                    <label class="form-label">Referral Code or Senior Partner Email *</label>
+                                    <div class="input-group">
+                                        <input type="text" id="referral_code" class="form-control" placeholder="Enter code or email" required>
+                                        <button class="btn btn-outline-primary" type="button" id="verifyBtn">Verify</button>
+                                    </div>
+                                    <input type="hidden" name="senior_partner_id" id="senior_partner_id" required>
+                                </div>
+                                <div class="col-md-12">
+                                    <div id="referral_status" class="mt-2 text-muted small"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Personal Details -->
+                        <h5 class="mb-3">Personal Information</h5>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label">Full Name *</label>
+                                <input type="text" name="name" class="form-control" required placeholder="Enter full name">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Email Address *</label>
+                                <input type="email" name="email" class="form-control" required placeholder="Enter email address">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Mobile Number *</label>
+                                <input type="text" name="mobile" class="form-control" required placeholder="Enter mobile number">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Gender *</label>
+                                <select name="gender" class="form-select" required>
+                                    <option value="" selected disabled>Select Gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Profile Image with Preview -->
+                            <div class="col-md-12">
+                                <label class="form-label">Profile Picture (Optional)</label>
+                                <div class="d-flex align-items-center gap-3">
+                                    <img id="imagePreview" src="https://via.placeholder.com/100" class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover; display: none;">
+                                    <input type="file" name="profile_image" id="profile_image" class="form-control" accept="image/*" onchange="previewImage(this)">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Address Details -->
+                        <h5 class="mb-3">Address Details</h5>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-4">
+                                <label class="form-label">State *</label>
+                                <input type="text" name="state" class="form-control" required placeholder="State">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">City *</label>
+                                <input type="text" name="city" class="form-control" required placeholder="City">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Pincode *</label>
+                                <input type="text" name="pincode" class="form-control" required placeholder="Pincode">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Full Address *</label>
+                                <textarea name="address" class="form-control" rows="2" required placeholder="Enter full address"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Step 4: Security -->
+                        <h5 class="mb-3">Account Security</h5>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label">Create Password *</label>
+                                <input type="password" name="password" class="form-control" required placeholder="Create password">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Confirm Password *</label>
+                                <input type="password" name="confirm_password" class="form-control" required placeholder="Confirm password">
+                            </div>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg" id="submitBtn">Register as Partner</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Image Preview
+    function previewImage(input) {
+        const preview = document.getElementById('imagePreview');
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    // Referral Verification
+    document.getElementById('verifyBtn').addEventListener('click', function() {
+        const code = document.getElementById('referral_code').value;
+        const statusDiv = document.getElementById('referral_status');
+        const hiddenId = document.getElementById('senior_partner_id');
+        
+        if (!code) {
+            statusDiv.innerHTML = '<span class="text-danger">Please enter a code or email.</span>';
+            return;
+        }
+
+        statusDiv.innerHTML = '<span class="text-muted"><i class="fas fa-spinner fa-spin"></i> Verifying...</span>';
+
+        fetch(`api/validate-referral.php?code=${encodeURIComponent(code)}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.valid) {
+                    statusDiv.innerHTML = `<span class="text-success"><i class="fas fa-check-circle"></i> Verified: <strong>${data.name}</strong> will be your Senior Partner.</span>`;
+                    hiddenId.value = data.id;
+                } else {
+                    statusDiv.innerHTML = '<span class="text-danger"><i class="fas fa-times-circle"></i> Invalid Referral Code or Email.</span>';
+                    hiddenId.value = '';
+                }
+            })
+            .catch(error => {
+                statusDiv.innerHTML = '<span class="text-danger">Error verifying code.</span>';
+                console.error('Error:', error);
+            });
+    });
+
+    // Prevent form submission if referral is not verified
+    document.getElementById('partnerForm').addEventListener('submit', function(e) {
+        const hiddenId = document.getElementById('senior_partner_id').value;
+        if (!hiddenId) {
+            e.preventDefault();
+            alert("Please verify your Referral Code before registering.");
+            document.getElementById('referral_code').focus();
+        }
+    });
+</script>
+
+<?php include_once 'includes/footer.php'; ?>
