@@ -257,7 +257,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Referral Verification
     document.getElementById('verifyBtn').addEventListener('click', function() {
-        const code = document.getElementById('referral_code').value;
+        const codeRaw = document.getElementById('referral_code').value;
+        const code = codeRaw ? codeRaw.trim() : '';
         const statusDiv = document.getElementById('referral_status');
         const hiddenId = document.getElementById('senior_partner_id');
         
@@ -268,26 +269,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         statusDiv.innerHTML = '<span class="text-muted"><i class="fas fa-spinner fa-spin"></i> Verifying...</span>';
 
+        // Use a relative path that works even if URL rewriting is active
         fetch(`api/validate-referral.php?code=${encodeURIComponent(code)}`)
-            .then(response => response.text()) // Get text first to debug
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text();
+            }) 
             .then(text => {
+                console.log("Raw API Response:", text); // Debugging
                 try {
-                    const data = JSON.parse(text);
+                    // Trim whitespace to ensure clean JSON parsing
+                    const cleanText = text.trim();
+                    const data = JSON.parse(cleanText);
+                    
                     if (data.valid) {
                         statusDiv.innerHTML = `<div class="alert alert-success py-2 mb-0"><i class="fas fa-check-circle me-1"></i> Verified! Your Senior Partner is <strong>${data.name}</strong></div>`;
                         hiddenId.value = data.id;
+                        // Clear error styling if needed
+                        document.getElementById('referral_code').classList.remove('is-invalid');
+                        document.getElementById('referral_code').classList.add('is-valid');
                     } else {
                         statusDiv.innerHTML = '<div class="alert alert-danger py-2 mb-0"><i class="fas fa-times-circle me-1"></i> Invalid Referral Code or Email.</div>';
                         hiddenId.value = '';
+                        document.getElementById('referral_code').classList.add('is-invalid');
+                        document.getElementById('referral_code').classList.remove('is-valid');
                     }
                 } catch (e) {
                     console.error("JSON Parse Error:", e, "Response:", text);
-                    statusDiv.innerHTML = '<span class="text-danger">Error verifying code (Server Error).</span>';
+                    statusDiv.innerHTML = '<span class="text-danger">Error verifying code (Server Error). Check console for details.</span>';
                 }
             })
             .catch(error => {
                 statusDiv.innerHTML = '<span class="text-danger">Error verifying code (Network Error).</span>';
-                console.error('Network Error:', error);
+                console.error('Fetch Error:', error);
             });
     });
 
