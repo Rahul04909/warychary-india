@@ -102,8 +102,8 @@ if (isset($_GET['delete_id'])) {
                                 <td>{$status_badge}</td>
                                 <td>
                                     <!-- Edit Link (Placeholder) -->
-                                    <a href='#' class='btn btn-sm btn-light text-primary' title='Edit'><i class='fas fa-edit'></i></a>
-                                    <a href='index.php?delete_id={$row['id']}' class='btn btn-sm btn-light text-danger' onclick='return confirm(\"Are you sure you want to delete this partner?\")' title='Delete'><i class='fas fa-trash'></i></a>
+                                    <a href='#' class='btn btn-sm btn-warning' title='Edit'><i class='fas fa-edit'></i></a>
+                                    <a href='index.php?delete_id={$row['id']}' class='btn btn-sm btn-danger' onclick='return confirm(\"Are you sure you want to delete this partner?\")' title='Delete'><i class='fas fa-trash'></i></a>
                                 </td>
                             </tr>";
                         }
