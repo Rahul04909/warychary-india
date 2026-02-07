@@ -651,7 +651,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register_partner'])) 
                                             <label for="partner_district" class="form-label">City</label>
                                             <div class="input-wrapper">
                                                 <i class="fas fa-city"></i>
-                                                <input type="text" class="form-control" id="partner_district" name="partner_district" required placeholder="Delhi">
+                                                <input type="text" class="form-control" id="partner_district" name="partner_district" required placeholder="Enter City">
                                             </div>
                                         </div>
                                     </div>
@@ -661,7 +661,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register_partner'])) 
                                     <label for="partner_state" class="form-label">State</label>
                                     <div class="input-wrapper">
                                         <i class="fas fa-map"></i>
-                                        <input type="text" class="form-control" id="partner_state" name="partner_state" required placeholder="New Delhi">
+                                        <input type="text" class="form-control" id="partner_state" name="partner_state" required placeholder="Enter Your State Name Here">
                                     </div>
                                 </div>
 
