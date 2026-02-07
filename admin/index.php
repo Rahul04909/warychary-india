@@ -1,5 +1,6 @@
 <?php
 $page = 'dashboard';
+$url_prefix = '';
 include 'includes/header.php';
 ?>
 

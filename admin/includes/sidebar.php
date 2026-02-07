@@ -1,13 +1,13 @@
 <aside class="admin-sidebar">
     <div class="sidebar-header">
         <div class="sidebar-brand">
-            <img src="../assets/logo/logo.png" alt="WaryChary Admin" class="sidebar-logo">
+            <img src="<?php echo $url_prefix; ?>../assets/logo/logo.png" alt="WaryChary Admin" class="sidebar-logo">
         </div>
     </div>
     
     <ul class="sidebar-menu">
         <li class="menu-item <?php echo ($page == 'dashboard') ? 'active' : ''; ?>">
-            <a href="index.php" class="menu-link">
+            <a href="<?php echo $url_prefix; ?>index.php" class="menu-link">
                 <div class="menu-text">
                     <i class="fas fa-home"></i> <span>Dashboard</span>
                 </div>
@@ -49,8 +49,8 @@
                 <i class="fas fa-chevron-right arrow"></i>
             </a>
             <ul class="submenu">
-                <li><a href="senior-partners/index.php">All Senior Partners</a></li>
-                <li><a href="senior-partners/add-senior-partner.php">Add Senior Partner</a></li>
+                <li><a href="<?php echo $url_prefix; ?>senior-partners/index.php">All Senior Partners</a></li>
+                <li><a href="<?php echo $url_prefix; ?>senior-partners/add-senior-partner.php">Add Senior Partner</a></li>
                 <li><a href="#">Senior Partner Earnings</a></li>
                 <li><a href="#">Senior Partner Payouts</a></li>
             </ul>
@@ -101,7 +101,7 @@
     </ul>
 
     <div class="sidebar-footer">
-        <a href="logout.php" class="btn-logout">
+        <a href="<?php echo $url_prefix; ?>logout.php" class="btn-logout">
             <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
         </a>
     </div>

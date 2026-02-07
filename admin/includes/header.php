@@ -1,5 +1,6 @@
 <?php
 include_once __DIR__ . '/../auth_check.php';
+if (!isset($url_prefix)) $url_prefix = '';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +16,7 @@ include_once __DIR__ . '/../auth_check.php';
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Admin CSS -->
-    <link rel="stylesheet" href="assets/css/admin.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="<?php echo $url_prefix; ?>assets/css/admin.css?v=<?php echo time(); ?>">
     
     <!-- Chart.js (Optional but recommended) -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

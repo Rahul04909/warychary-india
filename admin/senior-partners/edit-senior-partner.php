@@ -1,5 +1,6 @@
 <?php
 include_once __DIR__ . '/../../database/db_config.php';
+$url_prefix = '../';
 include_once __DIR__ . '/../includes/header.php';
 
 $database = new Database();
