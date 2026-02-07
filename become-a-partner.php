@@ -257,20 +257,71 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Referral Verification
     document.getElementById('verifyBtn').addEventListener('click', function() {
+        // Debugging: Confirm click
+        console.log("Verify button clicked");
+
         const codeRaw = document.getElementById('referral_code').value;
         const code = codeRaw ? codeRaw.trim() : '';
         const statusDiv = document.getElementById('referral_status');
         const hiddenId = document.getElementById('senior_partner_id');
         
+        // Define API URL dynamically using PHP
+        const apiUrl = "<?php echo $url_prefix; ?>api/validate-referral.php";
+
         if (!code) {
             statusDiv.innerHTML = '<span class="text-danger"><i class="fas fa-exclamation-circle"></i> Please enter a code or email.</span>';
+            document.getElementById('referral_code').focus(); // Focus input
             return;
         }
 
         statusDiv.innerHTML = '<span class="text-muted"><i class="fas fa-spinner fa-spin"></i> Verifying...</span>';
 
-        // Use a relative path that works even if URL rewriting is active
-        fetch(`api/validate-referral.php?code=${encodeURIComponent(code)}`)
+        // Add timestamp to prevent caching
+        const fetchUrl = `${apiUrl}?code=${encodeURIComponent(code)}&_=${new Date().getTime()}`;
+        console.log("Fetching:", fetchUrl);
+
+        fetch(fetchUrl)
+            .then(response => {
+                console.log("Response Status:", response.status);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok: ' + response.statusText);
+                }
+                return response.text();
+            }) 
+            .then(text => {
+                console.log("Raw API Response:", text);
+                try {
+                    const cleanText = text.trim();
+                    const data = JSON.parse(cleanText);
+                    
+                    if (data.valid) {
+                        statusDiv.innerHTML = `<div class="alert alert-success py-2 mb-0"><i class="fas fa-check-circle me-1"></i> Verified! Your Senior Partner is <strong>${data.name}</strong></div>`;
+                        hiddenId.value = data.id;
+                        
+                        // Valid Styling
+                        const input = document.getElementById('referral_code');
+                        input.classList.remove('is-invalid');
+                        input.classList.add('is-valid');
+                        input.style.borderColor = "#198754"; // Bootstrap success green
+                    } else {
+                        statusDiv.innerHTML = '<div class="alert alert-danger py-2 mb-0"><i class="fas fa-times-circle me-1"></i> Invalid Referral Code or Email.</div>';
+                        hiddenId.value = '';
+                        
+                        // Invalid Styling
+                        const input = document.getElementById('referral_code');
+                        input.classList.add('is-invalid');
+                        input.classList.remove('is-valid');
+                    }
+                } catch (e) {
+                    console.error("JSON Parse Error:", e, "Response:", text);
+                    statusDiv.innerHTML = `<div class="alert alert-warning">Server Error. Please try again or contact support.<br><small>${e.message}</small></div>`;
+                }
+            })
+            .catch(error => {
+                statusDiv.innerHTML = `<div class="alert alert-danger">Connection Error. Please check your internet.<br><small>${error.message}</small></div>`;
+                console.error('Fetch Error:', error);
+            });
+    });
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
