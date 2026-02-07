@@ -93,7 +93,7 @@
             </a>
             <ul class="submenu">
                 <li><a href="#">General</a></li>
-                <li><a href="#">Smtp Settings</a></li>
+                <li><a href="<?php echo $url_prefix; ?>settings/smtp-settings.php">Smtp Settings</a></li>
                 <li><a href="#">Razorpay Settings</a></li>
                 <li><a href="#">Manage Commisions</a></li>
             </ul>

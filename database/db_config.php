@@ -7,7 +7,7 @@ class Database {
     private $password;
 
     public function __construct() {
-        if ($_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['SERVER_NAME'] == '127.0.0.1') {
+        if (php_sapi_name() === 'cli' || $_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['SERVER_NAME'] == '127.0.0.1') {
             $this->username = 'root';
             $this->password = '';
         } else {
