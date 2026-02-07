@@ -467,10 +467,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register_partner'])) 
         .password-toggle {
             position: absolute;
             right: 16px;
+            left: auto; /* Override generic icon style */
             top: 50%;
             transform: translateY(-50%);
             color: var(--text-muted);
             cursor: pointer;
+            pointer-events: auto; /* Enable clicks */
             z-index: 10;
         }
 
