@@ -322,41 +322,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 console.error('Fetch Error:', error);
             });
     });
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.text();
-            }) 
-            .then(text => {
-                console.log("Raw API Response:", text); // Debugging
-                try {
-                    // Trim whitespace to ensure clean JSON parsing
-                    const cleanText = text.trim();
-                    const data = JSON.parse(cleanText);
-                    
-                    if (data.valid) {
-                        statusDiv.innerHTML = `<div class="alert alert-success py-2 mb-0"><i class="fas fa-check-circle me-1"></i> Verified! Your Senior Partner is <strong>${data.name}</strong></div>`;
-                        hiddenId.value = data.id;
-                        // Clear error styling if needed
-                        document.getElementById('referral_code').classList.remove('is-invalid');
-                        document.getElementById('referral_code').classList.add('is-valid');
-                    } else {
-                        statusDiv.innerHTML = '<div class="alert alert-danger py-2 mb-0"><i class="fas fa-times-circle me-1"></i> Invalid Referral Code or Email.</div>';
-                        hiddenId.value = '';
-                        document.getElementById('referral_code').classList.add('is-invalid');
-                        document.getElementById('referral_code').classList.remove('is-valid');
-                    }
-                } catch (e) {
-                    console.error("JSON Parse Error:", e, "Response:", text);
-                    statusDiv.innerHTML = '<span class="text-danger">Error verifying code (Server Error). Check console for details.</span>';
-                }
-            })
-            .catch(error => {
-                statusDiv.innerHTML = '<span class="text-danger">Error verifying code (Network Error).</span>';
-                console.error('Fetch Error:', error);
-            });
-    });
 
     // Prevent form submission if referral is not verified
     document.getElementById('partnerForm').addEventListener('submit', function(e) {
