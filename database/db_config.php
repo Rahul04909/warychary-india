@@ -2,9 +2,19 @@
 // Database Helper Class
 class Database {
     private $host = 'localhost';
-    private $db_name = 'jhdindus_warycharycare'; // Default name, change if needed
-    private $username = 'jhdindus_warycharycare';
-    private $password = 'Rd14072003@./';
+    private $db_name = 'jhdindus_warycharycare';
+    private $username;
+    private $password;
+
+    public function __construct() {
+        if ($_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['SERVER_NAME'] == '127.0.0.1') {
+            $this->username = 'root';
+            $this->password = '';
+        } else {
+            $this->username = 'jhdindus_warycharycare';
+            $this->password = 'Rd14072003@./';
+        }
+    }
     public $conn;
 
     public function getConnection() {

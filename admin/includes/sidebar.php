@@ -49,8 +49,8 @@
                 <i class="fas fa-chevron-right arrow"></i>
             </a>
             <ul class="submenu">
-                <li><a href="#">All Senior Partners</a></li>
-                <li><a href="#">Add Senior Partner</a></li>
+                <li><a href="senior-partners/index.php">All Senior Partners</a></li>
+                <li><a href="senior-partners/add-senior-partner.php">Add Senior Partner</a></li>
                 <li><a href="#">Senior Partner Earnings</a></li>
                 <li><a href="#">Senior Partner Payouts</a></li>
             </ul>
