@@ -445,6 +445,7 @@ a {
 .card-title {
     font-size: 16px;
     font-weight: 600;
+    color: var(--text-main);
 }
 
 /* Recent Activity Table */
@@ -549,4 +550,109 @@ a {
     .dashboard-widgets {
         grid-template-columns: 1fr;
     }
+}
+
+/* --- Form Styling (Bootstrap Overrides) --- */
+.form-label {
+    font-weight: 600;
+    color: var(--text-main);
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.form-control,
+.form-select {
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    padding: 10px 15px;
+    font-size: 14px;
+    transition: all 0.2s;
+    box-shadow: none !important;
+    /* Remove default bootstrap shadow */
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(34, 113, 177, 0.1) !important;
+}
+
+.section-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+/* Card Improvements */
+.card {
+    border: 1px solid #e2e4e7;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    background-color: #fff;
+    margin-bottom: 20px;
+}
+
+.card-body {
+    padding: 24px;
+}
+
+/* Button Improvements */
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    padding: 10px 20px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: var(--primary-hover);
+    border-color: var(--primary-hover);
+}
+
+.btn-secondary {
+    background-color: #f6f7f7;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    padding: 10px 20px;
+    font-weight: 500;
+}
+
+.btn-secondary:hover {
+    background-color: #f0f0f1;
+    color: var(--primary-hover);
+    border-color: var(--primary-hover);
+}
+
+/* Table Improvements */
+.table thead th {
+    background-color: #f8f9fa;
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 12px 16px;
+}
+
+.table tbody td {
+    vertical-align: middle;
+    padding: 12px 16px;
+    color: var(--text-main);
+    font-size: 14px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #fbfbfc;
+}
+
+/* Badge Tweaks */
+.badge {
+    padding: 6px 10px;
+    font-weight: 500;
+    border-radius: 4px;
 }
