@@ -66,8 +66,11 @@
 .footer-col h3 {
     font-size: 18px;
     font-weight: 600;
+    margin-top: 0;
     margin-bottom: 25px;
     position: relative;
+    color: #fff;
+    /* Ensure white color despite Bootstrap */
 }
 
 .footer-col h3::after {
@@ -84,6 +87,8 @@
 /* Links */
 .footer-col ul {
     list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
 .footer-col ul li {
@@ -96,6 +101,8 @@
     font-size: 14px;
     transition: all 0.3s ease;
     display: inline-block;
+    padding: 0;
+    /* Reset any bootstrap padding */
 }
 
 .footer-col ul li a:hover {
