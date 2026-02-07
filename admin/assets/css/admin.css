@@ -154,8 +154,9 @@ a {
 
 .submenu li a {
     display: block;
-    padding: 8px 10px 8px 50px;
-    /* Indented */
+    padding: 8px 20px;
+    text-align: center;
+    /* Centered properly */
     color: var(--sidebar-text-muted);
     font-size: 13px;
     transition: color 0.2s;

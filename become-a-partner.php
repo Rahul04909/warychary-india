@@ -534,6 +534,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register_partner'])) 
         }
 
         /* Password Toggle */
+        /* Hide default password reveal button in Edge/IE */
+        input::-ms-reveal,
+        input::-ms-clear {
+            display: none;
+        }
+
         .input-wrapper .password-toggle {
             position: absolute;
             right: 16px;
