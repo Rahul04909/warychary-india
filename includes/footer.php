@@ -3,7 +3,7 @@
         <div class="footer-grid">
             <!-- Brand Section -->
             <div class="footer-col brand-col">
-                <img src="assets/logo/logo.png" alt="WaryChary" class="footer-logo">
+                <img src="<?php echo $url_prefix; ?>assets/logo/logo.png" alt="WaryChary" class="footer-logo">
                 <p>WaryChary India - Your premium destination for comfort and style focused on women's wellness and lifestyle.</p>
                 <div class="social-links">
                     <a href="#"><i class="fab fa-facebook-f"></i></a>

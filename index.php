@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<?php $url_prefix = ''; ?>
 <html lang="en">
 <head>
     <meta charset="UTF-8">

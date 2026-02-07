@@ -1,5 +1,5 @@
 <?php
-include_once 'includes/header.php';
+$url_prefix = '';
 include_once 'database/db_config.php';
 
 $database = new Database();
@@ -88,40 +88,78 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Become a Partner - WaryChary Care</title>
+    <!-- FontAwesome (CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- CSS Dependencies -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="<?php echo $url_prefix; ?>assets/css/style.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="<?php echo $url_prefix; ?>assets/css/topbar.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="<?php echo $url_prefix; ?>assets/css/footer.css?v=<?php echo time(); ?>">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Registration Page Specific Styles */
+        body {
+            background-color: #f8f9fa;
+        }
+        .header-main {
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body>
 
-<div class="container py-5">
+<?php include_once 'includes/header.php'; ?>
+
+<div class="container py-5 my-5">
     <div class="row justify-content-center">
         <div class="col-lg-8">
-            <div class="card shadow-sm border-0">
+            <div class="card shadow-lg border-0 rounded-3">
                 <div class="card-body p-4 p-md-5">
                     <h2 class="text-center mb-4 fw-bold text-primary">Become a Partner</h2>
+                    <p class="text-center text-muted mb-4">Join our growing network and start your journey with WaryChary.</p>
                     
                     <?php if (!empty($message)): ?>
-                        <div class="alert alert-<?php echo $messageType; ?>"><?php echo $message; ?></div>
+                        <div class="alert alert-<?php echo $messageType; ?> alert-dismissible fade show">
+                            <?php echo $message; ?>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
                     <?php endif; ?>
 
                     <form action="" method="POST" enctype="multipart/form-data" id="partnerForm">
                         
                         <!-- Step 1: Referral Verification -->
-                        <div class="mb-4 p-3 bg-light rounded border">
-                            <h5 class="mb-3">Referral Details</h5>
+                        <div class="mb-4 p-4 bg-light rounded-3 border">
+                            <h5 class="mb-3 text-dark"><i class="fas fa-user-friends me-2"></i>Referral Details</h5>
                             <div class="row g-3">
                                 <div class="col-md-8">
-                                    <label class="form-label">Referral Code or Senior Partner Email *</label>
+                                    <label class="form-label fw-medium">Referral Code or Senior Partner Email *</label>
                                     <div class="input-group">
                                         <input type="text" id="referral_code" class="form-control" placeholder="Enter code or email" required>
-                                        <button class="btn btn-outline-primary" type="button" id="verifyBtn">Verify</button>
+                                        <button class="btn btn-dark" type="button" id="verifyBtn">Verify Code</button>
                                     </div>
                                     <input type="hidden" name="senior_partner_id" id="senior_partner_id" required>
                                 </div>
                                 <div class="col-md-12">
-                                    <div id="referral_status" class="mt-2 text-muted small"></div>
+                                    <div id="referral_status" class="mt-2 small"></div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Step 2: Personal Details -->
-                        <h5 class="mb-3">Personal Information</h5>
+                        <h5 class="mb-3 mt-4 text-dark"><i class="fas fa-user me-2"></i>Personal Information</h5>
                         <div class="row g-3 mb-4">
                             <div class="col-md-6">
                                 <label class="form-label">Full Name *</label>
@@ -148,15 +186,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <!-- Profile Image with Preview -->
                             <div class="col-md-12">
                                 <label class="form-label">Profile Picture (Optional)</label>
-                                <div class="d-flex align-items-center gap-3">
-                                    <img id="imagePreview" src="https://via.placeholder.com/100" class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover; display: none;">
-                                    <input type="file" name="profile_image" id="profile_image" class="form-control" accept="image/*" onchange="previewImage(this)">
+                                <div class="d-flex align-items-center gap-3 p-2 border rounded bg-white">
+                                    <img id="imagePreview" src="https://via.placeholder.com/100" class="rounded-circle shadow-sm" style="width: 80px; height: 80px; object-fit: cover; display: none;">
+                                    <div class="flex-grow-1">
+                                        <input type="file" name="profile_image" id="profile_image" class="form-control" accept="image/*" onchange="previewImage(this)">
+                                        <div class="form-text">Supported formats: JPG, PNG.</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Step 3: Address Details -->
-                        <h5 class="mb-3">Address Details</h5>
+                        <h5 class="mb-3 mt-4 text-dark"><i class="fas fa-map-marker-alt me-2"></i>Address Details</h5>
                         <div class="row g-3 mb-4">
                             <div class="col-md-4">
                                 <label class="form-label">State *</label>
@@ -177,7 +218,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
 
                         <!-- Step 4: Security -->
-                        <h5 class="mb-3">Account Security</h5>
+                        <h5 class="mb-3 mt-4 text-dark"><i class="fas fa-lock me-2"></i>Account Security</h5>
                         <div class="row g-3 mb-4">
                             <div class="col-md-6">
                                 <label class="form-label">Create Password *</label>
@@ -189,8 +230,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </div>
                         </div>
 
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary btn-lg" id="submitBtn">Register as Partner</button>
+                        <div class="d-grid mt-5">
+                            <button type="submit" class="btn btn-primary btn-lg py-3 fw-bold shadow-sm" id="submitBtn">Register as Partner</button>
                         </div>
                     </form>
                 </div>
@@ -199,6 +240,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     // Image Preview
     function previewImage(input) {
@@ -220,7 +262,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         const hiddenId = document.getElementById('senior_partner_id');
         
         if (!code) {
-            statusDiv.innerHTML = '<span class="text-danger">Please enter a code or email.</span>';
+            statusDiv.innerHTML = '<span class="text-danger"><i class="fas fa-exclamation-circle"></i> Please enter a code or email.</span>';
             return;
         }
 
@@ -230,10 +272,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             .then(response => response.json())
             .then(data => {
                 if (data.valid) {
-                    statusDiv.innerHTML = `<span class="text-success"><i class="fas fa-check-circle"></i> Verified: <strong>${data.name}</strong> will be your Senior Partner.</span>`;
+                    statusDiv.innerHTML = `<div class="alert alert-success py-2 mb-0"><i class="fas fa-check-circle me-1"></i> Verified! Your Senior Partner is <strong>${data.name}</strong></div>`;
                     hiddenId.value = data.id;
                 } else {
-                    statusDiv.innerHTML = '<span class="text-danger"><i class="fas fa-times-circle"></i> Invalid Referral Code or Email.</span>';
+                    statusDiv.innerHTML = '<div class="alert alert-danger py-2 mb-0"><i class="fas fa-times-circle me-1"></i> Invalid Referral Code or Email.</div>';
                     hiddenId.value = '';
                 }
             })
@@ -250,8 +292,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             e.preventDefault();
             alert("Please verify your Referral Code before registering.");
             document.getElementById('referral_code').focus();
+            
+            // Scroll to referral section
+            document.getElementById('referral_code').scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
     });
+
+    // Mobile Menu Fix (Re-implement logic if needed, but header.php might handle it)
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    if (mobileBtn) {
+        // Ensure listener isn't duplicated if header.php already defines it
+    }
 </script>
 
 <?php include_once 'includes/footer.php'; ?>
+</body>
+</html>

@@ -4,8 +4,8 @@
         <div class="header-wrapper">
             <!-- Logo -->
             <div class="logo">
-                <a href="index.php">
-                    <img src="assets/logo/logo.png" alt="WaryChary Logo">
+                <a href="<?php echo $url_prefix; ?>index.php">
+                    <img src="<?php echo $url_prefix; ?>assets/logo/logo.png" alt="WaryChary Logo">
                 </a>
             </div>
 
@@ -18,9 +18,9 @@
                     </button>
                 </div>
                 <ul>
-                    <li><a href="#">Home</a></li>
+                    <li><a href="<?php echo $url_prefix; ?>index.php">Home</a></li>
                     <li><a href="#">About us</a></li>
-                    <li><a href="../../become-a-partner.php">Become a partner</a></li>
+                    <li><a href="<?php echo $url_prefix; ?>become-a-partner.php">Become a partner</a></li>
                     <li><a href="#">Period Education</a></li>
                     <li><a href="#">Contact us</a></li>
                 </ul>
