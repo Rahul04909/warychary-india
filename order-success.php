@@ -52,10 +52,10 @@ if (!$order) {
             <div class="col-md-8 text-center">
                 <div class="card shadow-sm border-0">
                     <div class="card-body p-5">
-                        <div class="mb-4 text-success">
-                            <i class="fas fa-check-circle fa-5x"></i>
+                        <div class="mb-4">
+                            <i class="fas fa-check-circle fa-5x" style="color: #000;"></i>
                         </div>
-                        <h2 class="mb-3">Thank You for Your Order!</h2>
+                        <h2 class="mb-2 fw-bold" style="color: #000;">Thank You for Your Order!</h2>
                         <p class="text-muted mb-4">Your order has been placed successfully. A confirmation email has been sent to <strong><?php echo htmlspecialchars($order['customer_email']); ?></strong>.</p>
                         
                         <div class="bg-light p-4 rounded mb-4 text-start">
@@ -79,7 +79,10 @@ if (!$order) {
                             </div>
                         </div>
                         
+                        <div class="d-flex justify-content-center gap-3">
                         <a href="index.php" class="btn btn-primary px-4 py-2">Continue Shopping</a>
+                        <a href="generate-invoice.php?id=<?php echo $order_id; ?>&download=true" class="btn btn-dark px-4 py-2" target="_blank"><i class="fas fa-file-invoice me-2"></i> Download Invoice</a>
+                    </div>
                     </div>
                 </div>
             </div>

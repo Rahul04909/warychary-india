@@ -96,6 +96,51 @@ try {
     $log_stmt = $db->prepare($log_sql);
     $log_stmt->execute([':oid' => $input['razorpay_order_id'], ':pid' => $payment_id, ':amnt' => $amount]);
 
+    // 6. Send Invoice Email
+    require_once __DIR__ . '/generate-invoice.php';
+    
+    // Fetch SMTP Settings
+    $smtp_stmt = $db->prepare("SELECT * FROM smtp_settings LIMIT 1");
+    $smtp_stmt->execute();
+    $smtp = $smtp_stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($smtp) {
+        $mail = new PHPMailer\PHPMailer\PHPMailer(true);
+        try {
+            // Server settings
+            $mail->isSMTP();
+            $mail->Host       = $smtp['host'];
+            $mail->SMTPAuth   = true;
+            $mail->Username   = $smtp['username'];
+            $mail->Password   = $smtp['password'];
+            $mail->SMTPSecure = $smtp['encryption'];
+            $mail->Port       = $smtp['port'];
+
+            // Recipients
+            $mail->setFrom($smtp['from_email'], $smtp['from_name']);
+            $order_query = $db->query("SELECT customer_email, customer_name FROM orders WHERE id = $order_id")->fetch(PDO::FETCH_ASSOC);
+            $mail->addAddress($order_query['customer_email'], $order_query['customer_name']);
+
+            // Attachments
+            $pdf_content = generateInvoicePDF($order_id, 'S'); // S = String return
+            if ($pdf_content) {
+                $mail->addStringAttachment($pdf_content, "Invoice_$order_id.pdf");
+            }
+
+            // Content
+            $mail->isHTML(true);
+            $mail->Subject = 'Order Confirmation - WaryChary';
+            $mail->Body    = "Dear " . htmlspecialchars($order_query['customer_name']) . ",<br><br>Thank you for your order! Your payment was successful.<br>Please find your invoice attached.<br><br>Regards,<br>WaryChary Team";
+
+            $mail->send();
+            file_put_contents($logFile, date('[Y-m-d H:i:s] ') . "Email sent to " . $order_query['customer_email'] . PHP_EOL, FILE_APPEND);
+        } catch (Exception $e) {
+            file_put_contents($logFile, date('[Y-m-d H:i:s] ') . "Email Error: " . $mail->ErrorInfo . PHP_EOL, FILE_APPEND);
+        }
+    } else {
+        file_put_contents($logFile, date('[Y-m-d H:i:s] ') . "SMTP Settings not found." . PHP_EOL, FILE_APPEND);
+    }
+
     echo json_encode(['success' => true]);
 
 
