@@ -177,40 +177,57 @@ if ($total_reviews > 0) {
                 </div>
 
                 <!-- Review Form (Hidden by default) -->
-                <div id="reviewForm" style="display: none; background: #f9fafb; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
-                    <h4>Write your review</h4>
-                    <form action="process-review.php" method="POST" enctype="multipart/form-data">
+                <div id="reviewForm" class="review-form-wrapper" style="display: none;">
+                    <div class="form-header">
+                        <h4>Write a Review</h4>
+                        <p class="text-muted">Share your experience with this product.</p>
+                    </div>
+                    
+                    <form action="process-review.php" method="POST" enctype="multipart/form-data" id="reviewSubmitForm">
                         <input type="hidden" name="product_id" value="<?php echo $prod['id']; ?>">
                         <input type="hidden" name="slug" value="<?php echo htmlspecialchars($slug); ?>">
                         <input type="hidden" name="submit_review" value="1">
                         
-                        <div class="form-group mb-3">
-                            <label>Name</label>
-                            <input type="text" name="name" class="form-control" required>
+                        <!-- Star Rating Input -->
+                        <div class="form-group mb-4 text-center">
+                            <label class="d-block mb-2 font-weight-bold">Rate this product</label>
+                            <div class="star-rating-input">
+                                <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="Excellent"><i class="fas fa-star"></i></label>
+                                <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="Good"><i class="fas fa-star"></i></label>
+                                <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="Average"><i class="fas fa-star"></i></label>
+                                <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="Poor"><i class="fas fa-star"></i></label>
+                                <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="Terrible"><i class="fas fa-star"></i></label>
+                            </div>
                         </div>
-                        <div class="form-group mb-3">
-                            <label>Email</label>
-                            <input type="email" name="email" class="form-control" required>
+
+                        <div class="row">
+                            <div class="col-md-6 form-group mb-3">
+                                <label class="form-label">Name</label>
+                                <input type="text" name="name" class="form-control" placeholder="Your Name" required>
+                            </div>
+                            <div class="col-md-6 form-group mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" name="email" class="form-control" placeholder="Your Email" required>
+                            </div>
                         </div>
+
                         <div class="form-group mb-3">
-                            <label>Rating</label>
-                            <select name="rating" class="form-control" required>
-                                <option value="5">5 Stars (Excellent)</option>
-                                <option value="4">4 Stars (Good)</option>
-                                <option value="3">3 Stars (Average)</option>
-                                <option value="2">2 Stars (Poor)</option>
-                                <option value="1">1 Star (Terrible)</option>
-                            </select>
+                            <label class="form-label">Your Review</label>
+                            <textarea name="review_text" class="form-control" rows="4" placeholder="What did you like or dislike?" required></textarea>
                         </div>
-                        <div class="form-group mb-3">
-                            <label>Review</label>
-                            <textarea name="review_text" class="form-control" rows="4" required></textarea>
+
+                        <div class="form-group mb-4">
+                            <label class="form-label">Add Photos</label>
+                            <div class="file-upload-wrapper">
+                                <input type="file" name="review_images[]" id="reviewImages" class="file-upload-input" multiple accept="image/*">
+                                <div class="file-upload-box">
+                                    <i class="fas fa-cloud-upload-alt mb-2"></i>
+                                    <span>Click to upload images</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group mb-3">
-                            <label>Images (Optional)</label>
-                            <input type="file" name="review_images[]" class="form-control" multiple accept="image/*">
-                        </div>
-                        <button type="submit" class="btn btn-success">Submit Review</button>
+
+                        <button type="submit" class="btn btn-submit-review">Submit Review</button>
                     </form>
                 </div>
                 
