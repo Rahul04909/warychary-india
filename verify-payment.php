@@ -112,16 +112,18 @@ try {
     $log_stmt->execute([':oid' => $input['razorpay_order_id'], ':pid' => $payment_id, ':amnt' => $amount]);
 
     // 6. Send Invoice Email
-    require_once __DIR__ . '/generate-invoice.php';
+    // Use output buffering to prevent any mailer output from breaking JSON
+    ob_start();
+    try {
+        require_once __DIR__ . '/generate-invoice.php';
+        
+        // Fetch SMTP Settings
+        $smtp_stmt = $db->prepare("SELECT * FROM smtp_settings LIMIT 1");
+        $smtp_stmt->execute();
+        $smtp = $smtp_stmt->fetch(PDO::FETCH_ASSOC);
     
-    // Fetch SMTP Settings
-    $smtp_stmt = $db->prepare("SELECT * FROM smtp_settings LIMIT 1");
-    $smtp_stmt->execute();
-    $smtp = $smtp_stmt->fetch(PDO::FETCH_ASSOC);
-
-    if ($smtp) {
-        $mail = new PHPMailer\PHPMailer\PHPMailer(true);
-        try {
+        if ($smtp) {
+            $mail = new PHPMailer\PHPMailer\PHPMailer(true);
             // Server settings
             $mail->isSMTP();
             $mail->Host       = $smtp['host'];
@@ -149,21 +151,25 @@ try {
 
             $mail->send();
             file_put_contents($logFile, date('[Y-m-d H:i:s] ') . "Email sent to " . $order_query['customer_email'] . PHP_EOL, FILE_APPEND);
-        } catch (Exception $e) {
-            file_put_contents($logFile, date('[Y-m-d H:i:s] ') . "Email Error: " . $mail->ErrorInfo . PHP_EOL, FILE_APPEND);
+        } else {
+            file_put_contents($logFile, date('[Y-m-d H:i:s] ') . "SMTP Settings not found." . PHP_EOL, FILE_APPEND);
         }
-    } else {
-        file_put_contents($logFile, date('[Y-m-d H:i:s] ') . "SMTP Settings not found." . PHP_EOL, FILE_APPEND);
+    } catch (Exception $e) {
+        file_put_contents($logFile, date('[Y-m-d H:i:s] ') . "Email Error: " . $e->getMessage() . PHP_EOL, FILE_APPEND);
     }
+    // Clean buffer so no email logs/errors break JSON
+    ob_end_clean();
 
     echo json_encode(['success' => true]);
 
 
 } catch (SignatureVerificationError $e) {
     file_put_contents($logFile, date('[Y-m-d H:i:s] ') . "Signature Error: " . $e->getMessage() . PHP_EOL, FILE_APPEND);
+    if(ob_get_length()) ob_clean();
     echo json_encode(['success' => false, 'message' => 'Signature Verification Failed']);
 } catch (Exception $e) {
     file_put_contents($logFile, date('[Y-m-d H:i:s] ') . "Exception: " . $e->getMessage() . PHP_EOL, FILE_APPEND);
+    if(ob_get_length()) ob_clean();
     echo json_encode(['success' => false, 'message' => $e->getMessage()]);
 }
 ?>
