@@ -61,6 +61,16 @@ if ($referral_code) {
         $senior_partner_details = $sp_stmt->fetch(PDO::FETCH_ASSOC);
     }
 }
+
+// Fetch User Details if Logged In
+$user_data = [];
+$is_logged_in = false;
+if (isset($_SESSION['user_id'])) {
+    $is_logged_in = true;
+    $stmt = $db->prepare("SELECT * FROM users WHERE id = :id");
+    $stmt->execute([':id' => $_SESSION['user_id']]);
+    $user_data = $stmt->fetch(PDO::FETCH_ASSOC);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -142,31 +152,40 @@ if ($referral_code) {
                             <div class="row">
                                 <div class="col-md-6 form-group">
                                     <label class="form-label">Full Name</label>
-                                    <input type="text" name="name" class="form-control" required placeholder="John Doe">
+                                    <input type="text" name="name" class="form-control" required placeholder="John Doe" 
+                                           value="<?php echo $is_logged_in ? htmlspecialchars($user_data['name']) : ''; ?>" 
+                                           <?php echo $is_logged_in ? 'readonly style="background-color: #e9ecef;"' : ''; ?>>
                                 </div>
                                 <div class="col-md-6 form-group">
                                     <label class="form-label">Mobile Number</label>
-                                    <input type="tel" name="mobile" class="form-control" required placeholder="9876543210" pattern="[0-9]{10}">
+                                    <input type="tel" name="mobile" class="form-control" required placeholder="9876543210" pattern="[0-9]{10}"
+                                           value="<?php echo $is_logged_in ? htmlspecialchars($user_data['mobile']) : ''; ?>" 
+                                           <?php echo $is_logged_in ? 'readonly style="background-color: #e9ecef;"' : ''; ?>>
                                 </div>
-                                <div class="col-12 form-group">
+                                <div class="col-md-12 form-group">
                                     <label class="form-label">Email Address</label>
-                                    <input type="email" name="email" class="form-control" required placeholder="john@example.com">
+                                    <input type="email" name="email" class="form-control" required placeholder="john@example.com"
+                                           value="<?php echo $is_logged_in ? htmlspecialchars($user_data['email']) : ''; ?>" 
+                                           <?php echo $is_logged_in ? 'readonly style="background-color: #e9ecef;"' : ''; ?>>
                                 </div>
-                                <div class="col-12 form-group">
-                                    <label class="form-label">Full Address</label>
-                                    <textarea name="address" class="form-control" rows="2" required placeholder="House No, Street, Area"></textarea>
-                                </div>
-                                <div class="col-md-4 form-group">
-                                    <label class="form-label">Pincode</label>
-                                    <input type="text" name="pincode" class="form-control" required placeholder="110001" pattern="[0-9]{6}">
+                                <div class="col-md-12 form-group">
+                                    <label class="form-label">Address</label>
+                                    <textarea name="address" class="form-control" required rows="2" placeholder="Street, Sector, Apartment"><?php echo $is_logged_in ? htmlspecialchars($user_data['address']) : ''; ?></textarea>
                                 </div>
                                 <div class="col-md-4 form-group">
-                                    <label class="form-label">City/District</label>
-                                    <input type="text" name="city" class="form-control" required placeholder="New Delhi">
+                                    <label class="form-label">City</label>
+                                    <input type="text" name="city" class="form-control" required placeholder="New Delhi"
+                                           value="<?php echo $is_logged_in ? htmlspecialchars($user_data['city']) : ''; ?>">
                                 </div>
                                 <div class="col-md-4 form-group">
                                     <label class="form-label">State</label>
-                                    <input type="text" name="state" class="form-control" required placeholder="Delhi">
+                                    <input type="text" name="state" class="form-control" required placeholder="Delhi"
+                                           value="<?php echo $is_logged_in ? htmlspecialchars($user_data['state']) : ''; ?>">
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label class="form-label">Pincode</label>
+                                    <input type="text" name="pincode" class="form-control" required placeholder="110001" pattern="[0-9]{6}"
+                                           value="<?php echo $is_logged_in ? htmlspecialchars($user_data['pincode']) : ''; ?>">
                                 </div>
                             </div>
                         </div>
