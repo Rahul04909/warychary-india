@@ -18,6 +18,14 @@ function logDebug($message) {
     file_put_contents($logFile, date('[Y-m-d H:i:s] ') . $message . PHP_EOL, FILE_APPEND);
 }
 
+// Global Exception Handler for JSON Safety
+set_exception_handler(function ($e) {
+    if (ob_get_length()) ob_clean();
+    header('Content-Type: application/json');
+    echo json_encode(['success' => false, 'message' => 'Server Error: ' . $e->getMessage()]);
+    exit;
+});
+
 try {
     $database = new Database();
     $db = $database->getConnection();
@@ -25,6 +33,10 @@ try {
     // 2. Input Capture & Strict Validation
     $inputJSON = file_get_contents('php://input');
     $input = json_decode($inputJSON, true);
+
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        throw new Exception("Invalid JSON Input");
+    }
 
     logDebug("Input Received: " . $inputJSON);
 
@@ -52,8 +64,7 @@ try {
 
     $api = new Api($creds['key_id'], $creds['key_secret']);
 
-    // 4. Strict Signature Verification (Using ONLY Razorpay Params)
-    // Do NOT include internal_order_id in the attributes array for verification
+    // 4. Strict Signature Verification
     $attributes = [
         'razorpay_order_id' => $razorpay_order_id,
         'razorpay_payment_id' => $razorpay_payment_id,
@@ -68,33 +79,18 @@ try {
     }
 
     // 5. Reliable Order Resolution
-    // If internal_order_id is missing or we want to be safe, find by Razorpay Order ID
     $order = null;
     
-    // Strategy A: Try by Internal ID if provided
+    // Strategy A: By Internal ID
     if ($internal_order_id) {
-        $stmt = $db->prepare("SELECT id, user_id, total_amount, payment_status FROM orders WHERE id = :id");
+        $stmt = $db->prepare("SELECT id, user_id, total_amount, payment_status, partner_id as order_partner_id, senior_partner_id as order_senior_id FROM orders WHERE id = :id");
         $stmt->execute([':id' => $internal_order_id]);
         $order = $stmt->fetch(PDO::FETCH_ASSOC);
-        
-        // Verify it matches the Razorpay Order ID stored in DB
-        if ($order) {
-            $check_stmt = $db->prepare("SELECT order_id FROM orders WHERE id = :id");
-            $check_stmt->execute([':id' => $internal_order_id]);
-            $check_row = $check_stmt->fetch(PDO::FETCH_ASSOC);
-            if ($check_row['order_id'] !== $razorpay_order_id) {
-                logDebug("Mismatch: Internal Order $internal_order_id has " . $check_row['order_id'] . " but received $razorpay_order_id");
-                // Mismatch detected - Fail safe or try lookup by Razorpay ID? 
-                // Let's trust the lookup by Razorpay ID as supreme authority
-                $order = null; 
-            }
-        }
     }
 
-    // Strategy B: Lookup by Razorpay Order ID (Supreme Authority)
+    // Strategy B: By Razorpay Order ID
     if (!$order) {
-        // Find using orders.order_id column which stores Razorpay Order ID
-        $stmt = $db->prepare("SELECT id, user_id, total_amount, payment_status FROM orders WHERE order_id = :roid");
+        $stmt = $db->prepare("SELECT id, user_id, total_amount, payment_status, partner_id as order_partner_id, senior_partner_id as order_senior_id FROM orders WHERE order_id = :roid");
         $stmt->execute([':roid' => $razorpay_order_id]);
         $order = $stmt->fetch(PDO::FETCH_ASSOC);
     }
@@ -103,11 +99,11 @@ try {
         throw new Exception("Order not found for Razorpay Order ID: $razorpay_order_id");
     }
 
-    $internal_order_id = $order['id']; // Ensure we have the correct internal ID
+    $internal_order_id = $order['id'];
     $user_id = $order['user_id'];
     $amount = $order['total_amount'];
 
-    logDebug("Order Resolved: Internal ID $internal_order_id, User ID $user_id");
+    logDebug("Order Resolved: ID $internal_order_id, User $user_id");
 
     // 6. Update Order Status
     if ($order['payment_status'] !== 'paid') {
@@ -115,89 +111,90 @@ try {
         $update_stmt = $db->prepare($update_sql);
         $update_stmt->execute([':pid' => $razorpay_payment_id, ':oid' => $internal_order_id]);
         logDebug("Order Status Updated to Paid");
-    } else {
-        logDebug("Order was already marked paid.");
     }
     
-    // 7. Dynamic MLM Commission Logic (Lifetime Referral)
-    // ALWAYS fetch from User -> Partner hierarchy
+    // 7. Dynamic MLM Commission Logic
+    // Priority: Users Table > Orders Table
     
+    $partner_id = null;
+
     if ($user_id) {
-        // A. Fetch Partner from Users Table
+        // A. Check Users Table
         $u_stmt = $db->prepare("SELECT partner_id FROM users WHERE id = :uid");
         $u_stmt->execute([':uid' => $user_id]);
         $user_row = $u_stmt->fetch(PDO::FETCH_ASSOC);
-        $partner_id = $user_row['partner_id'] ?? null;
+        $partner_id = $user_row['partner_id'];
+    }
 
-        if ($partner_id) {
-            logDebug("Partner Found: $partner_id (bound to user)");
+    // Fallback: Check Orders Table (if user not bound yet or guest checkout glitch)
+    if (!$partner_id && !empty($order['order_partner_id'])) {
+        $partner_id = $order['order_partner_id'];
+        logDebug("User not bound using Order Partner ID: $partner_id");
+        
+        // AUTO-BIND USER IF MISSING (Heal the data)
+        if ($user_id) {
+            $bind_stmt = $db->prepare("UPDATE users SET partner_id = :pid WHERE id = :uid");
+            $bind_stmt->execute([':pid' => $partner_id, ':uid' => $user_id]);
+            logDebug("Self-Healed: Bound user $user_id to partner $partner_id");
+        }
+    }
 
-            // B. Process Partner Commission (15%)
-            $comm_partner = $amount * 0.15;
+    if ($partner_id) {
+        logDebug("Partner Identified: $partner_id");
+
+        // B. Partner Commission (15%)
+        $comm_partner = $amount * 0.15;
+        
+        $dup_check = $db->prepare("SELECT id FROM partner_earnings WHERE order_id = :oid AND partner_id = :pid");
+        $dup_check->execute([':oid' => $internal_order_id, ':pid' => $partner_id]);
+        
+        if (!$dup_check->fetch()) {
+            $ins_p = $db->prepare("INSERT INTO partner_earnings (partner_id, partner_type, order_id, amount, percentage, description, created_at) VALUES (:pid, 'marketing', :oid, :amnt, 15.00, :desc, NOW())");
+            $ins_p->execute([
+                ':pid' => $partner_id,
+                ':oid' => $internal_order_id,
+                ':amnt' => $comm_partner,
+                ':desc' => "Commission for Order #$internal_order_id"
+            ]);
+
+            $upd_p = $db->prepare("UPDATE partners SET earning = earning + :amnt, total_earnings = total_earnings + :amnt WHERE id = :pid");
+            $upd_p->execute([':amnt' => $comm_partner, ':pid' => $partner_id]);
+            logDebug("Partner Commission Logic Executed");
+        }
+
+        // C. Senior Partner Logic
+        $p_stmt = $db->prepare("SELECT senior_partner_id FROM partners WHERE id = :pid");
+        $p_stmt->execute([':pid' => $partner_id]);
+        $partner_row = $p_stmt->fetch(PDO::FETCH_ASSOC);
+        $senior_partner_id = $partner_row['senior_partner_id'] ?? null;
+
+        if ($senior_partner_id) {
+            logDebug("Senior Partner Identified: $senior_partner_id");
             
-            // Check for duplicate earning
-            $dup_check = $db->prepare("SELECT id FROM partner_earnings WHERE order_id = :oid AND partner_id = :pid");
-            $dup_check->execute([':oid' => $internal_order_id, ':pid' => $partner_id]);
+            $comm_senior = $amount * 0.02;
             
-            if (!$dup_check->fetch()) {
-                // Insert Earning
-                $ins_p = $db->prepare("INSERT INTO partner_earnings (partner_id, partner_type, order_id, amount, percentage, description, created_at) VALUES (:pid, 'marketing', :oid, :amnt, 15.00, :desc, NOW())");
-                $ins_p->execute([
+            $dup_check_s = $db->prepare("SELECT id FROM senior_partner_earnings WHERE order_id = :oid AND senior_partner_id = :sid");
+            $dup_check_s->execute([':oid' => $internal_order_id, ':sid' => $senior_partner_id]);
+
+            if (!$dup_check_s->fetch()) {
+                $ins_s = $db->prepare("INSERT INTO senior_partner_earnings (senior_partner_id, source_partner_id, order_id, amount, percentage, description, status, created_at) VALUES (:sid, :pid, :oid, :amnt, 2.00, :desc, 'pending', NOW())");
+                $ins_s->execute([
+                    ':sid' => $senior_partner_id,
                     ':pid' => $partner_id,
                     ':oid' => $internal_order_id,
-                    ':amnt' => $comm_partner,
-                    ':desc' => "Commission for Order #$internal_order_id"
+                    ':amnt' => $comm_senior,
+                    ':desc' => "Override Commission for Order #$internal_order_id"
                 ]);
 
-                // Update Partner Balance
-                $upd_p = $db->prepare("UPDATE partners SET earning = earning + :amnt, total_earnings = total_earnings + :amnt WHERE id = :pid");
-                $upd_p->execute([':amnt' => $comm_partner, ':pid' => $partner_id]);
-                
-                logDebug("Partner Commission Logic Executed");
-            } else {
-                logDebug("Partner Commission already exists. Skipping.");
-            }
-
-            // C. Resolve Senior Partner (Dynamic)
-            // Fetch senior_partner_id from PARTNERS table
-            $p_stmt = $db->prepare("SELECT senior_partner_id FROM partners WHERE id = :pid");
-            $p_stmt->execute([':pid' => $partner_id]);
-            $partner_row = $p_stmt->fetch(PDO::FETCH_ASSOC);
-            $senior_partner_id = $partner_row['senior_partner_id'] ?? null;
-            
-            logDebug("Senior Partner Lookup for Partner $partner_id found SID: " . ($senior_partner_id ?? 'NULL'));
-
-            if ($senior_partner_id) {
-                // D. Process Senior Partner Commission (2%)
-                $comm_senior = $amount * 0.02;
-
-                // Check for duplicate earning
-                $dup_check_s = $db->prepare("SELECT id FROM senior_partner_earnings WHERE order_id = :oid AND senior_partner_id = :sid");
-                $dup_check_s->execute([':oid' => $internal_order_id, ':sid' => $senior_partner_id]);
-
-                if (!$dup_check_s->fetch()) {
-                    // Insert Earning
-                    $ins_s = $db->prepare("INSERT INTO senior_partner_earnings (senior_partner_id, source_partner_id, order_id, amount, percentage, description, status, created_at) VALUES (:sid, :pid, :oid, :amnt, 2.00, :desc, 'pending', NOW())");
-                    $ins_s->execute([
-                        ':sid' => $senior_partner_id,
-                        ':pid' => $partner_id, // Source is the partner who made the sale
-                        ':oid' => $internal_order_id,
-                        ':amnt' => $comm_senior,
-                        ':desc' => "Override Commission for Order #$internal_order_id"
-                    ]);
-
-                    // Update Senior Partner Balance
-                    $upd_s = $db->prepare("UPDATE senior_partners SET earning = earning + :amnt, total_earnings = total_earnings + :amnt WHERE id = :sid");
-                    $upd_s->execute([':amnt' => $comm_senior, ':sid' => $senior_partner_id]);
-                    
-                    logDebug("Senior Partner Commission Logic Executed");
-                } else {
-                    logDebug("Senior Partner Commission already exists. Skipping.");
-                }
+                $upd_s = $db->prepare("UPDATE senior_partners SET earning = earning + :amnt, total_earnings = total_earnings + :amnt WHERE id = :sid");
+                $upd_s->execute([':amnt' => $comm_senior, ':sid' => $senior_partner_id]);
+                logDebug("Senior Partner Commission Logic Executed");
             }
         } else {
-            logDebug("No Partner bound to user $user_id");
+            logDebug("No Senior Partner linked to Partner $partner_id");
         }
+    } else {
+        logDebug("No Partner found for User $user_id or Order $internal_order_id");
     }
 
     // 8. Transaction Log

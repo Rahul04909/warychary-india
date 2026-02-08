@@ -337,7 +337,8 @@ if (isset($_SESSION['user_id'])) {
             if(data.success) {
                 window.location.href = "order-success.php?id=" + internalOrderId;
             } else {
-                alert("Payment Verification Failed");
+                alert("Payment Verification Failed: " + (data.message || "Unknown Error"));
+                console.error("Verification Error:", data);
             }
         });
     }
