@@ -15,6 +15,12 @@ $page = $page ?? 'dashboard';
                     <i class="fas fa-home"></i> <span>Dashboard</span>
                 </div>
             </a>
+        <li class="menu-item <?php echo ($page == 'user-orders') ? 'active' : ''; ?>">
+            <a href="<?php echo $url_prefix; ?>user-orders.php" class="menu-link">
+                <div class="menu-text">
+                    <i class="fas fa-users"></i> <span>User Orders</span>
+                </div>
+            </a>
         </li>
         
         <li class="menu-item <?php echo ($page == 'profile') ? 'active' : ''; ?>">
