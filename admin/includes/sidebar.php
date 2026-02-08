@@ -78,8 +78,8 @@
                 <i class="fas fa-chevron-right arrow"></i>
             </a>
             <ul class="submenu">
-                <li><a href="#">All Users</a></li>
-                <li><a href="#">Add User</a></li>
+                <li><a href="<?php echo $url_prefix; ?>users/index.php">All Users</a></li>
+                <li><a href="<?php echo $url_prefix; ?>users/add-user.php">Add User</a></li>
             </ul>
         </li>
 
