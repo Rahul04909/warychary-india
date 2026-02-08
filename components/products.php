@@ -64,7 +64,7 @@ $home_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <small class="text-muted">M.R.P. incl. of all taxes</small>
                         </div>
                         
-                        <a href="product-details.php?slug=<?php echo htmlspecialchars($prod['slug']); ?>" class="btn-buy">Buy Now</a>
+                        <a href="checkout.php?slug=<?php echo htmlspecialchars($prod['slug']); ?>" class="btn-buy">Buy Now</a>
                     </div>
                 </div>
                 <?php endforeach; ?>

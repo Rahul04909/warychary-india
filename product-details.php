@@ -132,7 +132,7 @@ if ($prod['mrp'] > $prod['sales_price']) {
                     </div>
 
                     <div class="actions">
-                        <button class="btn-buy-now w-100">Buy Now</button>
+                        <a href="checkout.php?slug=<?php echo htmlspecialchars($prod['slug']); ?>" class="btn-buy-now w-100 text-center text-decoration-none">Buy Now</a>
                     </div>
                 </div>
             </div>
