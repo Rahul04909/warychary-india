@@ -11,6 +11,7 @@ $query = "SELECT * FROM products WHERE status = 'active' ORDER BY created_at DES
 $stmt = $db->prepare($query);
 $stmt->execute();
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
 
 <!DOCTYPE html>
 <html lang="en">

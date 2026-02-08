@@ -32,6 +32,7 @@ $discount = 0;
 if ($prod['mrp'] > $prod['sales_price']) {
     $discount = round((($prod['mrp'] - $prod['sales_price']) / $prod['mrp']) * 100);
 }
+?>
 
 <!DOCTYPE html>
 <html lang="en">
