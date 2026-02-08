@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../../database/db_config.php';
+include_once __DIR__ . '/../../database/db_config.php';
 
 // Check admin auth (assuming admin login sets admin_id)
 // if (!isset($_SESSION['admin_id'])) { header("Location: ../login.php"); exit; }

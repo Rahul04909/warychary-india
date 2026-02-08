@@ -1,8 +1,8 @@
 <?php
 $page = 'users';
-$url_prefix = '../../';
-require_once '../includes/header.php';
-require_once '../../database/db_config.php';
+include_once __DIR__ . '/../../database/db_config.php';
+$url_prefix = '../';
+include_once __DIR__ . '/../includes/header.php';
 
 $database = new Database();
 $db = $database->getConnection();
