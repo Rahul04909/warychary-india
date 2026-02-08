@@ -55,7 +55,7 @@ try {
         // Update details if needed? For now, we keep existing user ID.
     } else {
         // Create new guest user
-        $new_user_sql = "INSERT INTO users (name, email, mobile, role, address, city, state, pincode, created_at) VALUES (:name, :email, :mobile, 'guest', :address, :city, :state, :pincode, NOW())";
+        $new_user_sql = "INSERT INTO users (`name`, `email`, `mobile`, `role`, `address`, `city`, `state`, `pincode`, `created_at`) VALUES (:name, :email, :mobile, 'guest', :address, :city, :state, :pincode, NOW())";
         $new_stmt = $db->prepare($new_user_sql);
         $new_stmt->bindParam(':name', $name);
         $new_stmt->bindParam(':email', $email);
