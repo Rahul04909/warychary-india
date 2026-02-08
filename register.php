@@ -103,6 +103,34 @@ function sendUserWelcomeEmail($toEmail, $toName, $password, $smtpSettings) {
     }
 }
 
+
+// Function to validate partner referral
+function validatePartner($db, $input) {
+    try {
+        $stmt = $db->prepare("SELECT id, name FROM partners WHERE referral_code = :input OR email = :input OR mobile = :input LIMIT 1");
+        $stmt->execute([':input' => $input]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        return false;
+    }
+}
+
+// Handle AJAX request
+if (isset($_POST['action']) && $_POST['action'] === 'validate_referral') {
+    ob_clean(); // Clean any previous output
+    header('Content-Type: application/json');
+    $input = trim($_POST['referral_code']);
+    
+    $result = validatePartner($db, $input);
+    
+    echo json_encode([
+        'valid' => (bool)$result, 
+        'name' => $result ? $result['name'] : '',
+        'partner_id' => $result ? $result['id'] : null
+    ]);
+    exit;
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
     $email = $_POST['email'];
@@ -119,13 +147,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Logic to find Partner ID
     $partner_id = null;
     if (!empty($referral_input)) {
-        // Search by referral_code, email, or mobile
-        $stmt_partner = $db->prepare("SELECT id FROM partners WHERE referral_code = :input OR email = :input OR mobile = :input LIMIT 1");
-        $stmt_partner->bindParam(':input', $referral_input);
-        $stmt_partner->execute();
+        $partner_row = validatePartner($db, $referral_input);
         
-        if ($stmt_partner->rowCount() > 0) {
-            $partner_row = $stmt_partner->fetch(PDO::FETCH_ASSOC);
+        if ($partner_row) {
             $partner_id = $partner_row['id'];
         } else {
             $message = "Invalid Partner Referral Code/Email/Mobile. Please check and try again.";
@@ -437,6 +461,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             color: #991b1b;
         }
 
+        .referral-feedback {
+            font-size: 13px;
+            font-weight: 500;
+            margin-top: 5px;
+        }
+        .referral-valid { color: #16a34a; }
+        .referral-invalid { color: #dc2626; }
+
     </style>
 </head>
 <body>
@@ -524,8 +556,9 @@ include_once 'includes/header.php';
                          <label class="form-label">Partner Referral <span class="text-danger">*</span></label>
                          <div class="input-group">
                             <span class="input-group-text"><i class="fas fa-tag"></i></span>
-                            <input type="text" name="referral_code" class="form-control" required placeholder="Enter Partner Code, Email, or Mobile">
+                            <input type="text" name="referral_code" id="referral_code" class="form-control" required placeholder="Enter Partner Code, Email, or Mobile">
                          </div>
+                         <div id="referralFeedback" class="referral-feedback"></div>
                          <div class="form-text text-muted">You will be linked to this partner for support.</div>
                     </div>
                 </div>
@@ -621,7 +654,53 @@ include_once 'includes/header.php';
             icon.classList.add('fa-eye');
         }
     }
+
+    // Referral Code Validation
+    let referralTimeout;
+    const referralInput = document.getElementById('referral_code');
+    const feedback = document.getElementById('referralFeedback');
+
+    referralInput.addEventListener('input', function(e) {
+        clearTimeout(referralTimeout);
+        const code = e.target.value.trim();
+        
+        if (code === "") {
+            feedback.textContent = '';
+            feedback.className = 'referral-feedback';
+            return;
+        }
+
+        feedback.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking...';
+        feedback.className = 'referral-feedback';
+
+        referralTimeout = setTimeout(() => {
+            const formData = new FormData();
+            formData.append('action', 'validate_referral');
+            formData.append('referral_code', code);
+
+            fetch('', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.valid) {
+                    feedback.className = 'referral-feedback referral-valid';
+                    feedback.innerHTML = `<i class="fas fa-check-circle me-1"></i> Partner: ${data.name}`;
+                } else {
+                    feedback.className = 'referral-feedback referral-invalid';
+                    feedback.innerHTML = `<i class="fas fa-times-circle me-1"></i> Invalid Partner Code/Email/Mobile`;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                feedback.className = 'referral-feedback referral-invalid';
+                feedback.innerHTML = `<i class="fas fa-exclamation-triangle me-1"></i> Error validating code`;
+            });
+        }, 500);
+    });
 </script>
+
 
 </body>
 </html>
