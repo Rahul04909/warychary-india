@@ -20,6 +20,7 @@
                 <ul>
                     <li><a href="<?php echo $url_prefix; ?>index.php">Home</a></li>
                     <li><a href="#">About us</a></li>
+                    <li><a href="<?php echo $url_prefix; ?>products.php">Shop</a></li>
                     <li><a href="<?php echo $url_prefix; ?>become-a-partner.php">Become a partner</a></li>
                     <li><a href="#">Period Education</a></li>
                     <li><a href="#">Contact us</a></li>
