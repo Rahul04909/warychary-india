@@ -26,7 +26,7 @@ $page = $page ?? 'dashboard';
         </li>
 
         <li class="menu-item <?php echo ($page == 'earnings') ? 'active' : ''; ?>">
-            <a href="#" class="menu-link">
+            <a href="<?php echo $url_prefix; ?>my-earnings.php" class="menu-link">
                 <div class="menu-text">
                     <i class="fas fa-wallet"></i> <span>My Earnings</span>
                 </div>
