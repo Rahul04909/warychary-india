@@ -72,6 +72,13 @@ try {
         $comm_stmt->bindParam(':amnt', $commission_partner);
         $comm_stmt->bindParam(':desc', $desc);
         $comm_stmt->execute();
+
+        // UPDATE PARTNER BALANCE
+        $update_partner_sql = "UPDATE partners SET earning = earning + :amnt, total_earnings = total_earnings + :amnt WHERE id = :pid";
+        $update_partner_stmt = $db->prepare($update_partner_sql);
+        $update_partner_stmt->bindParam(':amnt', $commission_partner);
+        $update_partner_stmt->bindParam(':pid', $partner_id);
+        $update_partner_stmt->execute();
         
         // 2% Commission for Senior Partner (if applicable)
         // Senior partner ID is already linked in the order during creation in process-checkout (we need to ensure process-checkout saves it)
@@ -89,6 +96,13 @@ try {
             $comm_senior_stmt->bindParam(':amnt', $commission_senior);
             $comm_senior_stmt->bindParam(':desc', $desc_senior);
             $comm_senior_stmt->execute();
+
+            // UPDATE SENIOR PARTNER BALANCE
+            $update_senior_sql = "UPDATE senior_partners SET earning = earning + :amnt, total_earnings = total_earnings + :amnt WHERE id = :sid";
+            $update_senior_stmt = $db->prepare($update_senior_sql);
+            $update_senior_stmt->bindParam(':amnt', $commission_senior);
+            $update_senior_stmt->bindParam(':sid', $senior_partner_id);
+            $update_senior_stmt->execute();
         }
     }
     
