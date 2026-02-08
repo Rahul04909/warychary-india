@@ -14,6 +14,11 @@ $stmt->bindParam(':id', $partner_id);
 $stmt->execute();
 $partner = $stmt->fetch(PDO::FETCH_ASSOC);
 
+// Calculate Total Earnings Dynamically from Earnings Table
+$e_stmt = $db->prepare("SELECT SUM(amount) as real_total FROM senior_partner_earnings WHERE senior_partner_id = :pid");
+$e_stmt->execute([':pid' => $partner_id]);
+$earning_data = $e_stmt->fetch(PDO::FETCH_ASSOC);
+$total_earnings = $earning_data['real_total'] ?? 0;
 ?>
 
 <div class="page-header">
@@ -67,7 +72,7 @@ $partner = $stmt->fetch(PDO::FETCH_ASSOC);
             <div class="card-body">
                 <h6 class="text-muted text-uppercase mb-2">Total Earnings</h6>
                 <div class="d-flex align-items-center justify-content-between">
-                    <h2 class="mb-0 fw-bold">₹0.00</h2>
+                    <h2 class="mb-0 fw-bold">₹<?php echo number_format($total_earnings, 2); ?></h2>
                     <div class="widget-icon bg-warning-subtle text-warning rounded-circle p-3">
                         <i class="fas fa-wallet fa-lg"></i>
                     </div>
