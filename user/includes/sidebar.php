@@ -18,7 +18,7 @@ $page = $page ?? 'dashboard';
         </li>
         
         <li class="menu-item <?php echo ($page == 'orders') ? 'active' : ''; ?>">
-            <a href="#" class="menu-link">
+            <a href="<?php echo $url_prefix; ?>orders.php" class="menu-link">
                 <div class="menu-text">
                     <i class="fas fa-box-open"></i> <span>My Orders</span>
                 </div>

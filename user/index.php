@@ -1,6 +1,25 @@
-<?php
 $page = 'dashboard';
 include 'includes/header.php';
+
+// Database Connection
+if (!isset($db)) {
+    include_once __DIR__ . '/../database/db_config.php';
+    $database = new Database();
+    $db = $database->getConnection();
+}
+
+$user_id = $_SESSION['user_id'];
+
+// Fetch Stats
+// 1. Total Orders
+$stmt = $db->prepare("SELECT COUNT(*) FROM orders WHERE user_id = :uid");
+$stmt->execute([':uid' => $user_id]);
+$total_orders = $stmt->fetchColumn();
+
+// 2. Recent Orders (Limit 5)
+$stmt = $db->prepare("SELECT * FROM orders WHERE user_id = :uid ORDER BY created_at DESC LIMIT 5");
+$stmt->execute([':uid' => $user_id]);
+$recent_orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
@@ -22,13 +41,13 @@ include 'includes/header.php';
             <div class="card-body">
                 <h6 class="text-muted text-uppercase mb-2">My Orders</h6>
                 <div class="d-flex align-items-center justify-content-between">
-                    <h2 class="mb-0 text-primary fw-bold">0</h2>
+                    <h2 class="mb-0 text-primary fw-bold"><?php echo $total_orders; ?></h2>
                     <div class="widget-icon bg-primary-subtle text-primary rounded-circle p-3">
                         <i class="fas fa-shopping-bag fa-lg"></i>
                     </div>
                 </div>
                 <div class="mt-3">
-                    <span class="badge bg-primary-subtle text-primary">View All</span>
+                    <a href="orders.php" class="badge bg-primary-subtle text-primary text-decoration-none">View All</a>
                     <small class="text-muted ms-2">Check your order history</small>
                 </div>
             </div>
@@ -76,7 +95,7 @@ include 'includes/header.php';
 <div class="card border-0 shadow-sm">
     <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
         <h5 class="mb-0 card-title"><i class="fas fa-history text-primary me-2"></i>Recent Orders</h5>
-        <a href="#" class="btn btn-sm btn-outline-primary">View All</a>
+        <a href="orders.php" class="btn btn-sm btn-outline-primary">View All</a>
     </div>
     <div class="card-body p-0">
         <div class="table-responsive">
@@ -91,13 +110,34 @@ include 'includes/header.php';
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td colspan="5" class="text-center py-5 text-muted">
-                            <i class="fas fa-box-open fa-3x mb-3 text-light"></i>
-                            <p>No recent orders found.</p>
-                            <a href="../index.php" class="btn btn-primary btn-sm mt-2">Start Shopping</a>
-                        </td>
-                    </tr>
+                    <?php if (count($recent_orders) > 0): ?>
+                        <?php foreach ($recent_orders as $order): ?>
+                            <tr>
+                                <td class="ps-4 fw-bold">#<?php echo htmlspecialchars($order['order_id']); ?></td>
+                                <td><?php echo date('d M Y', strtotime($order['created_at'])); ?></td>
+                                <td>
+                                    <?php 
+                                    $status_class = 'bg-secondary';
+                                    if ($order['payment_status'] === 'paid') $status_class = 'bg-success';
+                                    elseif ($order['payment_status'] === 'pending') $status_class = 'bg-warning text-dark';
+                                    ?>
+                                    <span class="badge <?php echo $status_class; ?>"><?php echo ucfirst($order['payment_status']); ?></span>
+                                </td>
+                                <td class="fw-bold">₹<?php echo number_format($order['total_amount'], 2); ?></td>
+                                <td>
+                                    <a href="orders.php" class="btn btn-sm btn-light border">View</a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="5" class="text-center py-5 text-muted">
+                                <i class="fas fa-box-open fa-3x mb-3 text-light"></i>
+                                <p>No recent orders found.</p>
+                                <a href="../products.php" class="btn btn-primary btn-sm mt-2">Start Shopping</a>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>
