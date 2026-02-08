@@ -20,8 +20,16 @@ $count_stmt->execute();
 $total_records = $count_stmt->fetchColumn();
 $total_pages = ceil($total_records / $records_per_page);
 
-// Fetch Team Members with Pagination
-$stmt = $db->prepare("SELECT * FROM partners WHERE senior_partner_id = :id ORDER BY created_at DESC LIMIT :limit OFFSET :offset");
+// Fetch Team Members with Pagination and Correct Earnings
+$sql = "SELECT p.*, COALESCE(SUM(pe.amount), 0) as real_total_earnings 
+        FROM partners p 
+        LEFT JOIN partner_earnings pe ON p.id = pe.partner_id 
+        WHERE p.senior_partner_id = :id 
+        GROUP BY p.id 
+        ORDER BY p.created_at DESC 
+        LIMIT :limit OFFSET :offset";
+
+$stmt = $db->prepare($sql);
 $stmt->bindValue(':id', $partner_id, PDO::PARAM_INT);
 $stmt->bindValue(':limit', $records_per_page, PDO::PARAM_INT);
 $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
@@ -77,7 +85,7 @@ $team_members = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <?php endif; ?>
                                 </td>
                                 <td><?php echo date('d M, Y', strtotime($member['created_at'])); ?></td>
-                                <td class="text-end fw-bold">₹<?php echo number_format($member['total_earnings'] ?? 0, 2); ?></td>
+                                <td class="text-end fw-bold">₹<?php echo number_format($member['real_total_earnings'] ?? 0, 2); ?></td>
                             </tr>
                         <?php endforeach; ?>
                     <?php else: ?>
