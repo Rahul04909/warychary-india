@@ -46,13 +46,14 @@ $senior_partner_details = null;
 
 if ($referral_code) {
     // Fetch Partner
-    $p_stmt = $db->prepare("SELECT id, name, partner_id, senior_partner_id FROM partners WHERE referral_code = :code AND status = 'active'");
+    // Note: 'partner_id' column doesn't exist in current schema, we use 'referral_code' as the identifier
+    $p_stmt = $db->prepare("SELECT id, name, referral_code, senior_partner_id FROM partners WHERE referral_code = :code AND status = 'active'");
     $p_stmt->execute([':code' => $referral_code]);
     $partner_details = $p_stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($partner_details && $partner_details['senior_partner_id']) {
         // Fetch Senior Partner
-        $sp_stmt = $db->prepare("SELECT id, name, partner_id FROM senior_partners WHERE id = :sid");
+        $sp_stmt = $db->prepare("SELECT id, name, referral_code FROM senior_partners WHERE id = :sid");
         $sp_stmt->execute([':sid' => $partner_details['senior_partner_id']]);
         $senior_partner_details = $sp_stmt->fetch(PDO::FETCH_ASSOC);
     }
@@ -181,12 +182,12 @@ if ($referral_code) {
                                 <h5 style="margin: 0 0 5px; color: #1e40af; font-size: 0.95rem;"><i class="fas fa-user-tag"></i> Referral Applied</h5>
                                 <div style="display: flex; justify-content: space-between;">
                                     <span>Partner:</span>
-                                    <strong><?php echo htmlspecialchars($partner_details['name']); ?> (<?php echo htmlspecialchars($partner_details['partner_id']); ?>)</strong>
+                                    <strong><?php echo htmlspecialchars($partner_details['name']); ?> (<?php echo htmlspecialchars($partner_details['referral_code']); ?>)</strong>
                                 </div>
                                 <?php if ($senior_partner_details): ?>
                                 <div style="display: flex; justify-content: space-between; margin-top: 2px;">
                                     <span>Senior Partner:</span>
-                                    <strong><?php echo htmlspecialchars($senior_partner_details['name']); ?> (<?php echo htmlspecialchars($senior_partner_details['partner_id']); ?>)</strong>
+                                    <strong><?php echo htmlspecialchars($senior_partner_details['name']); ?> (<?php echo htmlspecialchars($senior_partner_details['referral_code']); ?>)</strong>
                                 </div>
                                 <?php endif; ?>
                             </div>
