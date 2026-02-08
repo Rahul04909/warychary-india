@@ -64,6 +64,8 @@ try {
         // 15% Commission for Marketing Partner
         $commission_partner = $amount * 0.15;
         
+        file_put_contents($logFile, date('[Y-m-d H:i:s] ') . "Processing Partner Commission: PID=$partner_id, Amount=$commission_partner" . PHP_EOL, FILE_APPEND);
+
         $comm_sql = "INSERT INTO partner_earnings (partner_id, partner_type, order_id, amount, percentage, description, created_at) VALUES (:pid, 'marketing', :oid, :amnt, 15.00, :desc, NOW())";
         $comm_stmt = $db->prepare($comm_sql);
         $desc = "Commission for Order #$order_id";
@@ -84,6 +86,8 @@ try {
         // Senior partner ID is already linked in the order during creation in process-checkout (we need to ensure process-checkout saves it)
         // Let's rely on orders table having senior_partner_id
         $senior_partner_id = $order_res['senior_partner_id'];
+        
+        file_put_contents($logFile, date('[Y-m-d H:i:s] ') . "Senior Partner Check: SID=" . ($senior_partner_id ?? 'NULL') . PHP_EOL, FILE_APPEND);
 
         if ($senior_partner_id) {
             $commission_senior = $amount * 0.02;
@@ -95,7 +99,12 @@ try {
             $comm_senior_stmt->bindParam(':oid', $order_id);
             $comm_senior_stmt->bindParam(':amnt', $commission_senior);
             $comm_senior_stmt->bindParam(':desc', $desc_senior);
-            $comm_senior_stmt->execute();
+            try {
+                $comm_senior_stmt->execute();
+                file_put_contents($logFile, date('[Y-m-d H:i:s] ') . "Senior Partner Commission Inserted." . PHP_EOL, FILE_APPEND);
+            } catch (Exception $e) {
+                file_put_contents($logFile, date('[Y-m-d H:i:s] ') . "Senior Partner Insert Error: " . $e->getMessage() . PHP_EOL, FILE_APPEND);
+            }
 
             // UPDATE SENIOR PARTNER BALANCE
             $update_senior_sql = "UPDATE senior_partners SET earning = earning + :amnt, total_earnings = total_earnings + :amnt WHERE id = :sid";
