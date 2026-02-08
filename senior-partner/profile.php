@@ -14,7 +14,7 @@ $messageType = "";
 // Handle Profile Update
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_profile'])) {
     $name = $_POST['name'];
-    $phone = $_POST['phone'] ?? '';
+    $mobile = $_POST['mobile'] ?? '';
     $gender = $_POST['gender'];
     $address = $_POST['address'];
     $state = $_POST['state'];
@@ -42,10 +42,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_profile'])) {
 
     if (empty($message)) {
         try {
-            $sql = "UPDATE senior_partners SET name=:name, phone=:phone, gender=:gender, address=:address, state=:state, city=:city, pincode=:pincode, image=:image WHERE id=:id";
+            $sql = "UPDATE senior_partners SET name=:name, mobile=:mobile, gender=:gender, address=:address, state=:state, city=:city, pincode=:pincode, image=:image WHERE id=:id";
             $stmt = $db->prepare($sql);
             $stmt->bindParam(':name', $name);
-            $stmt->bindParam(':phone', $phone);
+            $stmt->bindParam(':mobile', $mobile);
             $stmt->bindParam(':gender', $gender);
             $stmt->bindParam(':address', $address);
             $stmt->bindParam(':state', $state);
@@ -162,8 +162,8 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
                         </div>
                         
                         <div class="col-md-6">
-                            <label class="form-label">Phone Number</label>
-                            <input type="text" name="phone" class="form-control" value="<?php echo htmlspecialchars($user['phone'] ?? ''); ?>">
+                            <label class="form-label">Mobile Number</label>
+                            <input type="text" name="mobile" class="form-control" value="<?php echo htmlspecialchars($user['mobile'] ?? ''); ?>">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Gender</label>
