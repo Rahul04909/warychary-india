@@ -631,6 +631,32 @@
 }
 
 /* --- Mobile Responsiveness --- */
+/* --- Global Product Card Customization (Green Theme) --- */
+.product-card .free-product-label {
+    background: #10b981;
+    color: #fff;
+    width: 100%;
+    justify-content: center;
+    white-space: normal;
+    padding: 4px 8px;
+    line-height: 1.2;
+    text-align: center;
+}
+
+.product-card .free-product-label i {
+    color: #fff;
+}
+
+.product-card .btn-buy {
+    background-color: #10b981;
+    box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+}
+
+.product-card .btn-buy:hover {
+    background-color: #059669;
+}
+
+/* --- Mobile Responsiveness --- */
 @media (max-width: 768px) {
     .product-detail-container {
         padding: 1.5rem 0;
@@ -638,56 +664,19 @@
 
     .detail-grid {
         gap: 2rem;
-        /* Reduced gap */
     }
 
-    /* --- Mobile Product Card Customization --- */
-    .product-card .badge-offer {
-        display: none !important;
-    }
-
-    .product-card .price-block .discount-text {
-        display: none !important;
-    }
-
-    .product-card .mobile-free-delivery {
-        display: inline-block !important;
-    }
-
-    /* Green Includes Free Label */
-    .product-card .free-product-label {
-        background: #10b981;
-        color: #fff;
-        width: 100%;
-        justify-content: center;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        padding: 4px 8px;
-    }
-
-    .product-card .free-product-label i {
-        color: #fff;
-    }
-
-    /* Green Buy Now Button on Mobile */
-    .product-card .btn-buy {
-        background-color: #10b981;
-        box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
-    }
-
-    .product-card .btn-buy:hover {
-        background-color: #059669;
+    /* Hide Section Header on Mobile */
+    .section-header {
+        display: none;
     }
 
     .gallery-main img {
         max-height: 350px;
-        /* Smaller image on mobile */
     }
 
     .product-info h1 {
         font-size: 1.5rem;
-        /* Smaller Title */
     }
 
     .huge-price {
@@ -705,7 +694,6 @@
         gap: 2rem;
     }
 }
-
 
 /* --- Premium Review Form --- */
 .review-form-wrapper {

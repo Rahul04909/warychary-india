@@ -31,12 +31,7 @@ $home_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     }
                 ?>
                 <div class="product-card">
-                    <div class="badge-overlay">
-                        <span class="badge-delivery"><i class="fas fa-truck-fast"></i> Free Delivery</span>
-                        <?php if($discount > 0): ?>
-                            <span class="badge-offer"><?php echo $discount; ?>% OFF</span>
-                        <?php endif; ?>
-                    </div>
+
                     
                     <div class="product-img-wrapper">
                         <a href="product-details.php?slug=<?php echo htmlspecialchars($prod['slug']); ?>">
@@ -64,8 +59,7 @@ $home_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <span class="sales-price">₹<?php echo number_format($prod['sales_price']); ?></span>
                                 <?php if($prod['mrp'] > $prod['sales_price']): ?>
                                     <span class="mrp-price">₹<?php echo number_format($prod['mrp']); ?></span>
-                                    <span class="discount-text">(<?php echo $discount; ?>% off)</span>
-                                    <span class="mobile-free-delivery" style="display: none; color: #10b981; font-size: 0.75rem; font-weight: 700;">Free Delivery</span>
+                                    <span class="free-delivery-text" style="color: #10b981; font-size: 0.75rem; font-weight: 700;">Free Delivery</span>
                                 <?php endif; ?>
                             </div>
                             <small class="text-muted">M.R.P. incl. of all taxes</small>
