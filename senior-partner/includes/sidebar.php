@@ -34,7 +34,7 @@ $page = $page ?? 'dashboard';
         </li>
 
         <li class="menu-item <?php echo ($page == 'team') ? 'active' : ''; ?>">
-            <a href="#" class="menu-link">
+            <a href="<?php echo $url_prefix; ?>my-team.php" class="menu-link">
                 <div class="menu-text">
                     <i class="fas fa-users"></i> <span>My Team</span>
                 </div>
