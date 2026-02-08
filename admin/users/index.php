@@ -102,16 +102,16 @@ $stmt->execute();
                                 </td>
                                 <td>
                                     <?php if ($row['partner_name']): ?>
-                                        <span class="badge badge-info"><?php echo htmlspecialchars($row['partner_name']); ?></span>
+                                        <span class="badge text-bg-info"><?php echo htmlspecialchars($row['partner_name']); ?></span>
                                     <?php else: ?>
                                         <span class="text-muted small">Direct</span>
                                     <?php endif; ?>
                                 </td>
                                 <td>
                                     <?php if ($row['status'] == 'active'): ?>
-                                        <span class="badge badge-success">Active</span>
+                                        <span class="badge text-bg-success">Active</span>
                                     <?php else: ?>
-                                        <span class="badge badge-danger">Inactive</span>
+                                        <span class="badge text-bg-danger">Inactive</span>
                                     <?php endif; ?>
                                 </td>
                                 <td><?php echo date('d M Y', strtotime($row['created_at'])); ?></td>
