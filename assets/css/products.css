@@ -641,6 +641,45 @@
         /* Reduced gap */
     }
 
+    /* --- Mobile Product Card Customization --- */
+    .product-card .badge-offer {
+        display: none !important;
+    }
+
+    .product-card .price-block .discount-text {
+        display: none !important;
+    }
+
+    .product-card .mobile-free-delivery {
+        display: inline-block !important;
+    }
+
+    /* Green Includes Free Label */
+    .product-card .free-product-label {
+        background: #10b981;
+        color: #fff;
+        width: 100%;
+        justify-content: center;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding: 4px 8px;
+    }
+
+    .product-card .free-product-label i {
+        color: #fff;
+    }
+
+    /* Green Buy Now Button on Mobile */
+    .product-card .btn-buy {
+        background-color: #10b981;
+        box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+    }
+
+    .product-card .btn-buy:hover {
+        background-color: #059669;
+    }
+
     .gallery-main img {
         max-height: 350px;
         /* Smaller image on mobile */
