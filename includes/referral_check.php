@@ -15,6 +15,26 @@ if (isset($_GET['ref']) && !empty($_GET['ref'])) {
         
         // Set Cookie (expires in 30 days)
         setcookie('referral_code', $referral_code, time() + (86400 * 30), "/");
+
+        // LIFETIME REFERRAL LOGIC:
+        // Immediately fetch Partner ID and store in 'bound_partner_id'
+        // This will be used when the user Registers or Checks out for the first time
+        if (!isset($_SESSION['bound_partner_id'])) {
+            // Need DB connection. Check if $db exists, else create it.
+            if (!isset($db)) {
+                include_once __DIR__ . '/../database/db_config.php';
+                $database = new Database();
+                $db = $database->getConnection();
+            }
+
+            $stmt = $db->prepare("SELECT id FROM partners WHERE referral_code = :code AND status = 'active'");
+            $stmt->execute([':code' => $referral_code]);
+            $partner = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($partner) {
+                $_SESSION['bound_partner_id'] = $partner['id'];
+            }
+        }
     }
 }
 ?>

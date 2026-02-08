@@ -71,36 +71,53 @@ try {
         $user_id = $db->lastInsertId();
     }
 
-    // 4. Partner Logic (Fetch from POST/Session/Cookie)
-    // Check for referral code in POST (Explicit), then Cookie/Session
-    $referral_code = $_POST['referral_code'] ?? ($_COOKIE['referral_code'] ?? ($_SESSION['referral_code'] ?? null));
+    // 4. Lifetime Partner Binding Logic
     
-    // Check for explicit Partner IDs from Checkout Form
-    $partner_id = !empty($_POST['partner_id']) ? intval($_POST['partner_id']) : null;
-    $senior_partner_id = !empty($_POST['senior_partner_id']) ? intval($_POST['senior_partner_id']) : null;
+    // Step A: Determine if we need to bind a partner to this user
+    // Only bind if user has NO partner_id set
+    $current_partner_id = null;
+    if ($user_id) {
+        $p_check = $db->prepare("SELECT partner_id FROM users WHERE id = :uid");
+        $p_check->execute([':uid' => $user_id]);
+        $u_row = $p_check->fetch(PDO::FETCH_ASSOC);
+        $current_partner_id = $u_row['partner_id'];
+    }
+
+    if (!$current_partner_id) {
+        // User has no partner. Check if we have a bound partner in session
+        if (isset($_SESSION['bound_partner_id'])) {
+            $new_pid = $_SESSION['bound_partner_id'];
+            
+            // BIND FOREVER
+            $bind_stmt = $db->prepare("UPDATE users SET partner_id = :pid WHERE id = :uid");
+            $bind_stmt->execute([':pid' => $new_pid, ':uid' => $user_id]);
+            
+            $current_partner_id = $new_pid; // Update local var to use for this order
+        }
+    }
+
+    // Step B: Fetch Partner & Senior Partner for Order form USER TABLE ONLY
+    $partner_id = null;
+    $senior_partner_id = null;
+
+    if ($current_partner_id) {
+        $partner_id = $current_partner_id;
+        
+        // Fetch Senior Partner from Partners Table
+        $sp_stmt = $db->prepare("SELECT senior_partner_id FROM partners WHERE id = :pid");
+        $sp_stmt->execute([':pid' => $partner_id]);
+        $sp_row = $sp_stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if ($sp_row) {
+            $senior_partner_id = $sp_row['senior_partner_id'];
+        }
+    }
     
     // DEBUG LOGGING - Absolute Path to ensure it writes
     $logFile = __DIR__ . '/checkout_debug.log';
-    $logMsg = date('[Y-m-d H:i:s] ') . "Referral Code: " . ($referral_code ?? 'NULL') . 
-              " | PID (POST): " . ($partner_id ?? 'NULL') . 
-              " | SID (POST): " . ($senior_partner_id ?? 'NULL') . PHP_EOL;
+    $logMsg = date('[Y-m-d H:i:s] ') . "Order for User ID: $user_id | Lifetime PID: " . ($partner_id ?? 'NULL') . 
+              " | SID: " . ($senior_partner_id ?? 'NULL') . PHP_EOL;
     file_put_contents($logFile, $logMsg, FILE_APPEND);
-
-    // Only do lookup if IDs were NOT passed but referral code IS present
-    if (!$partner_id && $referral_code) {
-        $partner_stmt = $db->prepare("SELECT id, senior_partner_id FROM partners WHERE referral_code = :code AND status = 'active'");
-        $partner_stmt->bindParam(':code', $referral_code);
-        $partner_stmt->execute();
-        $partner = $partner_stmt->fetch(PDO::FETCH_ASSOC);
-        
-        if ($partner) {
-            $partner_id = $partner['id'];
-            $senior_partner_id = $partner['senior_partner_id'];
-            file_put_contents($logFile, date('[Y-m-d H:i:s] ') . "Partner Found via Lookup: ID=$partner_id" . PHP_EOL, FILE_APPEND);
-        } else {
-            file_put_contents($logFile, date('[Y-m-d H:i:s] ') . "Partner NOT Found for code: $referral_code" . PHP_EOL, FILE_APPEND);
-        }
-    }
     
     // 5. Create Local Order (Pending)
     // Generate a temporary unique order ID to satisfy NOT NULL UNIQUE constraint

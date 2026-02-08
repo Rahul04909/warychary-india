@@ -144,11 +144,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $confirm_password = $_POST['confirm_password'];
     $referral_input = trim($_POST['referral_code']); // Code, Email, or Mobile
 
-    // Logic to find Partner ID
+    // Logic to find Partner ID (LIFETIME BINDING)
     $partner_id = null;
-    if (!empty($referral_input)) {
+
+    // 1. Check Session for Bound Partner (Priority) (From Referral Link)
+    if (isset($_SESSION['bound_partner_id'])) {
+        $partner_id = $_SESSION['bound_partner_id'];
+    } 
+    // 2. Check Explicit Input (From Form) - If session is empty or user manually changed it
+    elseif (!empty($referral_input)) {
         $partner_row = validatePartner($db, $referral_input);
-        
         if ($partner_row) {
             $partner_id = $partner_row['id'];
         } else {
