@@ -17,7 +17,6 @@ $home_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="container">
         <div class="section-header text-center mb-5">
             <h2 class="section-title">Our Best Selling Products</h2>
-            <div class="section-divider"></div>
             <p class="section-subtitle">Discover our premium range of wellness products</p>
         </div>
 

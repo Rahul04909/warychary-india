@@ -422,14 +422,7 @@
     display: inline-block;
 }
 
-.section-divider {
-    height: 4px;
-    width: 60px;
-    background: linear-gradient(90deg, #6366f1, #a855f7);
-    /* Indigo to Purple */
-    margin: 0 auto 1rem auto;
-    border-radius: 2px;
-}
+
 
 .section-subtitle {
     color: #64748b;
