@@ -6,21 +6,22 @@ if (!isset($db)) {
     $db = $database->getConnection();
 }
 
-// Fetch limit 4 products for homepage
-$query = "SELECT * FROM products WHERE status = 'active' ORDER BY created_at DESC LIMIT 4";
+// Fetch limit 2 products for homepage (Center aligned, premium look)
+$query = "SELECT * FROM products WHERE status = 'active' ORDER BY created_at DESC LIMIT 2";
 $stmt = $db->prepare($query);
 $stmt->execute();
 $home_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
-<section class="products-section py-5">
+<section class="products-section py-5" id="home-products">
     <div class="container">
         <div class="section-header text-center mb-5">
             <h2 class="section-title">Our Best Selling Products</h2>
+            <div class="section-divider"></div>
             <p class="section-subtitle">Discover our premium range of wellness products</p>
         </div>
 
-        <div class="products-grid">
+        <div class="products-grid home-grid">
             <?php if (count($home_products) > 0): ?>
                 <?php foreach ($home_products as $prod): 
                     // Calculate Discount Logic
