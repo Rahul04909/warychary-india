@@ -14,39 +14,59 @@ include 'includes/header.php';
 </div>
 
 <!-- Stats Cards -->
+<!-- Stats Cards -->
 <div class="row g-4 mb-4">
-    <div class="col-md-4 col-sm-6">
-        <div class="stat-card">
-            <div class="stat-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
-                <i class="fas fa-shopping-bag"></i>
-            </div>
-            <div class="stat-info">
-                <h3>0</h3>
-                <p>My Orders</p>
+    <!-- My Orders Widget -->
+    <div class="col-md-4 col-xl-4">
+        <div class="card h-100 border-primary">
+            <div class="card-body">
+                <h6 class="text-muted text-uppercase mb-2">My Orders</h6>
+                <div class="d-flex align-items-center justify-content-between">
+                    <h2 class="mb-0 text-primary fw-bold">0</h2>
+                    <div class="widget-icon bg-primary-subtle text-primary rounded-circle p-3">
+                        <i class="fas fa-shopping-bag fa-lg"></i>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <span class="badge bg-primary-subtle text-primary">View All</span>
+                    <small class="text-muted ms-2">Check your order history</small>
+                </div>
             </div>
         </div>
     </div>
     
-    <div class="col-md-4 col-sm-6">
-        <div class="stat-card">
-            <div class="stat-icon" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">
-                <i class="fas fa-heart"></i>
-            </div>
-            <div class="stat-info">
-                <h3>0</h3>
-                <p>Wishlist</p>
+    <!-- Wishlist Widget -->
+    <div class="col-md-4 col-xl-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h6 class="text-muted text-uppercase mb-2">My Wishlist</h6>
+                <div class="d-flex align-items-center justify-content-between">
+                    <h2 class="mb-0 fw-bold">0</h2>
+                    <div class="widget-icon bg-danger-subtle text-danger rounded-circle p-3">
+                        <i class="fas fa-heart fa-lg"></i>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <small class="text-muted">Saved items for later</small>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="col-md-4 col-sm-12">
-        <div class="stat-card">
-            <div class="stat-icon" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">
-                <i class="fas fa-bell"></i>
-            </div>
-            <div class="stat-info">
-                <h3>0</h3>
-                <p>Notifications</p>
+    <!-- Notifications Widget -->
+    <div class="col-md-4 col-xl-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h6 class="text-muted text-uppercase mb-2">Notifications</h6>
+                <div class="d-flex align-items-center justify-content-between">
+                    <h2 class="mb-0 fw-bold">0</h2>
+                    <div class="widget-icon bg-warning-subtle text-warning rounded-circle p-3">
+                        <i class="fas fa-bell fa-lg"></i>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <a href="#" class="text-decoration-none small">View all alerts <i class="fas fa-arrow-right ms-1"></i></a>
+                </div>
             </div>
         </div>
     </div>
