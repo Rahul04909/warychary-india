@@ -67,7 +67,7 @@ $partner = $stmt->fetch(PDO::FETCH_ASSOC);
             <div class="card-body">
                 <h6 class="text-muted text-uppercase mb-2">Total Earnings</h6>
                 <div class="d-flex align-items-center justify-content-between">
-                    <h2 class="mb-0 fw-bold">₹0.00</h2>
+                    <h2 class="mb-0 fw-bold">₹<?php echo number_format($partner['total_earnings'] ?? 0, 2); ?></h2>
                     <div class="widget-icon bg-warning-subtle text-warning rounded-circle p-3">
                         <i class="fas fa-wallet fa-lg"></i>
                     </div>
