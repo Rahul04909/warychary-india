@@ -46,7 +46,12 @@ try {
     
     // 4. Partner Commission Logic
     // Fetch Order to get total amount and partner_id
-    $order_res = $db->query("SELECT total_amount, partner_id, senior_partner_id FROM orders WHERE id = $order_id")->fetch(PDO::FETCH_ASSOC);
+    $query = "SELECT total_amount, partner_id, senior_partner_id FROM orders WHERE id = :oid";
+    $stmt = $db->prepare($query);
+    $stmt->bindParam(':oid', $order_id);
+    $stmt->execute();
+    $order_res = $stmt->fetch(PDO::FETCH_ASSOC);
+    
     $amount = ($order_res) ? $order_res['total_amount'] : 0;
     $partner_id = ($order_res) ? $order_res['partner_id'] : null;
 

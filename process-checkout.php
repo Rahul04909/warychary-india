@@ -87,8 +87,13 @@ try {
     }
     
     // 5. Create Local Order (Pending)
-    $order_sql = "INSERT INTO orders (user_id, customer_name, customer_email, customer_mobile, shipping_address, shipping_city, shipping_state, shipping_pincode, total_amount, payment_status, partner_id, senior_partner_id, created_at) VALUES (:uid, :name, :email, :mobile, :addr, :city, :state, :pin, :total, 'pending', :pid, :sid, NOW())";
+    // Generate a temporary unique order ID to satisfy NOT NULL UNIQUE constraint
+    // This will be updated with Razorpay Order ID later
+    $temp_order_id = 'ORD_' . time() . '_' . rand(1000, 9999);
+
+    $order_sql = "INSERT INTO orders (order_id, user_id, customer_name, customer_email, customer_mobile, shipping_address, shipping_city, shipping_state, shipping_pincode, total_amount, payment_status, partner_id, senior_partner_id, created_at) VALUES (:oid, :uid, :name, :email, :mobile, :addr, :city, :state, :pin, :total, 'pending', :pid, :sid, NOW())";
     $order_stmt = $db->prepare($order_sql);
+    $order_stmt->bindParam(':oid', $temp_order_id);
     $order_stmt->bindParam(':uid', $user_id);
     $order_stmt->bindParam(':name', $name);
     $order_stmt->bindParam(':email', $email);
