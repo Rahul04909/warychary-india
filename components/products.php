@@ -81,37 +81,8 @@ $home_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <?php endif; ?>
         </div>
         
-        <div class="text-center mt-5">
+        <div class="btn-view-all-wrapper">
             <a href="products.php" class="btn-view-all">View All Products <i class="fas fa-arrow-right"></i></a>
         </div>
     </div>
 </section>
-
-<style>
-/* Additional Styles for Component if not already in products.css */
-.section-title {
-    font-size: 2.2rem;
-    font-weight: 700;
-    color: #1e293b;
-    margin-bottom: 0.5rem;
-}
-.section-subtitle {
-    color: #64748b;
-    font-size: 1.1rem;
-}
-.btn-view-all {
-    display: inline-block;
-    padding: 12px 30px;
-    background: transparent;
-    border: 2px solid #1e293b;
-    color: #1e293b;
-    border-radius: 30px;
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.3s;
-}
-.btn-view-all:hover {
-    background: #1e293b;
-    color: #fff;
-}
-</style>
