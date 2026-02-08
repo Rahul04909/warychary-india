@@ -806,3 +806,36 @@
     transform: translateY(-2px);
     box-shadow: 0 10px 20px rgba(30, 27, 75, 0.2);
 }
+
+/* --- Write Review Button (Professional) --- */
+.btn-write-review {
+    background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+    color: #fff;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 6px rgba(79, 70, 229, 0.2);
+    text-transform: capitalize;
+    letter-spacing: 0.3px;
+}
+
+.btn-write-review:hover {
+    background: linear-gradient(135deg, #4338ca 0%, #3730a3 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(79, 70, 229, 0.3);
+}
+
+.btn-write-review:active {
+    transform: translateY(0);
+}
+
+.btn-write-review i {
+    font-size: 0.9rem;
+}

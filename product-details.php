@@ -173,7 +173,9 @@ if ($total_reviews > 0) {
             <div class="reviews-section mt-5" id="reviews">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h3 class="section-heading mb-0">Customer Reviews</h3>
-                    <button class="btn btn-primary" onclick="toggleReviewForm()">Write a Review</button>
+                    <button class="btn-write-review" onclick="toggleReviewForm()">
+                        <i class="fas fa-pen-nib"></i> Write a Review
+                    </button>
                 </div>
 
                 <!-- Review Form (Hidden by default) -->
