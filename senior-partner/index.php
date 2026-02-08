@@ -14,16 +14,36 @@ $stmt->bindParam(':id', $partner_id);
 $stmt->execute();
 $partner = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Calculate Total Earnings Dynamically from Earnings Table
+$current_hour = date('H');
+if ($current_hour < 12) {
+    $greeting = "Good Morning";
+} elseif ($current_hour < 18) {
+    $greeting = "Good Afternoon";
+} else {
+    $greeting = "Good Evening";
+}
+
+// 1. Calculate Total Earnings Dynamically
 $e_stmt = $db->prepare("SELECT SUM(amount) as real_total FROM senior_partner_earnings WHERE senior_partner_id = :pid");
 $e_stmt->execute([':pid' => $partner_id]);
 $earning_data = $e_stmt->fetch(PDO::FETCH_ASSOC);
 $total_earnings = $earning_data['real_total'] ?? 0;
+
+// 2. Fetch Recent Activity (Latest 10 Earnings)
+$recent_sql = "SELECT spe.*, p.name as partner_name 
+               FROM senior_partner_earnings spe 
+               LEFT JOIN partners p ON spe.source_partner_id = p.id 
+               WHERE spe.senior_partner_id = :pid 
+               ORDER BY spe.created_at DESC 
+               LIMIT 10";
+$r_stmt = $db->prepare($recent_sql);
+$r_stmt->execute([':pid' => $partner_id]);
+$recent_activity = $r_stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <div class="page-header">
     <div class="header-title">
-        <h1 class="page-title">Welcome back, <?php echo htmlspecialchars($partner['name']); ?>!</h1>
+        <h1 class="page-title"><?php echo $greeting; ?>, <?php echo htmlspecialchars($partner['name']); ?>!</h1>
         <p class="text-muted">Here's an overview of your partner account.</p>
     </div>
 </div>
@@ -96,19 +116,58 @@ $total_earnings = $earning_data['real_total'] ?? 0;
                     <table class="table table-hover mb-0">
                         <thead class="bg-light">
                             <tr>
-                                <th class="border-top-0">Date</th>
-                                <th class="border-top-0">Description</th>
-                                <th class="border-top-0">Amount</th>
-                                <th class="border-top-0">Status</th>
+                                <th class="border-top-0 ps-4">Date</th>
+                                <th class="border-top-0">Source Partner</th>
+                                <th class="border-top-0">Commission Rate</th>
+                                <th class="border-top-0 text-end pe-4">Amount</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td colspan="4" class="text-center py-4 text-muted">No recent activity found.</td>
-                            </tr>
+                            <?php if (count($recent_activity) > 0): ?>
+                                <?php foreach ($recent_activity as $row): ?>
+                                    <tr>
+                                        <td class="ps-4">
+                                            <div class="fw-medium"><?php echo date('d M, Y', strtotime($row['created_at'])); ?></div>
+                                            <small class="text-muted"><?php echo date('h:i A', strtotime($row['created_at'])); ?></small>
+                                        </td>
+                                        <td>
+                                            <?php if ($row['partner_name']): ?>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="avatar-xs me-2">
+                                                        <span class="avatar-title rounded-circle bg-primary-subtle text-primary fw-bold">
+                                                            <?php echo strtoupper(substr($row['partner_name'], 0, 1)); ?>
+                                                        </span>
+                                                    </div>
+                                                    <span><?php echo htmlspecialchars($row['partner_name']); ?></span>
+                                                </div>
+                                            <?php else: ?>
+                                                <span class="text-muted">Unknown Partner</span>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-info-subtle text-info"><?php echo number_format($row['percentage'], 2); ?>%</span>
+                                        </td>
+                                        <td class="text-end pe-4">
+                                            <span class="fw-bold text-success">+ ₹<?php echo number_format($row['amount'], 2); ?></span>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="4" class="text-center py-5">
+                                        <div class="text-muted">
+                                            <i class="fas fa-history fa-2x mb-3 opacity-50"></i>
+                                            <p class="mb-0">No recent activity found.</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php endif; ?>
                         </tbody>
                     </table>
                 </div>
+            </div>
+            <div class="card-footer bg-white border-top-0 text-center py-3">
+                <a href="<?php echo $url_prefix; ?>my-earnings.php" class="text-primary text-decoration-none fw-medium">View Full History <i class="fas fa-arrow-right ms-1"></i></a>
             </div>
         </div>
     </div>
