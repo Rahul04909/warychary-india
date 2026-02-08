@@ -33,7 +33,7 @@ $discount = $mrp > $price ? round((($mrp - $price) / $mrp) * 100) : 0;
 $savings = ($mrp - $price) * $qty;
 
 // Fetch Razorpay Key
-$rzp_query = "SELECT key_id FROM razorpay_settings WHERE mode = 'test' LIMIT 1"; // Default to test, should switch based on setting
+// Fetch first available setting (Test or Live)
 $rzp_stmt = $db->prepare("SELECT key_id, mode FROM razorpay_settings LIMIT 1");
 $rzp_stmt->execute();
 $rzp_settings = $rzp_stmt->fetch(PDO::FETCH_ASSOC);

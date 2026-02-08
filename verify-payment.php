@@ -19,7 +19,7 @@ if (!isset($input['razorpay_payment_id']) || !isset($input['razorpay_order_id'])
 
 try {
     // 1. Fetch Credentials
-    $rzp_stmt = $db->prepare("SELECT key_id, key_secret FROM razorpay_settings WHERE mode = 'test' LIMIT 1");
+    $rzp_stmt = $db->prepare("SELECT key_id, key_secret, mode FROM razorpay_settings LIMIT 1");
     $rzp_stmt->execute();
     $creds = $rzp_stmt->fetch(PDO::FETCH_ASSOC);
     
