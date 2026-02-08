@@ -28,15 +28,38 @@
             </nav>
 
             <!-- Header Icons -->
-            <div class="header-icons">
-                <a href="#" class="icon-btn" title="Profile">
-                    <!-- SVG Profile Icon -->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                </a>
-                <a href="#" class="icon-btn" title="Track Order">
-                    <!-- SVG Truck/Track Icon -->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
-                </a>
+            <!-- Header Actions -->
+            <div class="header-actions">
+                <?php 
+                if (session_status() === PHP_SESSION_NONE) {
+                    session_start();
+                }
+
+                $dashboard_link = '';
+                $account_label = 'My Account';
+
+                if (isset($_SESSION['user_id'])) {
+                    $dashboard_link = $url_prefix . 'user/index.php';
+                } elseif (isset($_SESSION['partner_id'])) {
+                    $dashboard_link = $url_prefix . 'partner/index.php';
+                    $account_label = 'Partner Dashboard';
+                } elseif (isset($_SESSION['senior_partner_id'])) {
+                    $dashboard_link = $url_prefix . 'senior-partner/index.php';
+                    $account_label = 'Senior Dashboard';
+                }
+
+                if ($dashboard_link): ?>
+                    <a href="<?php echo $dashboard_link; ?>" class="header-action-btn btn-account">
+                        <i class="fas fa-user-circle me-1"></i> <?php echo $account_label; ?>
+                    </a>
+                <?php else: ?>
+                    <a href="<?php echo $url_prefix; ?>partner/login.php" class="header-action-btn btn-login-outline">
+                        Partner Login
+                    </a>
+                    <a href="<?php echo $url_prefix; ?>user/login.php" class="header-action-btn btn-login-outline">
+                        User Login
+                    </a>
+                <?php endif; ?>
             </div>
 
             <!-- Mobile Toggle -->

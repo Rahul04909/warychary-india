@@ -104,6 +104,44 @@ body {
     color: var(--text-color);
 }
 
+/* Header Actions (Login/Account) */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-action-btn {
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.btn-login-outline {
+    color: var(--text-color);
+    border: 1px solid #e2e8f0;
+}
+
+.btn-login-outline:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.btn-account {
+    background-color: var(--primary-color);
+    color: #fff;
+    border: 1px solid var(--primary-color);
+}
+
+.btn-account:hover {
+    background-color: #6a3da1;
+    /* Darker shade of primary */
+    color: #fff;
+}
+
 
 
 /* Mobile Responsive */
