@@ -81,8 +81,5 @@ $home_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <?php endif; ?>
         </div>
         
-        <div class="btn-view-all-wrapper">
-            <a href="products.php" class="btn-view-all">View All Products <i class="fas fa-arrow-right"></i></a>
-        </div>
     </div>
 </section>
