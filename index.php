@@ -23,7 +23,6 @@
     
     <main>
         <?php include 'components/hero.php'; ?>
-        <?php include 'products.php'; ?>
         <?php include 'components/standards.php'; ?>
         <?php include 'components/referral-program.php'; ?>
     </main>
