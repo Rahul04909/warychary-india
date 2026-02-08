@@ -145,95 +145,150 @@ if ($prod['mrp'] > $prod['sales_price']) {
                 </div>
             </div>
 
+
+<?php
+// Fetch Reviews
+$reviews_query = "SELECT * FROM reviews WHERE product_id = :pid AND status = 'approved' ORDER BYcreated_at DESC";
+$stmt_rev = $db->prepare($reviews_query);
+$stmt_rev->bindParam(':pid', $prod['id']);
+$stmt_rev->execute();
+$reviews = $stmt_rev->fetchAll(PDO::FETCH_ASSOC);
+
+// Calculate Ratings
+$total_reviews = count($reviews);
+$average_rating = 0;
+$rating_counts = [5=>0, 4=>0, 3=>0, 2=>0, 1=>0];
+
+if ($total_reviews > 0) {
+    $sum_ratings = 0;
+    foreach ($reviews as $rev) {
+        $sum_ratings += $rev['rating'];
+        $rating_counts[$rev['rating']]++;
+    }
+    $average_rating = round($sum_ratings / $total_reviews, 1);
+}
+?>
+
             <!-- Customer Reviews -->
-            <div class="reviews-section mt-5">
-                <h3 class="section-heading">Customer Reviews</h3>
+            <div class="reviews-section mt-5" id="reviews">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="section-heading mb-0">Customer Reviews</h3>
+                    <button class="btn btn-primary" onclick="toggleReviewForm()">Write a Review</button>
+                </div>
+
+                <!-- Review Form (Hidden by default) -->
+                <div id="reviewForm" style="display: none; background: #f9fafb; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+                    <h4>Write your review</h4>
+                    <form action="process-review.php" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="product_id" value="<?php echo $prod['id']; ?>">
+                        <input type="hidden" name="slug" value="<?php echo htmlspecialchars($slug); ?>">
+                        <input type="hidden" name="submit_review" value="1">
+                        
+                        <div class="form-group mb-3">
+                            <label>Name</label>
+                            <input type="text" name="name" class="form-control" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label>Email</label>
+                            <input type="email" name="email" class="form-control" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label>Rating</label>
+                            <select name="rating" class="form-control" required>
+                                <option value="5">5 Stars (Excellent)</option>
+                                <option value="4">4 Stars (Good)</option>
+                                <option value="3">3 Stars (Average)</option>
+                                <option value="2">2 Stars (Poor)</option>
+                                <option value="1">1 Star (Terrible)</option>
+                            </select>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label>Review</label>
+                            <textarea name="review_text" class="form-control" rows="4" required></textarea>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label>Images (Optional)</label>
+                            <input type="file" name="review_images[]" class="form-control" multiple accept="image/*">
+                        </div>
+                        <button type="submit" class="btn btn-success">Submit Review</button>
+                    </form>
+                </div>
                 
                 <div class="reviews-container">
                     <!-- Rating Summary -->
                     <div class="rating-summary">
                         <div class="average-rating">
-                            <span class="rating-number">4.8</span>
+                            <span class="rating-number"><?php echo $average_rating; ?></span>
                             <div class="stars">
-                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                                <?php for($i=1; $i<=5; $i++): ?>
+                                    <i class="<?php echo $i <= $average_rating ? 'fas' : 'far'; ?> fa-star" style="color: #ffd700;"></i>
+                                <?php endfor; ?>
                             </div>
-                            <span class="total-reviews">Based on 124 reviews</span>
+                            <span class="total-reviews">Based on <?php echo $total_reviews; ?> reviews</span>
                         </div>
                         <div class="rating-bars">
+                            <?php for($i=5; $i>=1; $i--): 
+                                $percent = $total_reviews > 0 ? ($rating_counts[$i] / $total_reviews) * 100 : 0;
+                            ?>
                             <div class="bar-row">
-                                <span>5 star</span>
-                                <div class="progress-bar"><div class="fill" style="width: 80%;"></div></div>
-                                <span>80%</span>
+                                <span><?php echo $i; ?> star</span>
+                                <div class="progress-bar"><div class="fill" style="width: <?php echo $percent; ?>%;"></div></div>
+                                <span><?php echo round($percent); ?>%</span>
                             </div>
-                            <div class="bar-row">
-                                <span>4 star</span>
-                                <div class="progress-bar"><div class="fill" style="width: 15%;"></div></div>
-                                <span>15%</span>
-                            </div>
-                            <div class="bar-row">
-                                <span>3 star</span>
-                                <div class="progress-bar"><div class="fill" style="width: 3%;"></div></div>
-                                <span>3%</span>
-                            </div>
-                            <div class="bar-row">
-                                <span>2 star</span>
-                                <div class="progress-bar"><div class="fill" style="width: 1%;"></div></div>
-                                <span>1%</span>
-                            </div>
-                            <div class="bar-row">
-                                <span>1 star</span>
-                                <div class="progress-bar"><div class="fill" style="width: 1%;"></div></div>
-                                <span>1%</span>
-                            </div>
+                            <?php endfor; ?>
                         </div>
                     </div>
 
                     <!-- Review List -->
                     <div class="review-list">
-                        <!-- Review 1 -->
-                        <div class="review-card">
-                            <div class="review-header">
-                                <div class="user-info">
-                                    <div class="user-avatar">P</div>
-                                    <div>
-                                        <div class="user-name">Priya Sharma</div>
-                                        <div class="review-date">Verified Purchase • 2 weeks ago</div>
+                        <?php if ($total_reviews > 0): ?>
+                            <?php foreach ($reviews as $rev): 
+                                $rev_images = !empty($rev['review_images']) ? json_decode($rev['review_images'], true) : [];
+                            ?>
+                            <div class="review-card">
+                                <div class="review-header">
+                                    <div class="user-info">
+                                        <div class="user-avatar"><?php echo strtoupper(substr($rev['user_name'], 0, 1)); ?></div>
+                                        <div>
+                                            <div class="user-name"><?php echo htmlspecialchars($rev['user_name']); ?></div>
+                                            <div class="review-date">Verified Purchase • <?php echo date('M d, Y', strtotime($rev['created_at'])); ?></div>
+                                        </div>
+                                    </div>
+                                    <div class="review-rating">
+                                        <?php for($i=1; $i<=5; $i++): ?>
+                                            <i class="<?php echo $i <= $rev['rating'] ? 'fas' : 'far'; ?> fa-star"></i>
+                                        <?php endfor; ?>
                                     </div>
                                 </div>
-                                <div class="review-rating">
-                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                <div class="review-text">
+                                    <?php echo nl2br(htmlspecialchars($rev['review_text'])); ?>
                                 </div>
-                            </div>
-                            <div class="review-text">
-                                Absolutely love this product! The quality is amazing and it feels so premium. Delivery was super fast too. Highly recommended for daily use.
-                            </div>
-                            <div class="review-images">
-                                <img src="assets/images/placeholder.jpg" alt="Review Image">
-                                <img src="assets/images/placeholder.jpg" alt="Review Image">
-                            </div>
-                        </div>
-
-                        <!-- Review 2 -->
-                        <div class="review-card">
-                            <div class="review-header">
-                                <div class="user-info">
-                                    <div class="user-avatar" style="background: #e91e63;">A</div>
-                                    <div>
-                                        <div class="user-name">Anjali Gupta</div>
-                                        <div class="review-date">Verified Purchase • 1 month ago</div>
-                                    </div>
+                                <?php if (!empty($rev_images)): ?>
+                                <div class="review-images">
+                                    <?php foreach ($rev_images as $img_path): ?>
+                                        <img src="<?php echo htmlspecialchars($img_path); ?>" alt="Review Image">
+                                    <?php endforeach; ?>
                                 </div>
-                                <div class="review-rating">
-                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
-                                </div>
+                                <?php endif; ?>
                             </div>
-                            <div class="review-text">
-                                Good product, worth the price. The packaging was really cute.
-                            </div>
-                        </div>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <p>No reviews yet. Be the first to write a review!</p>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
+
+            <script>
+            function toggleReviewForm() {
+                var form = document.getElementById('reviewForm');
+                if (form.style.display === 'none') {
+                    form.style.display = 'block';
+                } else {
+                    form.style.display = 'none';
+                }
+            }
+            </script>
 
         </div>
     </div>
