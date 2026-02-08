@@ -71,12 +71,13 @@ try {
         $user_id = $db->lastInsertId();
     }
 
-    // 4. Partner Logic (Fetch from Session/Cookie/URL)
-    // Check for referral code in Cookie or Session
-    $referral_code = $_COOKIE['referral_code'] ?? ($_SESSION['referral_code'] ?? null);
+    // 4. Partner Logic (Fetch from POST/Session/Cookie)
+    // Check for referral code in POST (Explicit), then Cookie/Session
+    $referral_code = $_POST['referral_code'] ?? ($_COOKIE['referral_code'] ?? ($_SESSION['referral_code'] ?? null));
     
-    // DEBUG LOGGING
-    file_put_contents('checkout_debug.log', date('[Y-m-d H:i:s] ') . "Referral Code: " . ($referral_code ?? 'NULL') . PHP_EOL, FILE_APPEND);
+    // DEBUG LOGGING - Absolute Path to ensure it writes
+    $logFile = __DIR__ . '/checkout_debug.log';
+    file_put_contents($logFile, date('[Y-m-d H:i:s] ') . "Referral Code Detected: " . ($referral_code ?? 'NULL') . PHP_EOL, FILE_APPEND);
 
     $partner_id = null;
     $senior_partner_id = null;

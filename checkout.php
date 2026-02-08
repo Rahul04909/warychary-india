@@ -105,6 +105,7 @@ $razorpay_key = $rzp_settings ? $rzp_settings['key_id'] : '';
                 <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
                 <input type="hidden" name="qty" value="<?php echo $qty; ?>">
                 <input type="hidden" name="total_amount" value="<?php echo $total; ?>">
+                <input type="hidden" name="referral_code" value="<?php echo $_SESSION['referral_code'] ?? ($_COOKIE['referral_code'] ?? ''); ?>">
 
                 <div class="checkout-container">
                     <!-- Billing Details -->
