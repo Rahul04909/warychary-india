@@ -48,10 +48,10 @@ if ($prod['mrp'] > $prod['sales_price']) {
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="assets/css/style.css?v=<?php echo time(); ?>">
-    <link rel="stylesheet" href="assets/css/topbar.css?v=<?php echo time(); ?>">
-    <link rel="stylesheet" href="assets/css/footer.css?v=<?php echo time(); ?>">
-    <link rel="stylesheet" href="assets/css/products.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="<?php echo $url_prefix; ?>assets/css/style.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="<?php echo $url_prefix; ?>assets/css/topbar.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="<?php echo $url_prefix; ?>assets/css/footer.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="<?php echo $url_prefix; ?>assets/css/products.css?v=<?php echo time(); ?>">
     
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
