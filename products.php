@@ -1,6 +1,7 @@
 <?php
 $page = 'products';
 include_once __DIR__ . '/database/db_config.php';
+require_once 'includes/referral_check.php';
 $url_prefix = '';
 
 // Fetch products

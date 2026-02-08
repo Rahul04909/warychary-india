@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<?php $url_prefix = ''; ?>
+<?php 
+require_once 'includes/referral_check.php';
+$url_prefix = ''; 
+?>
 <html lang="en">
 <head>
     <meta charset="UTF-8">

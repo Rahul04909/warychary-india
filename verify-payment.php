@@ -80,10 +80,11 @@ try {
 
         if ($senior_partner_id) {
             $commission_senior = $amount * 0.02;
-            $comm_senior_sql = "INSERT INTO partner_earnings (partner_id, partner_type, order_id, amount, percentage, description, created_at) VALUES (:pid, 'senior', :oid, :amnt, 2.00, :desc, NOW())";
+            $comm_senior_sql = "INSERT INTO senior_partner_earnings (senior_partner_id, source_partner_id, order_id, amount, percentage, description, status, created_at) VALUES (:sid, :pid, :oid, :amnt, 2.00, :desc, 'pending', NOW())";
             $comm_senior_stmt = $db->prepare($comm_senior_sql);
-            $desc_senior = "Override Commission for Order #$order_id (Ref: Partner $partner_id)";
-            $comm_senior_stmt->bindParam(':pid', $senior_partner_id);
+            $desc_senior = "Override Commission for Order #$order_id";
+            $comm_senior_stmt->bindParam(':sid', $senior_partner_id);
+            $comm_senior_stmt->bindParam(':pid', $partner_id);
             $comm_senior_stmt->bindParam(':oid', $order_id);
             $comm_senior_stmt->bindParam(':amnt', $commission_senior);
             $comm_senior_stmt->bindParam(':desc', $desc_senior);

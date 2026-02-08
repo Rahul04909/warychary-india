@@ -71,6 +71,10 @@ try {
     // 4. Partner Logic (Fetch from Session/Cookie/URL)
     // Check for referral code in Cookie or Session
     $referral_code = $_COOKIE['referral_code'] ?? ($_SESSION['referral_code'] ?? null);
+    
+    // DEBUG LOGGING
+    file_put_contents('checkout_debug.log', date('[Y-m-d H:i:s] ') . "Referral Code: " . ($referral_code ?? 'NULL') . PHP_EOL, FILE_APPEND);
+
     $partner_id = null;
     $senior_partner_id = null;
 
@@ -83,7 +87,12 @@ try {
         if ($partner) {
             $partner_id = $partner['id'];
             $senior_partner_id = $partner['senior_partner_id'];
+            file_put_contents('checkout_debug.log', date('[Y-m-d H:i:s] ') . "Partner Found: ID=$partner_id, SeniorID=" . ($senior_partner_id ?? 'NULL') . PHP_EOL, FILE_APPEND);
+        } else {
+            file_put_contents('checkout_debug.log', date('[Y-m-d H:i:s] ') . "Partner NOT Found for code: $referral_code" . PHP_EOL, FILE_APPEND);
         }
+    } else {
+        file_put_contents('checkout_debug.log', date('[Y-m-d H:i:s] ') . "No Referral Code provided." . PHP_EOL, FILE_APPEND);
     }
     
     // 5. Create Local Order (Pending)
