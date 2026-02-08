@@ -34,7 +34,7 @@ $savings = ($mrp - $price) * $qty;
 
 // Fetch Razorpay Key
 // Fetch first available setting (Test or Live)
-$rzp_stmt = $db->prepare("SELECT key_id, mode FROM razorpay_settings LIMIT 1");
+$rzp_stmt = $db->prepare("SELECT key_id, mode FROM razorpay_settings ORDER BY id DESC LIMIT 1");
 $rzp_stmt->execute();
 $rzp_settings = $rzp_stmt->fetch(PDO::FETCH_ASSOC);
 $razorpay_key = $rzp_settings ? $rzp_settings['key_id'] : '';

@@ -110,7 +110,7 @@ try {
     
     // 6. Create Razorpay Order
     // Fetch Credentials (Active Mode)
-    $rzp_stmt = $db->prepare("SELECT key_id, key_secret, mode FROM razorpay_settings LIMIT 1");
+    $rzp_stmt = $db->prepare("SELECT key_id, key_secret, mode FROM razorpay_settings ORDER BY id DESC LIMIT 1");
     $rzp_stmt->execute();
     $creds = $rzp_stmt->fetch(PDO::FETCH_ASSOC);
     

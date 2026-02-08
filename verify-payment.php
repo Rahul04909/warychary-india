@@ -9,17 +9,22 @@ use Razorpay\Api\Errors\SignatureVerificationError;
 $database = new Database();
 $db = $database->getConnection();
 
+// Debug Logging
+$logFile = __DIR__ . '/payment_debug.log';
 $inputJSON = file_get_contents('php://input');
 $input = json_decode($inputJSON, true);
 
+file_put_contents($logFile, date('[Y-m-d H:i:s] ') . "Input: " . $inputJSON . PHP_EOL, FILE_APPEND);
+
 if (!isset($input['razorpay_payment_id']) || !isset($input['razorpay_order_id'])) {
+    file_put_contents($logFile, date('[Y-m-d H:i:s] ') . "Error: Invalid Data" . PHP_EOL, FILE_APPEND);
     echo json_encode(['success' => false, 'message' => 'Invalid Data']);
     exit;
 }
 
 try {
     // 1. Fetch Credentials
-    $rzp_stmt = $db->prepare("SELECT key_id, key_secret, mode FROM razorpay_settings LIMIT 1");
+    $rzp_stmt = $db->prepare("SELECT key_id, key_secret, mode FROM razorpay_settings ORDER BY id DESC LIMIT 1");
     $rzp_stmt->execute();
     $creds = $rzp_stmt->fetch(PDO::FETCH_ASSOC);
     
@@ -93,9 +98,12 @@ try {
 
     echo json_encode(['success' => true]);
 
+
 } catch (SignatureVerificationError $e) {
+    file_put_contents($logFile, date('[Y-m-d H:i:s] ') . "Signature Error: " . $e->getMessage() . PHP_EOL, FILE_APPEND);
     echo json_encode(['success' => false, 'message' => 'Signature Verification Failed']);
 } catch (Exception $e) {
+    file_put_contents($logFile, date('[Y-m-d H:i:s] ') . "Exception: " . $e->getMessage() . PHP_EOL, FILE_APPEND);
     echo json_encode(['success' => false, 'message' => $e->getMessage()]);
 }
 ?>
