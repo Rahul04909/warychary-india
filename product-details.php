@@ -132,17 +132,106 @@ if ($prod['mrp'] > $prod['sales_price']) {
                     </div>
 
                     <div class="actions">
-                        <button class="btn-add-cart">Add to Cart</button>
-                        <button class="btn-buy-now">Buy Now</button>
+                        <button class="btn-buy-now w-100">Buy Now</button>
                     </div>
                 </div>
             </div>
 
             <!-- Full Description -->
             <div class="description-section">
-                <h3 style="border-bottom: 2px solid #e5e7eb; padding-bottom: 10px; margin-bottom: 20px;">Product Description</h3>
+                <h3 class="section-heading">Product Description</h3>
                 <div class="description-content">
-                    <?php echo $prod['description']; // HTML Content from Summernote ?>
+                    <?php echo $prod['description']; ?>
+                </div>
+            </div>
+
+            <!-- Customer Reviews -->
+            <div class="reviews-section mt-5">
+                <h3 class="section-heading">Customer Reviews</h3>
+                
+                <div class="reviews-container">
+                    <!-- Rating Summary -->
+                    <div class="rating-summary">
+                        <div class="average-rating">
+                            <span class="rating-number">4.8</span>
+                            <div class="stars">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <span class="total-reviews">Based on 124 reviews</span>
+                        </div>
+                        <div class="rating-bars">
+                            <div class="bar-row">
+                                <span>5 star</span>
+                                <div class="progress-bar"><div class="fill" style="width: 80%;"></div></div>
+                                <span>80%</span>
+                            </div>
+                            <div class="bar-row">
+                                <span>4 star</span>
+                                <div class="progress-bar"><div class="fill" style="width: 15%;"></div></div>
+                                <span>15%</span>
+                            </div>
+                            <div class="bar-row">
+                                <span>3 star</span>
+                                <div class="progress-bar"><div class="fill" style="width: 3%;"></div></div>
+                                <span>3%</span>
+                            </div>
+                            <div class="bar-row">
+                                <span>2 star</span>
+                                <div class="progress-bar"><div class="fill" style="width: 1%;"></div></div>
+                                <span>1%</span>
+                            </div>
+                            <div class="bar-row">
+                                <span>1 star</span>
+                                <div class="progress-bar"><div class="fill" style="width: 1%;"></div></div>
+                                <span>1%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review List -->
+                    <div class="review-list">
+                        <!-- Review 1 -->
+                        <div class="review-card">
+                            <div class="review-header">
+                                <div class="user-info">
+                                    <div class="user-avatar">P</div>
+                                    <div>
+                                        <div class="user-name">Priya Sharma</div>
+                                        <div class="review-date">Verified Purchase • 2 weeks ago</div>
+                                    </div>
+                                </div>
+                                <div class="review-rating">
+                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                            <div class="review-text">
+                                Absolutely love this product! The quality is amazing and it feels so premium. Delivery was super fast too. Highly recommended for daily use.
+                            </div>
+                            <div class="review-images">
+                                <img src="assets/images/placeholder.jpg" alt="Review Image">
+                                <img src="assets/images/placeholder.jpg" alt="Review Image">
+                            </div>
+                        </div>
+
+                        <!-- Review 2 -->
+                        <div class="review-card">
+                            <div class="review-header">
+                                <div class="user-info">
+                                    <div class="user-avatar" style="background: #e91e63;">A</div>
+                                    <div>
+                                        <div class="user-name">Anjali Gupta</div>
+                                        <div class="review-date">Verified Purchase • 1 month ago</div>
+                                    </div>
+                                </div>
+                                <div class="review-rating">
+                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                                </div>
+                            </div>
+                            <div class="review-text">
+                                Good product, worth the price. The packaging was really cute.
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
