@@ -132,7 +132,7 @@ $earnings_history = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <th class="ps-4">Date</th>
                         <th>Order ID</th>
                         <th>Source Partner</th>
-                        <th>Status</th>
+                        <th>Commission Rate</th>
                         <th class="text-end pe-4">Amount</th>
                     </tr>
                 </thead>
@@ -150,11 +150,7 @@ $earnings_history = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <?php endif; ?>
                                 </td>
                                 <td>
-                                    <?php if ($row['status'] == 'paid'): ?>
-                                        <span class="badge bg-success-subtle text-success">Paid</span>
-                                    <?php else: ?>
-                                        <span class="badge bg-warning-subtle text-warning text-dark">Pending</span>
-                                    <?php endif; ?>
+                                    <span class="badge bg-primary-subtle text-primary"><?php echo number_format($row['percentage'], 2); ?>%</span>
                                 </td>
                                 <td class="text-end pe-4 fw-bold text-success">
                                     + ₹<?php echo number_format($row['amount'], 2); ?>
