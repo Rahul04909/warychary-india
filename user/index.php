@@ -1,3 +1,4 @@
+<?php
 $page = 'dashboard';
 include 'includes/header.php';
 
