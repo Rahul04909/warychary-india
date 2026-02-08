@@ -61,7 +61,7 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 </td>
                                 <td class="text-end pe-4">
                                     <?php if ($order['payment_status'] === 'paid'): ?>
-                                    <a href="../generate-invoice.php?order_id=<?php echo $order['id']; ?>" class="btn btn-sm btn-outline-primary" target="_blank">
+                                    <a href="../generate-invoice.php?id=<?php echo $order['id']; ?>&download=true" class="btn btn-sm btn-outline-primary" target="_blank">
                                         <i class="fas fa-file-invoice me-1"></i> Invoice
                                     </a>
                                     <?php else: ?>
