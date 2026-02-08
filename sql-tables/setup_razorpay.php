@@ -1,5 +1,5 @@
 <?php
-include_once __DIR__ . '/database/db_config.php';
+include_once __DIR__ . '/../database/db_config.php';
 
 $database = new Database();
 $db = $database->getConnection();
