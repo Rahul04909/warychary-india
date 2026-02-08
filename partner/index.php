@@ -42,7 +42,6 @@ $recent_activity = $r_stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <div class="page-header">
     <div class="header-title">
-    <div class="header-title">
         <h1 class="page-title"><?php echo $greeting; ?>, <?php echo htmlspecialchars($partner['name']); ?>!</h1>
         <p class="text-muted">Here's an overview of your partner account.</p>
     </div>
