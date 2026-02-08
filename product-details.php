@@ -148,7 +148,7 @@ if ($prod['mrp'] > $prod['sales_price']) {
 
 <?php
 // Fetch Reviews
-$reviews_query = "SELECT * FROM reviews WHERE product_id = :pid AND status = 'approved' ORDER BYcreated_at DESC";
+$reviews_query = "SELECT * FROM reviews WHERE product_id = :pid AND status = 'approved' ORDER BY created_at DESC";
 $stmt_rev = $db->prepare($reviews_query);
 $stmt_rev->bindParam(':pid', $prod['id']);
 $stmt_rev->execute();
