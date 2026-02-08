@@ -1,5 +1,8 @@
 <?php
 include_once __DIR__ . '/database/db_config.php';
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 $url_prefix = '';
 // include_once __DIR__ . '/includes/header.php'; // Moved below
 
