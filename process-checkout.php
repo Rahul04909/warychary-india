@@ -1,5 +1,8 @@
 <?php
 header('Content-Type: application/json');
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 include_once __DIR__ . '/database/db_config.php';
 require __DIR__ . '/vendor/autoload.php';
 
