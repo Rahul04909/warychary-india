@@ -39,6 +39,24 @@ $rzp_stmt->execute();
 $rzp_settings = $rzp_stmt->fetch(PDO::FETCH_ASSOC);
 $razorpay_key = $rzp_settings ? $rzp_settings['key_id'] : '';
 
+// Fetch Referral/Partner Details
+$referral_code = $_SESSION['referral_code'] ?? ($_COOKIE['referral_code'] ?? '');
+$partner_details = null;
+$senior_partner_details = null;
+
+if ($referral_code) {
+    // Fetch Partner
+    $p_stmt = $db->prepare("SELECT id, name, partner_id, senior_partner_id FROM partners WHERE referral_code = :code AND status = 'active'");
+    $p_stmt->execute([':code' => $referral_code]);
+    $partner_details = $p_stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($partner_details && $partner_details['senior_partner_id']) {
+        // Fetch Senior Partner
+        $sp_stmt = $db->prepare("SELECT id, name, partner_id FROM senior_partners WHERE id = :sid");
+        $sp_stmt->execute([':sid' => $partner_details['senior_partner_id']]);
+        $senior_partner_details = $sp_stmt->fetch(PDO::FETCH_ASSOC);
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -105,7 +123,10 @@ $razorpay_key = $rzp_settings ? $rzp_settings['key_id'] : '';
                 <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
                 <input type="hidden" name="qty" value="<?php echo $qty; ?>">
                 <input type="hidden" name="total_amount" value="<?php echo $total; ?>">
-                <input type="hidden" name="referral_code" value="<?php echo $_SESSION['referral_code'] ?? ($_COOKIE['referral_code'] ?? ''); ?>">
+                <input type="hidden" name="referral_code" value="<?php echo htmlspecialchars($referral_code); ?>">
+                <!-- Pass verified IDs to backend -->
+                <input type="hidden" name="partner_id" value="<?php echo $partner_details['id'] ?? ''; ?>">
+                <input type="hidden" name="senior_partner_id" value="<?php echo $senior_partner_details['id'] ?? ''; ?>">
 
                 <div class="checkout-container">
                     <!-- Billing Details -->
@@ -153,6 +174,23 @@ $razorpay_key = $rzp_settings ? $rzp_settings['key_id'] : '';
                             <div class="card-header">
                                 <h3>Order Summary</h3>
                             </div>
+                            
+                            <!-- Referral Info Display -->
+                            <?php if ($partner_details): ?>
+                            <div class="alert alert-info" style="background: #eff6ff; border: 1px solid #bfdbfe; padding: 10px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem;">
+                                <h5 style="margin: 0 0 5px; color: #1e40af; font-size: 0.95rem;"><i class="fas fa-user-tag"></i> Referral Applied</h5>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span>Partner:</span>
+                                    <strong><?php echo htmlspecialchars($partner_details['name']); ?> (<?php echo htmlspecialchars($partner_details['partner_id']); ?>)</strong>
+                                </div>
+                                <?php if ($senior_partner_details): ?>
+                                <div style="display: flex; justify-content: space-between; margin-top: 2px;">
+                                    <span>Senior Partner:</span>
+                                    <strong><?php echo htmlspecialchars($senior_partner_details['name']); ?> (<?php echo htmlspecialchars($senior_partner_details['partner_id']); ?>)</strong>
+                                </div>
+                                <?php endif; ?>
+                            </div>
+                            <?php endif; ?>
                             
                             <div class="order-item">
                                 <img src="<?php echo htmlspecialchars($product['featured_image']); ?>" alt="Product">

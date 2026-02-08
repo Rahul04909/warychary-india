@@ -75,14 +75,19 @@ try {
     // Check for referral code in POST (Explicit), then Cookie/Session
     $referral_code = $_POST['referral_code'] ?? ($_COOKIE['referral_code'] ?? ($_SESSION['referral_code'] ?? null));
     
+    // Check for explicit Partner IDs from Checkout Form
+    $partner_id = !empty($_POST['partner_id']) ? intval($_POST['partner_id']) : null;
+    $senior_partner_id = !empty($_POST['senior_partner_id']) ? intval($_POST['senior_partner_id']) : null;
+    
     // DEBUG LOGGING - Absolute Path to ensure it writes
     $logFile = __DIR__ . '/checkout_debug.log';
-    file_put_contents($logFile, date('[Y-m-d H:i:s] ') . "Referral Code Detected: " . ($referral_code ?? 'NULL') . PHP_EOL, FILE_APPEND);
+    $logMsg = date('[Y-m-d H:i:s] ') . "Referral Code: " . ($referral_code ?? 'NULL') . 
+              " | PID (POST): " . ($partner_id ?? 'NULL') . 
+              " | SID (POST): " . ($senior_partner_id ?? 'NULL') . PHP_EOL;
+    file_put_contents($logFile, $logMsg, FILE_APPEND);
 
-    $partner_id = null;
-    $senior_partner_id = null;
-
-    if ($referral_code) {
+    // Only do lookup if IDs were NOT passed but referral code IS present
+    if (!$partner_id && $referral_code) {
         $partner_stmt = $db->prepare("SELECT id, senior_partner_id FROM partners WHERE referral_code = :code AND status = 'active'");
         $partner_stmt->bindParam(':code', $referral_code);
         $partner_stmt->execute();
@@ -91,12 +96,10 @@ try {
         if ($partner) {
             $partner_id = $partner['id'];
             $senior_partner_id = $partner['senior_partner_id'];
-            file_put_contents('checkout_debug.log', date('[Y-m-d H:i:s] ') . "Partner Found: ID=$partner_id, SeniorID=" . ($senior_partner_id ?? 'NULL') . PHP_EOL, FILE_APPEND);
+            file_put_contents($logFile, date('[Y-m-d H:i:s] ') . "Partner Found via Lookup: ID=$partner_id" . PHP_EOL, FILE_APPEND);
         } else {
-            file_put_contents('checkout_debug.log', date('[Y-m-d H:i:s] ') . "Partner NOT Found for code: $referral_code" . PHP_EOL, FILE_APPEND);
+            file_put_contents($logFile, date('[Y-m-d H:i:s] ') . "Partner NOT Found for code: $referral_code" . PHP_EOL, FILE_APPEND);
         }
-    } else {
-        file_put_contents('checkout_debug.log', date('[Y-m-d H:i:s] ') . "No Referral Code provided." . PHP_EOL, FILE_APPEND);
     }
     
     // 5. Create Local Order (Pending)
