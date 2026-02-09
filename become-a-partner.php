@@ -222,10 +222,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register_partner'])) 
                 $error_message = "A partner with this email or phone number already exists.";
             } else {
                 $referred_by_senior_partner = $referral_info ? $referral_info['id'] : null;
-                $hashed_password = password_hash($partner_password, PASSWORD_DEFAULT);
-                
-                // Generate unique Referral Code
-                $new_referral_code = strtoupper(substr(md5(uniqid(mt_rand(), true)), 0, 8));
+
+                // FIX: If no referral code is provided, assign to the first available Senior Partner (Default)
+                if (!$referred_by_senior_partner) {
+                    $defaultSpStmt = $db->query("SELECT id FROM senior_partners ORDER BY id ASC LIMIT 1");
+                    $defaultSp = $defaultSpStmt->fetch(PDO::FETCH_ASSOC);
+                    if ($defaultSp) {
+                        $referred_by_senior_partner = $defaultSp['id'];
+                    } else {
+                        // Fallback constraint: If NO senior partners exist, we cannot register a partner.
+                        // Ideally, there should always be at least one admin/root senior partner.
+                        $error_message = "Registration failed. No Senior Partner available to link.";
+                    }
+                }
+
+                if (empty($error_message)) {
+                    $hashed_password = password_hash($partner_password, PASSWORD_DEFAULT);
+                    
+                    // Generate unique Referral Code
+                    $new_referral_code = strtoupper(substr(md5(uniqid(mt_rand(), true)), 0, 8));
                 $checkRef = $db->prepare("SELECT id FROM partners WHERE referral_code = :ref");
                 $checkRef->execute([':ref' => $new_referral_code]);
                 if($checkRef->rowCount() > 0) {
