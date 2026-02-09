@@ -13,7 +13,7 @@ $stmt->execute();
 $home_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
-<section class="products-section py-5" id="home-products">
+<section class="products-section py-5 mt-5" id="home-products">
     <div class="container">
         <div class="section-header text-center mb-5">
             <h2 class="section-title">Our Best Selling Products</h2>
