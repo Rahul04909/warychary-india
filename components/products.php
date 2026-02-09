@@ -13,7 +13,7 @@ $stmt->execute();
 $home_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
-<section class="products-section py-5 mt-5" id="home-products">
+<section class="products-section" id="home-products">
     <div class="container">
         <!-- Header Removed as per user request -->
 
