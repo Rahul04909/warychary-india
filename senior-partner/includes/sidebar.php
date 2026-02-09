@@ -57,6 +57,14 @@ $page = $page ?? 'dashboard';
             </a>
         </li>
 
+        <li class="menu-item <?php echo ($page == 'add-partner') ? 'active' : ''; ?>">
+            <a href="<?php echo $url_prefix; ?>add-partner.php" class="menu-link">
+                <div class="menu-text">
+                    <i class="fas fa-user-plus"></i> <span>Add Partner</span>
+                </div>
+            </a>
+        </li>
+
          <li class="menu-item">
             <a href="#" class="menu-link">
                 <div class="menu-text">
