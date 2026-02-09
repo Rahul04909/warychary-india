@@ -10,7 +10,7 @@ $db = $database->getConnection();
 // --- 1. Fetch Statistics ---
 
 // Total Sales
-$stmt = $db->prepare("SELECT COALESCE(SUM(total_amount), 0) FROM orders WHERE payment_status = 'captured'");
+$stmt = $db->prepare("SELECT COALESCE(SUM(total_amount), 0) FROM orders WHERE payment_status IN ('captured', 'paid', 'success')");
 $stmt->execute();
 $total_sales = $stmt->fetchColumn();
 
@@ -20,7 +20,7 @@ $stmt->execute();
 $total_orders = $stmt->fetchColumn();
 
 // Monthly Sales (Current Month)
-$stmt = $db->prepare("SELECT COALESCE(SUM(total_amount), 0) FROM orders WHERE payment_status = 'captured' AND MONTH(created_at) = MONTH(CURRENT_DATE()) AND YEAR(created_at) = YEAR(CURRENT_DATE())");
+$stmt = $db->prepare("SELECT COALESCE(SUM(total_amount), 0) FROM orders WHERE payment_status IN ('captured', 'paid', 'success') AND MONTH(created_at) = MONTH(CURRENT_DATE()) AND YEAR(created_at) = YEAR(CURRENT_DATE())");
 $stmt->execute();
 $monthly_sales = $stmt->fetchColumn();
 
@@ -37,7 +37,7 @@ $stmt->execute();
 $today_orders = $stmt->fetchColumn();
 
 // Pending Orders (Captured but not dispatched)
-$stmt = $db->prepare("SELECT COUNT(*) FROM orders WHERE payment_status = 'captured' AND dispatched_date IS NULL");
+$stmt = $db->prepare("SELECT COUNT(*) FROM orders WHERE payment_status IN ('captured', 'paid', 'success') AND dispatched_date IS NULL");
 $stmt->execute();
 $pending_orders = $stmt->fetchColumn();
 

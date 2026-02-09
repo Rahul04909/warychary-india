@@ -16,7 +16,8 @@ $offset = ($page_num - 1) * $limit;
 
 // Fetch Pending Orders (payment_status = 'captured' AND dispatch_status IS NULL or 'pending')
 // Assuming we check for dispatched_date as indicator or add a status column. Let's rely on payment_status='captured' and dispatched_date IS NULL
-$sql_count = "SELECT COUNT(*) FROM orders WHERE payment_status = 'captured' AND dispatched_date IS NULL";
+// Fetch Pending Orders (payment_status in captured/paid/success AND dispatched_date IS NULL)
+$sql_count = "SELECT COUNT(*) FROM orders WHERE payment_status IN ('captured', 'paid', 'success') AND dispatched_date IS NULL";
 $stmt = $db->prepare($sql_count);
 $stmt->execute();
 $total_rows = $stmt->fetchColumn();
@@ -25,7 +26,7 @@ $total_pages = ceil($total_rows / $limit);
 $sql = "SELECT o.*, u.name as user_name, u.email as user_email 
         FROM orders o 
         LEFT JOIN users u ON o.user_id = u.id 
-        WHERE o.payment_status = 'captured' AND o.dispatched_date IS NULL 
+        WHERE o.payment_status IN ('captured', 'paid', 'success') AND o.dispatched_date IS NULL 
         ORDER BY o.created_at DESC 
         LIMIT :limit OFFSET :offset";
 $stmt = $db->prepare($sql);
@@ -67,7 +68,7 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 </td>
                                 <td>₹<?php echo number_format($order['total_amount'], 2); ?></td>
                                 <td><?php echo date('M d, Y', strtotime($order['created_at'])); ?></td>
-                                <td><span class="badge bg-danger-subtle text-danger">Pending Dispatch</span></td>
+                                <td><span class="badge bg-warning text-dark">Pending Dispatch</span></td>
                                 <td class="text-end pe-4">
                                     <button type="button" 
                                             class="btn btn-sm btn-primary dispatch-btn" 

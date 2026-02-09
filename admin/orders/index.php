@@ -17,14 +17,24 @@ $filter_status = isset($_GET['status']) ? $_GET['status'] : '';
 
 // Build Query
 $where_clauses = ["1=1"];
-$params = [];
+
+// Default: Show ONLY Paid/Captured orders (hide pending/failed payments) unless specifically asked?
+// User said: "We don't need to display the orders here which payment is pending"
+// So we should exclude payment_status = 'pending' or 'failed' by default.
+// Let's assume 'captured', 'paid', 'success' are valid paid statuses.
 
 if ($filter_status == 'captured') {
-    $where_clauses[] = "payment_status = 'captured' AND dispatched_date IS NULL";
+    $where_clauses[] = "payment_status IN ('captured', 'paid', 'success') AND dispatched_date IS NULL";
 } elseif ($filter_status == 'completed') {
     $where_clauses[] = "dispatched_date IS NOT NULL";
 } elseif ($filter_status == 'pending_payment') {
-    $where_clauses[] = "payment_status != 'captured'";
+    $where_clauses[] = "payment_status NOT IN ('captured', 'paid', 'success')";
+} else {
+    // Default view: Show ALL orders that are PAID (either pending dispatch or dispatched)
+    // AND optionally pending payments if that's what "All Statuses" means?
+    // User said "don't need to display ... which payment is pending".
+    // So let's filter out pending payments from the default view.
+    $where_clauses[] = "payment_status IN ('captured', 'paid', 'success')";
 }
 
 $where_sql = implode(' AND ', $where_clauses);
@@ -57,10 +67,11 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <!-- Filter Dropdown -->
     <form method="GET" class="d-flex align-items-center gap-2">
         <select name="status" class="form-select form-select-sm" onchange="this.form.submit()">
-            <option value="">All Statuses</option>
+            <option value="">All Paid Orders</option>
             <option value="captured" <?php echo ($filter_status == 'captured') ? 'selected' : ''; ?>>Pending Dispatch</option>
             <option value="completed" <?php echo ($filter_status == 'completed') ? 'selected' : ''; ?>>Dispatched</option>
-            <option value="pending_payment" <?php echo ($filter_status == 'pending_payment') ? 'selected' : ''; ?>>Payment Pending/Failed</option>
+            <!-- Hidden option for debugging/admin if needed -->
+            <!-- <option value="pending_payment" <?php echo ($filter_status == 'pending_payment') ? 'selected' : ''; ?>>Payment Pending/Failed</option> -->
         </select>
     </form>
 </div>
@@ -83,7 +94,11 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <tbody>
                     <?php if (count($orders) > 0): ?>
                         <?php foreach ($orders as $order): ?>
-                            <tr>
+                            <?php 
+                                $is_paid = in_array(strtolower($order['payment_status']), ['captured', 'paid', 'success']);
+                                $is_dispatched = !empty($order['dispatched_date']);
+                            ?>
+                            <tr class="<?php echo $is_dispatched ? 'table-success' : ''; ?>"> <!-- Highlight dispatched/completed orders in green -->
                                 <td class="ps-4 fw-bold">#<?php echo htmlspecialchars($order['order_id']); ?></td>
                                 <td>
                                     <div class="d-flex flex-column">
@@ -96,18 +111,18 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 
                                 <!-- Payment Status -->
                                 <td>
-                                    <?php if ($order['payment_status'] == 'captured'): ?>
-                                        <span class="badge bg-success-subtle text-success">Paid</span>
+                                    <?php if ($is_paid): ?>
+                                        <span class="badge bg-success text-white">Paid</span> <!-- Explicit Green -->
                                     <?php else: ?>
-                                        <span class="badge bg-warning-subtle text-warning"><?php echo ucfirst($order['payment_status']); ?></span>
+                                        <span class="badge bg-warning text-dark"><?php echo ucfirst($order['payment_status']); ?></span>
                                     <?php endif; ?>
                                 </td>
                                 
                                 <!-- Dispatch Status -->
                                 <td>
-                                    <?php if (!empty($order['dispatched_date'])): ?>
+                                    <?php if ($is_dispatched): ?>
                                         <span class="badge bg-success">Dispatched</span>
-                                    <?php elseif ($order['payment_status'] == 'captured'): ?>
+                                    <?php elseif ($is_paid): ?>
                                         <span class="badge bg-danger-subtle text-danger">Pending</span>
                                     <?php else: ?>
                                         <span class="text-muted">-</span>
@@ -116,8 +131,8 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 
                                 <td class="text-end pe-4">
                                     <!-- Only show dispatch button if paid and not yet dispatched -->
-                                    <?php if ($order['payment_status'] == 'captured' && empty($order['dispatched_date'])): ?>
-                                        <a href="pending-orders.php" class="btn btn-sm btn-outline-primary">Dispatch</a>
+                                    <?php if ($is_paid && !$is_dispatched): ?>
+                                        <a href="pending-orders.php" class="btn btn-sm btn-primary">Dispatch</a>
                                     <?php endif; ?>
                                 </td>
                             </tr>
