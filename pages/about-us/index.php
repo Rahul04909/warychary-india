@@ -185,7 +185,7 @@ $page_title = "About Us - WaryChary";
                 <div class="position-relative">
                     <img src="<?php echo $url_prefix; ?>assets/images/about-hero.jpg" alt="Our Story" class="img-fluid rounded-4 shadow-lg" onerror="this.src='https://placehold.co/600x400/7e4bbb/ffffff?text=WaryChary+Story'">
                     <div class="position-absolute bottom-0 start-0 bg-white p-3 rounded-top-end-4 shadow-sm d-none d-md-block">
-                        <span class="fw-bold text-primary">Est. 2024</span>
+                        <span class="fw-bold text-primary">Est. 2025</span>
                     </div>
                 </div>
             </div>
