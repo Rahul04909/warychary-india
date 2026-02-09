@@ -277,7 +277,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register_partner'])) 
                      $error_message = "Registration failed. Database insert error.";
                 }
             }
-        } catch (PDOException $e) {
+        }
+    } catch (PDOException $e) {
             $error_message = "Database error: " . $e->getMessage();
             error_log($e->getMessage());
         }
