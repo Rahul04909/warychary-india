@@ -31,6 +31,14 @@ $page = $page ?? 'dashboard';
             </a>
         </li>
         
+        <li class="menu-item <?php echo ($page == 'my-referrals') ? 'active' : ''; ?>">
+            <a href="<?php echo $url_prefix; ?>my-referrals.php" class="menu-link">
+                <div class="menu-text">
+                    <i class="fas fa-network-wired"></i> <span>My Referrals</span>
+                </div>
+            </a>
+        </li>
+
         <li class="menu-item <?php echo ($page == 'profile') ? 'active' : ''; ?>">
             <a href="<?php echo $url_prefix; ?>profile.php" class="menu-link">
                 <div class="menu-text">
