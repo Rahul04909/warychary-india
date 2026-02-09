@@ -39,6 +39,14 @@ $page = $page ?? 'dashboard';
             </a>
         </li>
 
+        <li class="menu-item <?php echo ($page == 'bank-details') ? 'active' : ''; ?>">
+            <a href="<?php echo $url_prefix; ?>bank-details.php" class="menu-link">
+                <div class="menu-text">
+                    <i class="fas fa-university"></i> <span>Bank Details</span>
+                </div>
+            </a>
+        </li>
+
          <li class="menu-item">
             <a href="#" class="menu-link">
                 <div class="menu-text">
