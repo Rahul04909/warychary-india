@@ -107,7 +107,7 @@ function sendUserWelcomeEmail($toEmail, $toName, $password, $smtpSettings) {
 // Function to validate partner referral
 function validatePartner($db, $input) {
     try {
-        $stmt = $db->prepare("SELECT id, name FROM partners WHERE referral_code = :input OR email = :input OR mobile = :input LIMIT 1");
+        $stmt = $db->prepare("SELECT id, name, referral_code FROM partners WHERE referral_code = :input OR email = :input OR mobile = :input LIMIT 1");
         $stmt->execute([':input' => $input]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
