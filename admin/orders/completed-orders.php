@@ -72,7 +72,19 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     </div>
                                 </td>
                                 <td class="text-end pe-4">
-                                    <span class="badge bg-success">Dispatched</span>
+                                    <div class="d-flex gap-2 justify-content-end align-items-center">
+                                         <span class="badge bg-success me-2">Dispatched</span>
+                                        
+                                        <!-- Invoice Button -->
+                                        <a href="download-invoice.php?id=<?php echo $order['id']; ?>" class="btn btn-sm btn-outline-secondary" title="Download Invoice" target="_blank">
+                                            <i class="fas fa-file-invoice"></i>
+                                        </a>
+
+                                        <!-- Courier Receipt -->
+                                        <a href="courier-receipt.php?id=<?php echo $order['id']; ?>" class="btn btn-sm btn-outline-info" title="Courier Receipt" target="_blank">
+                                            <i class="fas fa-receipt"></i>
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

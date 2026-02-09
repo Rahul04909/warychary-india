@@ -70,14 +70,28 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <td><?php echo date('M d, Y', strtotime($order['created_at'])); ?></td>
                                 <td><span class="badge bg-warning text-dark">Pending Dispatch</span></td>
                                 <td class="text-end pe-4">
-                                    <button type="button" 
-                                            class="btn btn-sm btn-primary dispatch-btn" 
-                                            data-bs-toggle="modal" 
-                                            data-bs-target="#dispatchModal"
-                                            data-order-id="<?php echo $order['id']; ?>"
-                                            data-public-id="<?php echo $order['order_id']; ?>">
-                                        Dispatch Order
-                                    </button>
+                                <td class="text-end pe-4">
+                                     <div class="d-flex gap-2 justify-content-end">
+                                        <!-- Invoice Button (For Paid Orders) -->
+                                        <a href="download-invoice.php?id=<?php echo $order['id']; ?>" class="btn btn-sm btn-outline-secondary" title="Download Invoice" target="_blank">
+                                            <i class="fas fa-file-invoice"></i>
+                                        </a>
+
+                                        <!-- Courier Receipt (For Paid Orders) -->
+                                        <a href="courier-receipt.php?id=<?php echo $order['id']; ?>" class="btn btn-sm btn-outline-info" title="Courier Receipt" target="_blank">
+                                            <i class="fas fa-receipt"></i>
+                                        </a>
+
+                                        <!-- Dispatch Button -->
+                                        <button type="button" 
+                                                class="btn btn-sm btn-primary dispatch-btn" 
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#dispatchModal"
+                                                data-order-id="<?php echo $order['id']; ?>"
+                                                data-public-id="<?php echo $order['order_id']; ?>">
+                                            Dispatch Order
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

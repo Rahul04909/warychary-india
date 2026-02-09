@@ -130,10 +130,26 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 </td>
                                 
                                 <td class="text-end pe-4">
-                                    <!-- Only show dispatch button if paid and not yet dispatched -->
-                                    <?php if ($is_paid && !$is_dispatched): ?>
-                                        <a href="pending-orders.php" class="btn btn-sm btn-primary">Dispatch</a>
-                                    <?php endif; ?>
+                                    <div class="d-flex gap-2 justify-content-end">
+                                        <!-- Invoice Button (For Paid Orders) -->
+                                        <?php if ($is_paid): ?>
+                                            <a href="download-invoice.php?id=<?php echo $order['id']; ?>" class="btn btn-sm btn-outline-secondary" title="Download Invoice" target="_blank">
+                                                <i class="fas fa-file-invoice"></i>
+                                            </a>
+                                        <?php endif; ?>
+
+                                        <!-- Courier Receipt (For Paid Orders) -->
+                                        <?php if ($is_paid): ?>
+                                             <a href="courier-receipt.php?id=<?php echo $order['id']; ?>" class="btn btn-sm btn-outline-info" title="Courier Receipt" target="_blank">
+                                                <i class="fas fa-receipt"></i>
+                                            </a>
+                                        <?php endif; ?>
+
+                                        <!-- Dispatch Button (Only if not dispatched) -->
+                                        <?php if ($is_paid && !$is_dispatched): ?>
+                                            <a href="pending-orders.php" class="btn btn-sm btn-primary">Dispatch</a>
+                                        <?php endif; ?>
+                                    </div>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
