@@ -1,5 +1,5 @@
 <?php
-require_once '../database/db_config.php';
+require_once __DIR__ . '/../database/db_config.php';
 
 try {
     $database = new Database();
