@@ -5,7 +5,7 @@
         <div class="hero-wrapper">
             <!-- Slide 1 -->
             <div class="slide">
-                <img src="assets/hero/hero-banner.webp" alt="Banner 1">
+                <img src="assets/hero/hero-now.png" alt="Banner 1">
             </div>
             <!-- Slide 2 -->
             <div class="slide">
