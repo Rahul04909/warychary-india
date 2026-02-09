@@ -237,6 +237,19 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
+/* Specific Yellow Style for Buy Now */
+.product-card .btn-buy {
+    background-color: #ffd814;
+    /* Amazon Yellow */
+    color: #111;
+    border: 1px solid #fcd200;
+    font-weight: 600;
+}
+
+.product-card .btn-buy:hover {
+    background-color: #f7ca00;
+}
+
 
 /* --- Product Details Page --- */
 .product-detail-container {
@@ -402,6 +415,19 @@
 .products-section {
     background-color: #fff;
     position: relative;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+    margin-top: 3rem;
+    /* Spacing from Hero */
+}
+
+/* Ensure margin applies on mobile too */
+@media (max-width: 768px) {
+    .products-section {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+        margin-top: 2rem;
+    }
 }
 
 .section-header {
