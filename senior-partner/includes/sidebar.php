@@ -41,6 +41,14 @@ $page = $page ?? 'dashboard';
             </a>
         </li>
 
+        <li class="menu-item <?php echo ($page == 'payout-history') ? 'active' : ''; ?>">
+            <a href="<?php echo $url_prefix; ?>payout-history.php" class="menu-link">
+                <div class="menu-text">
+                    <i class="fas fa-history"></i> <span>Payout History</span>
+                </div>
+            </a>
+        </li>
+
         <li class="menu-item <?php echo ($page == 'team') ? 'active' : ''; ?>">
             <a href="<?php echo $url_prefix; ?>my-team.php" class="menu-link">
                 <div class="menu-text">
