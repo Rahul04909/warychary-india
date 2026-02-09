@@ -29,7 +29,6 @@ $url_prefix = '';
         <?php include 'components/hero.php'; ?>
         <?php include 'components/products.php'; ?>
         <?php include 'components/standards.php'; ?>
-        <?php include 'components/referral-program.php'; ?>
     </main>
 
     <?php include 'includes/footer.php'; ?>
