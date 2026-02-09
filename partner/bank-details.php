@@ -1,8 +1,7 @@
 <?php
-$page = 'bank-details';
-require_once '../auth_check.php';
-include_once '../database/db_config.php';
-include_once 'includes/header.php';
+$url_prefix = '';
+include_once __DIR__ . '/includes/header.php';
+include_once __DIR__ . '/../database/db_config.php';
 
 $database = new Database();
 $db = $database->getConnection();
