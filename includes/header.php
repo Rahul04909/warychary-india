@@ -53,9 +53,7 @@
                         <i class="fas fa-user-circle me-1"></i> <?php echo $account_label; ?>
                     </a>
                 <?php else: ?>
-                    <a href="<?php echo $url_prefix; ?>partner/login.php" class="header-action-btn btn-login-outline">
-                        Partner Login
-                    </a>
+
                     <a href="<?php echo $url_prefix; ?>user/login.php" class="header-action-btn btn-login-outline">
                         User Login
                     </a>
