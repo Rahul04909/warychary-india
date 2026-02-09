@@ -169,8 +169,16 @@
 
 @media (max-width: 768px) {
     .footer-grid {
-        grid-template-columns: 1fr;
-        gap: 30px;
+        grid-template-columns: 1fr 1fr;
+        /* Two columns for Shop & Support */
+        gap: 30px 20px;
+        /* Reduced gap between columns */
+    }
+
+    /* Brand and Newsletter take full width */
+    .brand-col,
+    .newsletter-col {
+        grid-column: 1 / -1;
     }
 
     .footer-col {
