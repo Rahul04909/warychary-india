@@ -54,22 +54,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $sheet = $spreadsheet->getActiveSheet();
 
     // Headlines
-    $sheet->setCellValue('A1', 'ID');
-    $sheet->setCellValue('B1', 'Name');
-    $sheet->setCellValue('C1', 'Email');
-    $sheet->setCellValue('D1', 'Mobile'); // Senior Partner might pass NULL if column missing, handle gracefully
-    $sheet->setCellValue('E1', 'Account Number');
-    $sheet->setCellValue('F1', 'IFSC Code');
-    $sheet->setCellValue('G1', 'Bank Name');
-    $sheet->setCellValue('H1', 'Total Earnings');
-    $sheet->setCellValue('I1', 'Total Paid');
-    $sheet->setCellValue('J1', 'Pending Balance');
+    $headers = ['Sr. No.', 'Name', 'Email', 'Mobile', 'Account Number', 'IFSC Code', 'Bank Name', 'Total Earnings'];
+    $sheet->fromArray([$headers], NULL, 'A1');
+
+    // Styling Header
+    $headerStyle = [
+        'font' => ['bold' => true, 'color' => ['rgb' => 'FFFFFF']],
+        'fill' => ['fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID, 'startColor' => ['rgb' => '4F81BD']],
+        'alignment' => ['horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER],
+        'borders' => ['allBorders' => ['borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN]],
+    ];
+    $sheet->getStyle('A1:H1')->applyFromArray($headerStyle);
 
     $row = 2;
+    $srNo = 1;
     foreach ($data as $d) {
-        $pending = $d['total_earnings'] - $d['total_paid'];
-        
-        $sheet->setCellValue('A' . $row, $d['id']);
+        $sheet->setCellValue('A' . $row, $srNo++);
         $sheet->setCellValue('B' . $row, $d['name']);
         $sheet->setCellValue('C' . $row, $d['email']);
         $sheet->setCellValue('D' . $row, $d['mobile'] ?? 'N/A');
@@ -80,10 +80,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $sheet->setCellValue('F' . $row, $d['ifsc_code'] ?? 'N/A');
         $sheet->setCellValue('G' . $row, $d['bank_name'] ?? 'N/A');
         $sheet->setCellValue('H' . $row, $d['total_earnings']);
-        $sheet->setCellValue('I' . $row, $d['total_paid']);
-        $sheet->setCellValue('J' . $row, $pending);
         $row++;
     }
+
+    // Auto-size columns
+    foreach (range('A', 'H') as $col) {
+        $sheet->getColumnDimension($col)->setAutoSize(true);
+    }
+
+    // Border for data
+    $dataStyle = [
+        'borders' => ['allBorders' => ['borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN]]
+    ];
+    $sheet->getStyle('A2:H' . ($row - 1))->applyFromArray($dataStyle);
 
     $writer = new Xlsx($spreadsheet);
     
