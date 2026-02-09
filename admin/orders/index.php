@@ -1,8 +1,8 @@
 <?php
 $page = 'orders';
 $sub_page = 'all_orders';
-$url_prefix = '../../';
-require_once '../../auth_check.php';
+$url_prefix = '../';
+require_once '../auth_check.php';
 include_once '../../database/db_config.php';
 include_once '../includes/header.php';
 
