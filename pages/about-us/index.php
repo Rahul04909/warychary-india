@@ -257,7 +257,7 @@ $page_title = "About Us - WaryChary";
              <div class="col-md-3 col-6">
                 <div class="cert-card">
                     <img src="<?php echo $url_prefix; ?>assets/images/fssai.png" alt="FSSAI" class="cert-img" onerror="this.src='https://placehold.co/150x80/png?text=FSSAI'">
-                    <h5 class="fw-bold mb-0 text-dark">FSSAI</h5>
+                    <h5 class="fw-bold mb-0 text-dark">MSME</h5>
                 </div>
             </div>
         </div>
