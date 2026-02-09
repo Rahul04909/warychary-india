@@ -76,12 +76,12 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                          <span class="badge bg-success me-2">Dispatched</span>
                                         
                                         <!-- Invoice Button -->
-                                        <a href="download-invoice.php?id=<?php echo $order['id']; ?>" class="btn btn-sm btn-outline-secondary" title="Download Invoice" target="_blank">
+                                        <a href="download-invoice.php?id=<?php echo $order['id']; ?>" class="btn btn-sm btn-outline-secondary btn-icon" title="Download Invoice" target="_blank">
                                             <i class="fas fa-file-invoice"></i>
                                         </a>
 
                                         <!-- Courier Receipt -->
-                                        <a href="courier-receipt.php?id=<?php echo $order['id']; ?>" class="btn btn-sm btn-outline-info" title="Courier Receipt" target="_blank">
+                                        <a href="courier-receipt.php?id=<?php echo $order['id']; ?>" class="btn btn-sm btn-outline-info btn-icon" title="Courier Receipt" target="_blank">
                                             <i class="fas fa-receipt"></i>
                                         </a>
                                     </div>
