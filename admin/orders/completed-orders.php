@@ -56,7 +56,10 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <?php if (count($orders) > 0): ?>
                         <?php foreach ($orders as $order): ?>
                             <tr class="table-success"> <!-- Green Highlight Row -->
-                                <td class="ps-4 fw-bold">#<?php echo htmlspecialchars($order['order_id']); ?></td>
+                                <td class="ps-4 fw-bold">
+                                    #<?php echo htmlspecialchars($order['id']); ?>
+                                    <div class="small text-muted fw-normal" style="font-size: 10px;"><?php echo htmlspecialchars($order['order_id']); ?></div>
+                                </td>
                                 <td>
                                     <div class="d-flex flex-column">
                                         <span class="fw-bold"><?php echo htmlspecialchars($order['user_name']); ?></span>
