@@ -141,19 +141,23 @@ a {
 .submenu {
     max-height: 0;
     overflow: hidden;
-    background-color: #101517; /* Darker than sidebar-bg (1d2327) */
+    background-color: #101517;
+    /* Darker than sidebar-bg (1d2327) */
     transition: max-height 0.3s ease-in-out;
 }
 
 .menu-item.open .submenu {
-    max-height: 600px; /* Adjust if needed */
+    max-height: 600px;
+    /* Adjust if needed */
     transition: max-height 0.4s ease-in-out;
 }
 
 .submenu li a {
     display: block;
-    padding: 10px 20px 10px 52px; /* Indent + Icon space */
-    color: var(--sidebar-text-muted); /* #a7aaad */
+    padding: 10px 20px 10px 52px;
+    /* Indent + Icon space */
+    color: var(--sidebar-text-muted);
+    /* #a7aaad */
     font-size: 13px;
     transition: all 0.2s ease;
     text-decoration: none;
@@ -163,7 +167,8 @@ a {
 .submenu li a:hover,
 .submenu li a:focus {
     color: #fff;
-    padding-left: 56px; /* Subtle slide effect */
+    padding-left: 56px;
+    /* Subtle slide effect */
 }
 
 /* Active State for Submenu items (if logic is added) */
@@ -188,7 +193,8 @@ a {
 
 .submenu li a:hover::before,
 .submenu li.active a::before {
-    background-color: var(--primary-color); /* #2271b1 */
+    background-color: var(--primary-color);
+    /* #2271b1 */
 }
 
 
@@ -679,4 +685,17 @@ a {
     padding: 6px 10px;
     font-weight: 500;
     border-radius: 4px;
+}
+
+/* Icon-only Button (Compact) */
+.btn-icon {
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    border-radius: 4px;
+    line-height: 1;
 }
