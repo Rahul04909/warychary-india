@@ -29,6 +29,23 @@ $stmt = $db->prepare("SELECT COUNT(*) FROM orders WHERE MONTH(created_at) = MONT
 $stmt->execute();
 $monthly_orders = $stmt->fetchColumn();
 
+// --- New Order Stats ---
+
+// Today's Orders
+$stmt = $db->prepare("SELECT COUNT(*) FROM orders WHERE DATE(created_at) = CURDATE()");
+$stmt->execute();
+$today_orders = $stmt->fetchColumn();
+
+// Pending Orders (Captured but not dispatched)
+$stmt = $db->prepare("SELECT COUNT(*) FROM orders WHERE payment_status = 'captured' AND dispatched_date IS NULL");
+$stmt->execute();
+$pending_orders = $stmt->fetchColumn();
+
+// Completed/Dispatched Orders
+$stmt = $db->prepare("SELECT COUNT(*) FROM orders WHERE dispatched_date IS NOT NULL");
+$stmt->execute();
+$completed_orders = $stmt->fetchColumn();
+
 // Users Count
 $stmt = $db->prepare("SELECT COUNT(*) FROM users");
 $stmt->execute();
@@ -120,6 +137,57 @@ $total_senior_partners = $stmt->fetchColumn();
                 </div>
                 <h3 class="mb-0 fw-bold"><?php echo number_format($monthly_orders); ?></h3>
                 <small class="text-muted">This month</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Order Status Metrics -->
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body d-flex align-items-center">
+                <div class="flex-shrink-0 me-3">
+                    <div class="avatar-lg bg-light rounded-circle p-3 text-center">
+                        <i class="fas fa-calendar-day fa-2x text-primary"></i>
+                    </div>
+                </div>
+                <div class="flex-grow-1">
+                    <h5 class="mb-1 text-muted">Today's Orders</h5>
+                    <h2 class="mb-0 fw-bold"><?php echo number_format($today_orders); ?></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body d-flex align-items-center">
+                <div class="flex-shrink-0 me-3">
+                    <div class="avatar-lg bg-danger-subtle rounded-circle p-3 text-center">
+                        <i class="fas fa-clock fa-2x text-danger"></i>
+                    </div>
+                </div>
+                <div class="flex-grow-1">
+                    <h5 class="mb-1 text-muted">Pending Dispatch</h5>
+                    <h2 class="mb-0 fw-bold text-danger"><?php echo number_format($pending_orders); ?></h2>
+                    <a href="<?php echo $url_prefix; ?>orders/pending-orders.php" class="text-decoration-none small">View Pending &rarr;</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body d-flex align-items-center">
+                <div class="flex-shrink-0 me-3">
+                    <div class="avatar-lg bg-success-subtle rounded-circle p-3 text-center">
+                        <i class="fas fa-check-circle fa-2x text-success"></i>
+                    </div>
+                </div>
+                <div class="flex-grow-1">
+                    <h5 class="mb-1 text-muted">Completed Orders</h5>
+                    <h2 class="mb-0 fw-bold text-success"><?php echo number_format($completed_orders); ?></h2>
+                    <a href="<?php echo $url_prefix; ?>orders/completed-orders.php" class="text-decoration-none small">View History &rarr;</a>
+                </div>
             </div>
         </div>
     </div>
