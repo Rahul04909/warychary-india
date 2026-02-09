@@ -22,6 +22,14 @@ $page = $page ?? 'dashboard';
                 </div>
             </a>
         </li>
+
+        <li class="menu-item <?php echo ($page == 'add-user') ? 'active' : ''; ?>">
+            <a href="<?php echo $url_prefix; ?>add-user.php" class="menu-link">
+                <div class="menu-text">
+                    <i class="fas fa-user-plus"></i> <span>Add User</span>
+                </div>
+            </a>
+        </li>
         
         <li class="menu-item <?php echo ($page == 'profile') ? 'active' : ''; ?>">
             <a href="<?php echo $url_prefix; ?>profile.php" class="menu-link">
