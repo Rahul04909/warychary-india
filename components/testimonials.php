@@ -11,7 +11,7 @@
             <div class="testimonial-card">
                 <div class="testimonial-img-wrapper">
                     <!-- Placeholder generic Indian girl image -->
-                    <img src="https://topmate.io/_next/image?url=https%3A%2F%2Ftopmate-staging.s3.ap-south-1.amazonaws.com%2Fundefined%2F1710928923363.png&w=128&q=75" alt="Anya" class="testimonial-img">
+                    <img src="../assets/images/Akansha.webp" alt="Anya" class="testimonial-img">
                 </div>
                 <div class="testimonial-stars">
                     <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
