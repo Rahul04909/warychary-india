@@ -7,14 +7,6 @@
             <div class="slide">
                 <img src="assets/hero/hero-now.png" alt="Banner 1">
             </div>
-            <!-- Slide 2 -->
-            <div class="slide">
-                <img src="assets/hero/hero-banner.webp" alt="Banner 2">
-            </div>
-            <!-- Slide 3 -->
-            <div class="slide">
-                <img src="assets/hero/hero-banner.webp" alt="Banner 3">
-            </div>
         </div>
         
         <!-- Dots for navigation -->
