@@ -15,10 +15,7 @@ $home_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <section class="products-section py-5 mt-5" id="home-products">
     <div class="container">
-        <div class="section-header text-center mb-5">
-            <h2 class="section-title">Our Best Selling Products</h2>
-            <p class="section-subtitle">Discover our premium range of wellness products</p>
-        </div>
+        <!-- Header Removed as per user request -->
 
         <div class="products-grid home-grid">
             <?php if (count($home_products) > 0): ?>
@@ -48,7 +45,8 @@ $home_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </a>
                         
                         <?php if($prod['is_free_product_active'] && !empty($prod['free_product_name'])): ?>
-                            <div class="free-product-label">
+                            <!-- Updated Free Gift Label: Removed background, added specific text color -->
+                            <div class="free-product-label" style="background: none; padding: 0; color: #10b981; font-weight: 600;">
                                 <i class="fas fa-gift"></i> Includes Free: <?php echo htmlspecialchars($prod['free_product_name']); ?>
                             </div>
                         <?php endif; ?>
@@ -64,7 +62,8 @@ $home_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <small class="text-muted">M.R.P. incl. of all taxes</small>
                         </div>
                         
-                        <a href="checkout.php?slug=<?php echo htmlspecialchars($prod['slug']); ?>" class="btn-buy">Buy Now</a>
+                        <!-- Updated Buy Now Button: Yellow background to match product details -->
+                        <a href="checkout.php?slug=<?php echo htmlspecialchars($prod['slug']); ?>" class="btn-buy" style="background-color: #ffd700; color: #000; border: none; font-weight: 700;">Buy Now</a>
                     </div>
                 </div>
                 <?php endforeach; ?>
