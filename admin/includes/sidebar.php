@@ -52,7 +52,6 @@
                 <li><a href="<?php echo $url_prefix; ?>senior-partners/index.php">All Senior Partners</a></li>
                 <li><a href="<?php echo $url_prefix; ?>senior-partners/add-senior-partner.php">Add Senior Partner</a></li>
                 <li><a href="#">Senior Partner Earnings</a></li>
-                <li><a href="#">Senior Partner Payouts</a></li>
             </ul>
         </li>
 
@@ -66,7 +65,20 @@
             <ul class="submenu">
                 <li><a href="<?php echo $url_prefix; ?>partners/index.php">All Partners</a></li>
                 <li><a href="#">Partner Earnings</a></li>
-                <li><a href="#">Partner Payouts</a></li>
+            </ul>
+        </li>
+
+        <li class="menu-item has-submenu">
+            <a href="#" class="menu-link">
+                <div class="menu-text">
+                    <i class="fas fa-money-bill-wave"></i> <span>Payouts</span>
+                </div>
+                <i class="fas fa-chevron-right arrow"></i>
+            </a>
+            <ul class="submenu">
+                <li><a href="<?php echo $url_prefix; ?>payouts/partner-payouts.php">Partner Payouts</a></li>
+                <li><a href="<?php echo $url_prefix; ?>payouts/senior-partner-payouts.php">Senior Partner Payouts</a></li>
+                <li><a href="<?php echo $url_prefix; ?>payouts/payout-history.php">Payout History</a></li>
             </ul>
         </li>
 

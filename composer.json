@@ -3,6 +3,7 @@
         "phpmailer/phpmailer": "^7.0",
         "razorpay/razorpay": "^2.9",
         "mpdf/mpdf": "^8.2",
-        "summernote/summernote": "^0.8.8"
+        "summernote/summernote": "^0.8.8",
+        "phpoffice/phpspreadsheet": "^5.4"
     }
 }
