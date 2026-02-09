@@ -167,7 +167,7 @@
 /* Free Product Label */
 .free-product-label {
     font-size: 0.75rem;
-    color: #6366f1;
+    color: #6a3da1;
     margin-bottom: 0.5rem;
     display: inline-flex;
     align-items: center;
@@ -695,12 +695,12 @@
 }
 
 .product-card .btn-buy {
-    background-color: #10b981;
+    background-color: #ffd814;
     box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
 }
 
 .product-card .btn-buy:hover {
-    background-color: #059669;
+    background-color: #f7ca00;
 }
 
 /* --- Mobile Responsiveness --- */
