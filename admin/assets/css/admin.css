@@ -141,31 +141,54 @@ a {
 .submenu {
     max-height: 0;
     overflow: hidden;
-    background-color: rgba(0, 0, 0, 0.1);
-    /* Slightly darker */
-    transition: max-height 0.3s ease-out;
+    background-color: #101517; /* Darker than sidebar-bg (1d2327) */
+    transition: max-height 0.3s ease-in-out;
 }
 
 .menu-item.open .submenu {
-    max-height: 500px;
-    /* Arbitrary large height */
-    transition: max-height 0.3s ease-in;
+    max-height: 600px; /* Adjust if needed */
+    transition: max-height 0.4s ease-in-out;
 }
 
 .submenu li a {
     display: block;
-    padding: 8px 20px;
-    text-align: center;
-    /* Centered properly */
-    color: var(--sidebar-text-muted);
+    padding: 10px 20px 10px 52px; /* Indent + Icon space */
+    color: var(--sidebar-text-muted); /* #a7aaad */
     font-size: 13px;
-    transition: color 0.2s;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    position: relative;
 }
 
-.submenu li a:hover {
+.submenu li a:hover,
+.submenu li a:focus {
     color: #fff;
-    background: none;
-    /* No bg change for submenu items usually */
+    padding-left: 56px; /* Subtle slide effect */
+}
+
+/* Active State for Submenu items (if logic is added) */
+.submenu li.active a {
+    color: #fff;
+    font-weight: 500;
+}
+
+/* Optional: Bullet point on hover/active */
+.submenu li a::before {
+    content: '';
+    position: absolute;
+    left: 36px;
+    top: 50%;
+    width: 4px;
+    height: 4px;
+    background-color: transparent;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    transition: background-color 0.2s ease;
+}
+
+.submenu li a:hover::before,
+.submenu li.active a::before {
+    background-color: var(--primary-color); /* #2271b1 */
 }
 
 
