@@ -7,7 +7,7 @@ try {
 
     // Create bank_details table
     $sql = "CREATE TABLE IF NOT EXISTS bank_details (
-        id INT AUTO_INCREMENT PRIMARY_KEY,
+        id INT AUTO_INCREMENT PRIMARY KEY,
         user_id INT NOT NULL,
         user_type ENUM('partner', 'senior_partner') NOT NULL,
         account_holder_name VARCHAR(255) NOT NULL,
