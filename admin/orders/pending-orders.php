@@ -88,8 +88,9 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                                 data-bs-toggle="modal" 
                                                 data-bs-target="#dispatchModal"
                                                 data-order-id="<?php echo $order['id']; ?>"
-                                                data-public-id="<?php echo $order['order_id']; ?>">
-                                            Dispatch Order
+                                                data-public-id="<?php echo $order['order_id']; ?>"
+                                                title="Dispatch Order">
+                                            <i class="fas fa-truck"></i>
                                         </button>
                                     </div>
                                 </td>

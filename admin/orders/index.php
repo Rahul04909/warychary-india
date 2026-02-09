@@ -147,7 +147,9 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                                         <!-- Dispatch Button (Only if not dispatched) -->
                                         <?php if ($is_paid && !$is_dispatched): ?>
-                                            <a href="pending-orders.php" class="btn btn-sm btn-primary">Dispatch</a>
+                                            <a href="pending-orders.php" class="btn btn-sm btn-primary" title="Dispatch Order">
+                                                <i class="fas fa-truck"></i>
+                                            </a>
                                         <?php endif; ?>
                                     </div>
                                 </td>
