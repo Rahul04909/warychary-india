@@ -59,91 +59,109 @@ $page_title = "About Us - WaryChary";
     
     <style>
         /* Custom Styles for About Us Page */
+        :root {
+            --brand-primary: #7e4bbb;
+            --brand-secondary: #6366f1; /* Keeping accent */
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+        }
+
         .page-header-section {
-            background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), url('<?php echo $url_prefix; ?>assets/images/about-hero.jpg');
-            background-size: cover;
-            background-position: center;
-            padding: 100px 0;
+            background: linear-gradient(135deg, var(--brand-primary), #4c1d95);
+            padding: 80px 0;
             color: #fff;
             text-align: center;
-        }
-        
-        .section-title {
             position: relative;
-            margin-bottom: 3rem;
-            text-align: center;
+            overflow: hidden;
+        }
+
+        .page-header-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: url('<?php echo $url_prefix; ?>assets/images/pattern.png');
+            opacity: 0.1;
         }
         
         .section-title h2 {
             font-weight: 700;
-            color: #1e293b;
+            color: var(--brand-primary);
             margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         
-        .section-title p {
-            color: #64748b;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
         .feature-card {
             background: #fff;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
             height: 100%;
-            border-top: 4px solid #6366f1;
+            border-top: 5px solid var(--brand-primary);
+            position: relative;
+            overflow: hidden;
         }
 
         .feature-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(126, 75, 187, 0.15);
         }
 
         .feature-icon {
-            width: 60px;
-            height: 60px;
-            background: #e0e7ff;
-            color: #6366f1;
+            width: 70px;
+            height: 70px;
+            background: rgba(126, 75, 187, 0.1);
+            color: var(--brand-primary);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: 28px;
             margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
         }
-
-        .team-member {
-            background: #fff;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        .team-img {
-            height: 250px;
-            width: 100%;
-            object-fit: cover;
-            background-color: #f1f5f9;
-        }
-
-        .team-info {
-            padding: 1.5rem;
+        
+        .feature-card:hover .feature-icon {
+            background: var(--brand-primary);
+            color: #fff;
         }
 
         .stat-item {
             text-align: center;
             padding: 2rem;
             background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 1px solid #f1f5f9;
         }
 
         .stat-number {
             font-size: 2.5rem;
-            font-weight: 700;
-            color: #6366f1;
+            font-weight: 800;
+            color: var(--brand-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .cert-card {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            text-align: center;
+            transition: transform 0.3s;
+            border: 1px solid #eee;
+        }
+        
+        .cert-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--brand-primary);
+        }
+        
+        .cert-img {
+            height: 80px;
+            object-fit: contain;
+            margin-bottom: 1rem;
         }
     </style>
 </head>
@@ -153,9 +171,9 @@ $page_title = "About Us - WaryChary";
 
 <!-- Hero Section -->
 <section class="page-header-section">
-    <div class="container">
+    <div class="container position-relative">
         <h1 class="display-4 fw-bold mb-3">About WaryChary</h1>
-        <p class="lead mb-0">Empowering health, wealth, and happiness across India.</p>
+        <p class="lead mb-0 opacity-75">Empowering health, wealth, and happiness across India.</p>
     </div>
 </section>
 
@@ -164,41 +182,82 @@ $page_title = "About Us - WaryChary";
     <div class="container py-4">
         <div class="row align-items-center">
             <div class="col-lg-6 mb-4 mb-lg-0">
-                <img src="<?php echo $url_prefix; ?>assets/images/our-story.jpg" alt="Our Story" class="img-fluid rounded-3 shadow-lg" onerror="this.src='https://placehold.co/600x400/e2e8f0/64748b?text=WaryChary+Story'">
+                <div class="position-relative">
+                    <img src="<?php echo $url_prefix; ?>assets/images/about-hero.jpg" alt="Our Story" class="img-fluid rounded-4 shadow-lg" onerror="this.src='https://placehold.co/600x400/7e4bbb/ffffff?text=WaryChary+Story'">
+                    <div class="position-absolute bottom-0 start-0 bg-white p-3 rounded-top-end-4 shadow-sm d-none d-md-block">
+                        <span class="fw-bold text-primary">Est. 2024</span>
+                    </div>
+                </div>
             </div>
-            <div class="col-lg-6">
-                <h2 class="fw-bold mb-4">Who We Are</h2>
-                <p class="text-muted mb-4">
-                    WaryChary is more than just a brand; it's a movement designed to transform lives. Founded with a dual mission of improving menstrual hygiene awareness and providing sustainable financial independence, we connect premium quality products with a robust earning model.
+            <div class="col-lg-6 ps-lg-5">
+                <span class="text-uppercase text-primary fw-bold small tracking-wider">Our Story</span>
+                <h2 class="fw-bold mb-4 display-6">Who We Are</h2>
+                <p class="text-muted mb-4 lead" style="font-size: 1.1rem;">
+                    WaryChary is a movement designed to transform lives. Founded with a dual mission of improving menstrual hygiene awareness and providing sustainable financial independence.
                 </p>
                 <p class="text-muted mb-4">
-                    We believe that every individual deserves access to high-quality health products and the opportunity to build a secure financial future. Our platform bridges the gap between essential care and entrepreneurship, empowering partners across the nation.
+                    We connect premium quality products with a robust earning model, bridging the gap between essential care and entrepreneurship. We believe that every individual deserves access to high-quality health products and the opportunity to build a secure financial future.
                 </p>
-                <div class="row g-4 mt-2">
-                    <div class="col-6">
-                        <div class="d-flex align-items-center">
-                            <i class="fas fa-check-circle text-success me-2 fa-lg"></i>
-                            <span class="fw-medium">Premium Quality</span>
-                        </div>
+                
+                <div class="row g-3 mt-2">
+                    <div class="col-md-6">
+                        <ul class="list-unstyled mb-0">
+                            <li class="mb-3 d-flex align-items-center">
+                                <i class="fas fa-check-circle text-primary me-2"></i> Premium Quality Products
+                            </li>
+                            <li class="d-flex align-items-center">
+                                <i class="fas fa-check-circle text-primary me-2"></i> Sustainable Income Model
+                            </li>
+                        </ul>
                     </div>
-                    <div class="col-6">
-                        <div class="d-flex align-items-center">
-                            <i class="fas fa-check-circle text-success me-2 fa-lg"></i>
-                            <span class="fw-medium">Sustainable Income</span>
-                        </div>
+                    <div class="col-md-6">
+                        <ul class="list-unstyled mb-0">
+                            <li class="mb-3 d-flex align-items-center">
+                                <i class="fas fa-check-circle text-primary me-2"></i> Nationwide Network
+                            </li>
+                            <li class="d-flex align-items-center">
+                                <i class="fas fa-check-circle text-primary me-2"></i> Women Empowerment
+                            </li>
+                        </ul>
                     </div>
-                    <div class="col-6">
-                        <div class="d-flex align-items-center">
-                            <i class="fas fa-check-circle text-success me-2 fa-lg"></i>
-                            <span class="fw-medium">Nationwide Network</span>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="d-flex align-items-center">
-                            <i class="fas fa-check-circle text-success me-2 fa-lg"></i>
-                            <span class="fw-medium">Community Focus</span>
-                        </div>
-                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Certifications Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="section-title text-center mb-5">
+            <span class="text-uppercase text-primary fw-bold small">Trust & Quality</span>
+            <h2 class="mb-0">Our Certifications</h2>
+            <p class="mt-2">Recognized for excellence and compliance.</p>
+        </div>
+        
+        <div class="row justify-content-center g-4">
+            <div class="col-md-3 col-6">
+                <div class="cert-card">
+                    <img src="<?php echo $url_prefix; ?>assets/images/gst.png" alt="GST Registered" class="cert-img" onerror="this.src='https://placehold.co/150x80/png?text=GST+Registered'">
+                    <h5 class="fw-bold mb-0 text-dark">GST Registered</h5>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="cert-card">
+                    <img src="<?php echo $url_prefix; ?>assets/images/gmp.png" alt="GMP Certified" class="cert-img" onerror="this.src='https://placehold.co/150x80/png?text=GMP+Certified'">
+                    <h5 class="fw-bold mb-0 text-dark">GMP Certified</h5>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="cert-card">
+                    <img src="<?php echo $url_prefix; ?>assets/images/iso.png" alt="ISO Certified" class="cert-img" onerror="this.src='https://placehold.co/150x80/png?text=ISO+9001:2015'">
+                    <h5 class="fw-bold mb-0 text-dark">ISO 9001:2015</h5>
+                </div>
+            </div>
+             <div class="col-md-3 col-6">
+                <div class="cert-card">
+                    <img src="<?php echo $url_prefix; ?>assets/images/fssai.png" alt="FSSAI" class="cert-img" onerror="this.src='https://placehold.co/150x80/png?text=FSSAI'">
+                    <h5 class="fw-bold mb-0 text-dark">FSSAI</h5>
                 </div>
             </div>
         </div>
@@ -264,7 +323,7 @@ $page_title = "About Us - WaryChary";
 </section>
 
 <!-- Call to Action -->
-<section class="py-5 bg-primary text-white text-center">
+<section class="py-5 text-white text-center" style="background: var(--brand-primary);">
     <div class="container py-4">
         <h2 class="fw-bold mb-3">Ready to Start Your Journey?</h2>
         <p class="lead mb-4 op-8">Join thousands of successful partners who are changing their lives with WaryChary.</p>
