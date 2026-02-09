@@ -1,0 +1,41 @@
+/* assets/css/promo-banner.css */
+
+.promo-banner-section {
+    width: 100%;
+    margin-top: 3rem;
+    /* Spacing from previous section */
+    margin-bottom: 3rem;
+    overflow: hidden;
+    background-color: #fff0f5;
+    /* Fallback color matching the banner */
+}
+
+.promo-banner-wrapper {
+    width: 100%;
+    position: relative;
+    display: block;
+}
+
+.promo-banner-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    min-height: 150px;
+    /* Ensure visibility on small screens */
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .promo-banner-section {
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    /* 
+       If the text in the image becomes unreadable on mobile, 
+       we might need a different mobile-specific image 
+       or just ensure the desktop one scales reasonably.
+       For now, simple scaling as requested.
+    */
+}
