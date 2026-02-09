@@ -42,7 +42,8 @@ function generatePartnerId($length = 8) {
 // Function to validate referral code
 function validateReferralCode($db, $referral_code) {
     try {
-        $stmt = $db->prepare("SELECT id, name FROM senior_partners WHERE referral_code = :code OR email = :code");
+        // Now checks referral_code, email, AND mobile
+        $stmt = $db->prepare("SELECT id, name FROM senior_partners WHERE referral_code = :code OR email = :code OR mobile = :code");
         $stmt->execute([':code' => $referral_code]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
@@ -770,7 +771,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register_partner'])) 
                                 <div class="input-group-custom">
                                     <div class="input-wrapper">
                                         <i class="fas fa-gift"></i>
-                                        <input type="text" class="form-control" id="referral_code" name="referral_code" placeholder="Enter Referral Code">
+                                        <input type="text" class="form-control" id="referral_code" name="referral_code" placeholder="Enter Code, Email or Mobile" value="<?php echo htmlspecialchars($referral_code ?? ''); ?>">
                                     </div>
                                     <div id="referralFeedback" class="referral-feedback"></div>
                                 </div>
