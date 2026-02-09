@@ -131,6 +131,26 @@ if (isset($_POST['action']) && $_POST['action'] === 'validate_referral') {
     exit;
 }
 
+// Handle Referral Link (GET Request)
+$prefilled_ref_code = '';
+$prefilled_partner_name = '';
+
+if (isset($_GET['ref'])) {
+    $ref_code = trim($_GET['ref']);
+    $partner = validatePartner($db, $ref_code);
+    if ($partner) {
+        $_SESSION['bound_partner_id'] = $partner['id'];
+        $prefilled_ref_code = $partner['referral_code']; // Use the canonical code
+        $prefilled_partner_name = $partner['name'];
+    }
+} elseif (isset($_SESSION['bound_partner_id'])) {
+    // Keep session persistence if checking other pages
+    // Fetch code again or store in session? 
+    // For simplicity, let's just use what we might have or query if needed.
+    // Actually, let's just check if we have the code in session or fetch it.
+    // For now, simple GET priority is fine.
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
     $email = $_POST['email'];
@@ -561,9 +581,13 @@ include_once 'includes/header.php';
                          <label class="form-label">Partner Referral <span class="text-danger">*</span></label>
                          <div class="input-group">
                             <span class="input-group-text"><i class="fas fa-tag"></i></span>
-                            <input type="text" name="referral_code" id="referral_code" class="form-control" required placeholder="Enter Partner Code, Email, or Mobile">
+                            <input type="text" name="referral_code" id="referral_code" class="form-control" required placeholder="Enter Partner Code, Email, or Mobile" value="<?php echo htmlspecialchars($prefilled_ref_code); ?>" <?php echo $prefilled_ref_code ? 'readonly' : ''; ?>>
                          </div>
-                         <div id="referralFeedback" class="referral-feedback"></div>
+                         <div id="referralFeedback" class="referral-feedback">
+                             <?php if ($prefilled_partner_name): ?>
+                                <span class="referral-valid"><i class="fas fa-check-circle me-1"></i> Partner: <?php echo htmlspecialchars($prefilled_partner_name); ?></span>
+                             <?php endif; ?>
+                         </div>
                          <div class="form-text text-muted">You will be linked to this partner for support.</div>
                     </div>
                 </div>
