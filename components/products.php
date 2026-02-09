@@ -45,8 +45,8 @@ $home_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </a>
                         
                         <?php if($prod['is_free_product_active'] && !empty($prod['free_product_name'])): ?>
-                            <!-- Updated Free Gift Label: Removed background, added specific text color -->
-                            <div class="free-product-label" style="background: none; padding: 0; color: #10b981; font-weight: 600;">
+                            <!-- Updated Free Gift Label: purple text color -->
+                            <div class="free-product-label" style="background: none; padding: 0; color: #6a3da1; font-weight: 600;">
                                 <i class="fas fa-gift"></i> Includes Free: <?php echo htmlspecialchars($prod['free_product_name']); ?>
                             </div>
                         <?php endif; ?>
@@ -56,7 +56,7 @@ $home_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <span class="sales-price">₹<?php echo number_format($prod['sales_price']); ?></span>
                                 <?php if($prod['mrp'] > $prod['sales_price']): ?>
                                     <span class="mrp-price">₹<?php echo number_format($prod['mrp']); ?></span>
-                                    <span class="free-delivery-text" style="color: #10b981; font-size: 0.75rem; font-weight: 700;">Free Delivery</span>
+                                    <span class="free-delivery-text" style="color: #6a3da1; font-size: 0.75rem; font-weight: 700;">Free Delivery</span>
                                 <?php endif; ?>
                             </div>
                             <small class="text-muted">M.R.P. incl. of all taxes</small>
