@@ -18,6 +18,7 @@ $url_prefix = '';
     <link rel="stylesheet" href="assets/css/footer.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="assets/css/products.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="assets/css/promo-banner.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="assets/css/testimonials.css?v=<?php echo time(); ?>">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
@@ -30,6 +31,7 @@ $url_prefix = '';
         <?php include 'components/hero.php'; ?>
         <?php include 'components/products.php'; ?>
         <?php include 'components/promo-banner.php'; ?>
+        <?php include 'components/testimonials.php'; ?>
         <?php include 'components/standards.php'; ?>
     </main>
 
