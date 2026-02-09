@@ -7,6 +7,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
 
 require_once '../../vendor/autoload.php'; // Verify autoload path
 include_once '../../database/db_config.php';
+$url_prefix = '../';
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;

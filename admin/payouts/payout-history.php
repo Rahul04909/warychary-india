@@ -6,6 +6,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
 }
 
 include_once '../../database/db_config.php';
+$url_prefix = '../';
 $page = 'payout-history';
 
 $database = new Database();
