@@ -56,8 +56,8 @@ $home_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <span class="sales-price">₹<?php echo number_format($prod['sales_price']); ?></span>
                                 <?php if($prod['mrp'] > $prod['sales_price']): ?>
                                     <span class="mrp-price">₹<?php echo number_format($prod['mrp']); ?></span>
-                                    <span class="free-delivery-text" style="color: #6a3da1; font-size: 0.75rem; font-weight: 700;">Free Delivery</span>
                                 <?php endif; ?>
+                                <span class="free-delivery-text" style="color: #6a3da1; font-size: 0.75rem; font-weight: 700;">Free Delivery</span>
                             </div>
                             <small class="text-muted">M.R.P. incl. of all taxes</small>
                         </div>
