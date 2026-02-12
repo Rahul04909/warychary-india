@@ -20,11 +20,29 @@ $database = new Database();
 $db = $database->getConnection();
 
 // Fetch Order
-$query = "SELECT * FROM orders WHERE id = :id";
+// Fetch Order with User Details
+// orders table uses shipping_ prefix for address. users table uses plain address.
+$query = "SELECT o.*, 
+          u.name as user_name, u.email as user_email, u.mobile as user_mobile,
+          u.address as user_address, u.city as user_city, u.state as user_state, u.pincode as user_pincode 
+          FROM orders o 
+          LEFT JOIN users u ON o.user_id = u.id 
+          WHERE o.id = :id";
 $stmt = $db->prepare($query);
 $stmt->bindParam(':id', $order_id);
 $stmt->execute();
 $order = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// Customer Details Logic
+// Priority: Order Shipping Details > Order Details (legacy) > User Profile Details
+$c_name = $order['customer_name'] ?? $order['user_name'] ?? 'Customer';
+$c_email = $order['customer_email'] ?? $order['user_email'] ?? '';
+$c_mobile = $order['customer_mobile'] ?? $order['phone'] ?? $order['mobile'] ?? $order['user_mobile'] ?? '';
+
+$c_address = $order['shipping_address'] ?? $order['address'] ?? $order['user_address'] ?? '';
+$c_city = $order['shipping_city'] ?? $order['city'] ?? $order['user_city'] ?? '';
+$c_state = $order['shipping_state'] ?? $order['state'] ?? $order['user_state'] ?? '';
+$c_pincode = $order['shipping_pincode'] ?? $order['pincode'] ?? $order['user_pincode'] ?? '';
 
 if (!$order) {
     die("Order not found.");
@@ -71,10 +89,11 @@ $html = '
         <tr>
             <td class="client-info">
                 <strong>Billed To:</strong><br>
-                ' . htmlspecialchars($order['user_id']) . ' (User ID)<br>
-                ' . nl2br(htmlspecialchars($order['address'] ?? '')) . '<br>
-                ' . htmlspecialchars($order['city'] ?? '') . ', ' . htmlspecialchars($order['state'] ?? '') . ' - ' . htmlspecialchars($order['pincode'] ?? '') . '<br>
-                Phone: ' . htmlspecialchars($order['phone'] ?? $order['mobile'] ?? '') . '
+                ' . htmlspecialchars($c_name) . '<br>
+                ' . nl2br(htmlspecialchars($c_address)) . '<br>
+                ' . htmlspecialchars($c_city) . ', ' . htmlspecialchars($c_state) . ' - ' . htmlspecialchars($c_pincode) . '<br>
+                Phone: ' . htmlspecialchars($c_mobile) . '<br>
+                Email: ' . htmlspecialchars($c_email) . '
             </td>
             <td class="order-info">
                 <strong>Order #:</strong> ' . $order['order_id'] . '<br>
