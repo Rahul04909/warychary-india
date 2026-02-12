@@ -148,13 +148,9 @@ $html = '
                 </td>
             </tr>
             <tr>
-                <td style="border:none; padding-top: 5px;">
+                <td style="border:none; padding-top: 5px;" colspan="2">
                     <div class="label">Payment</div>
                     <div class="value">' . ucfirst($order['payment_status']) . '</div>
-                </td>
-                 <td style="border:none; padding-top: 5px; text-align: right;">
-                    <div class="label">Courier</div>
-                    <div class="value">' . htmlspecialchars($order['courier_name'] ?? 'Pending') . '</div>
                 </td>
             </tr>
         </table>
