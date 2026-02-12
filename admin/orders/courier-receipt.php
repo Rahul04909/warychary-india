@@ -20,8 +20,10 @@ $database = new Database();
 $db = $database->getConnection();
 
 // Fetch Order with User Details
-// We prioritize order table data for address snapshot, but fall back to user table if needed or for email
-$query = "SELECT o.*, u.name as user_name, u.email as user_email, u.mobile as user_mobile 
+// orders table uses shipping_ prefix for address. users table uses plain address.
+$query = "SELECT o.*, 
+          u.name as user_name, u.email as user_email, u.mobile as user_mobile,
+          u.address as user_address, u.city as user_city, u.state as user_state, u.pincode as user_pincode 
           FROM orders o 
           LEFT JOIN users u ON o.user_id = u.id 
           WHERE o.id = :id";
@@ -45,17 +47,18 @@ $items = $item_stmt->fetchAll(PDO::FETCH_ASSOC);
 $company_email = "support@warychary.com";
 // Placeholder for Mobile and GST as they were not found in codebase
 $company_mobile = "+91 98765 43210"; 
-$company_gst = "GSTIN: 07AABCU9603R1Z2"; // Example Placeholder, user asked to put "GST" below logo.
+$company_gst = "GSTIN: 07AABCU9603R1Z2"; 
 
 // Customer Details Logic
-// Use order-specific fields if available (snapshots), otherwise user fields
-$c_name = $order['user_name'] ?? 'Customer';
-$c_email = $order['user_email'] ?? '';
-$c_mobile = $order['phone'] ?? $order['mobile'] ?? $order['user_mobile'] ?? '';
-$c_address = $order['address'] ?? '';
-$c_city = $order['city'] ?? '';
-$c_state = $order['state'] ?? '';
-$c_pincode = $order['pincode'] ?? '';
+// Priority: Order Shipping Details > Order Details (legacy) > User Profile Details
+$c_name = $order['customer_name'] ?? $order['user_name'] ?? 'Customer';
+$c_email = $order['customer_email'] ?? $order['user_email'] ?? '';
+$c_mobile = $order['customer_mobile'] ?? $order['phone'] ?? $order['mobile'] ?? $order['user_mobile'] ?? '';
+
+$c_address = $order['shipping_address'] ?? $order['address'] ?? $order['user_address'] ?? '';
+$c_city = $order['shipping_city'] ?? $order['city'] ?? $order['user_city'] ?? '';
+$c_state = $order['shipping_state'] ?? $order['state'] ?? $order['user_state'] ?? '';
+$c_pincode = $order['shipping_pincode'] ?? $order['pincode'] ?? $order['user_pincode'] ?? '';
 
 // Receipt HTML strictly for 3x5 inch (76.2mm x 127mm)
 $html = '
