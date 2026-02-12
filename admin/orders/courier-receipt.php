@@ -1,7 +1,15 @@
 <?php
-$page = 'orders';
-require_once '../auth_check.php';
+session_start();
+// Admin Auth
+if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
+    header("Location: ../login.php");
+    exit;
+}
+
+require_once '../../vendor/autoload.php';
 include_once '../../database/db_config.php';
+
+use Mpdf\Mpdf;
 
 if (!isset($_GET['id'])) {
     die("Order ID is required.");
@@ -28,86 +36,155 @@ $item_stmt = $db->prepare($item_query);
 $item_stmt->bindParam(':oid', $order_id);
 $item_stmt->execute();
 $items = $item_stmt->fetchAll(PDO::FETCH_ASSOC);
-?>
+
+// Receipt HTML strictly for 3x5 inch (76.2mm x 127mm)
+// Margins should be minimal (e.g., 2mm)
+$html = '
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Courier Receipt - <?php echo htmlspecialchars($order['order_id']); ?></title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px; }
-        .receipt-header { border-bottom: 2px solid #000; padding-bottom: 20px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
-        .receipt-title { font-size: 24px; font-weight: bold; text-transform: uppercase; }
-        .company-info { font-size: 14px; }
-        .order-details { display: flex; justify-content: space-between; margin-bottom: 30px; }
-        .shipping-info, .tracking-info { width: 48%; border: 1px solid #ddd; padding: 15px; border-radius: 5px; }
-        .section-title { font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
-        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
-        th { background-color: #f9f9f9; }
-        .barcode-placeholder { text-align: center; margin-top: 20px; border: 1px dashed #ccc; padding: 20px; color: #999; }
-        .print-btn { display: block; width: 100%; padding: 15px; background: #333; color: #fff; border: none; font-size: 16px; cursor: pointer; border-radius: 5px; margin-top: 20px; }
-        @media print {
-            .print-btn { display: none; }
-            body { padding: 0; }
-            .shipping-info, .tracking-info { border: 1px solid #000; }
+        @page {
+            margin: 2mm;
         }
+        body { 
+            font-family: sans-serif; 
+            font-size: 10px; 
+            color: #000; 
+            line-height: 1.2;
+        }
+        .text-center { text-align: center; }
+        .text-right { text-align: right; }
+        .bold { font-weight: bold; }
+        
+        .header { 
+            border-bottom: 2px solid #000; 
+            padding-bottom: 5px; 
+            margin-bottom: 5px; 
+        }
+        .company-name { font-size: 14px; font-weight: bold; text-transform: uppercase; }
+        .receipt-title { font-size: 12px; font-weight: bold; margin-top: 2px; }
+        
+        .section { margin-bottom: 5px; padding-bottom: 5px; border-bottom: 1px dashed #666; }
+        .section:last-child { border-bottom: none; }
+        
+        .label { font-size: 8px; color: #333; text-transform: uppercase; }
+        .value { font-size: 11px; font-weight: bold; }
+        .address { font-size: 10px; margin-top: 2px; white-space: pre-line; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 5px; }
+        th { text-align: left; font-size: 9px; border-bottom: 1px solid #000; }
+        td { font-size: 9px; padding: 2px 0; border-bottom: 1px solid #ddd; }
+        
+        .footer { 
+            margin-top: 10px; 
+            text-align: center; 
+            font-size: 8px; 
+            border-top: 1px solid #000; 
+            padding-top: 5px;
+        }
+        
+        .barcode { margin: 5px 0; text-align: center; }
     </style>
 </head>
 <body>
-    <div class="receipt-header">
-        <div class="company-info">
-            <strong>WaryChary India</strong><br>
-            New Delhi, India<br>
-            support@warychary.com
-        </div>
-        <div class="receipt-title">Packing Slip / Receipt</div>
+    <div class="header text-center">
+        <div class="company-name">WaryChary India</div>
+        <div class="receipt-title">COURIER RECEIPT</div>
     </div>
 
-    <div class="order-details">
-        <div class="shipping-info">
-            <div class="section-title">Delivery Address</div>
-            <strong><?php echo htmlspecialchars($order['customer_name'] ?? 'Customer'); ?></strong><br>
-            <?php echo nl2br(htmlspecialchars($order['address'] ?? '')); ?><br>
-            <?php echo htmlspecialchars($order['city'] ?? '') . ', ' . htmlspecialchars($order['state'] ?? '') . ' - ' . htmlspecialchars($order['pincode'] ?? ''); ?><br>
-            Phone: <?php echo htmlspecialchars($order['phone'] ?? $order['mobile'] ?? 'N/A'); ?>
-        </div>
-        <div class="tracking-info">
-            <div class="section-title">Order Info</div>
-            <strong>Order ID:</strong> <?php echo htmlspecialchars($order['order_id']); ?><br>
-            <strong>Date:</strong> <?php echo date('d-M-Y', strtotime($order['created_at'])); ?><br>
-            <strong>Payment:</strong> <?php echo ucfirst($order['payment_status']); ?><br>
-            <br>
-            <strong>Courier:</strong> <?php echo htmlspecialchars($order['courier_name'] ?? 'Pending'); ?><br>
-            <strong>Tracking ID:</strong> <?php echo htmlspecialchars($order['tracking_id'] ?? 'Pending'); ?>
-        </div>
+    <div class="section">
+        <div class="label">Delivery To:</div>
+        <div class="value">' . htmlspecialchars($order['user_name'] ?? 'Customer') . '</div>
+        <div class="address">' . nl2br(htmlspecialchars($order['address'] ?? '')) . '
+' . htmlspecialchars($order['city'] ?? '') . ', ' . htmlspecialchars($order['state'] ?? '') . ' - ' . htmlspecialchars($order['pincode'] ?? '') . '
+Start Phone: ' . htmlspecialchars($order['phone'] ?? $order['mobile'] ?? 'N/A') . '</div>
     </div>
 
-    <table>
-        <thead>
+    <div class="section">
+        <table style="width: 100%">
             <tr>
-                <th>Item</th>
-                <th>Qty</th>
-                <th>SKU</th> <!-- Placeholder column -->
+                <td style="border:none">
+                    <div class="label">Order ID</div>
+                    <div class="value">#' . htmlspecialchars($order['order_id']) . '</div>
+                </td>
+                <td style="border:none; text-align: right;">
+                    <div class="label">Date</div>
+                    <div class="value">' . date('d-M-Y', strtotime($order['created_at'])) . '</div>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($items as $item): ?>
             <tr>
-                <td><?php echo htmlspecialchars($item['name'] ?? $item['product_name'] ?? 'Product'); ?></td>
-                <td><?php echo $item['quantity']; ?></td>
-                <td><?php echo htmlspecialchars($item['sku'] ?? '-'); ?></td>
+                <td style="border:none; padding-top: 5px;">
+                    <div class="label">Payment</div>
+                    <div class="value">' . ucfirst($order['payment_status']) . '</div>
+                </td>
+                 <td style="border:none; padding-top: 5px; text-align: right;">
+                    <div class="label">Courier</div>
+                    <div class="value">' . htmlspecialchars($order['courier_name'] ?? 'Pending') . '</div>
+                </td>
             </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-
-    <div class="barcode-placeholder">
-        <!-- Placeholder for Barcode -->
-        *** <?php echo htmlspecialchars($order['tracking_id'] ?? $order['order_id']); ?> ***
+        </table>
     </div>
 
-    <button class="print-btn" onclick="window.print()">Print Receipt</button>
+    <div class="section">
+        <table>
+            <thead>
+                <tr>
+                    <th width="70%">Item</th>
+                    <th width="15%" class="text-center">Qty</th>
+                    <th width="15%" class="text-right">Total</th>
+                </tr>
+            </thead>
+            <tbody>';
+
+foreach ($items as $item) {
+    $name = $item['product_name'] ?? $item['name'] ?? 'Item';
+    $qty = $item['quantity'];
+    // Shorten name if too long
+    if (strlen($name) > 30) $name = substr($name, 0, 28) . '..';
+    
+    $html .= '
+                <tr>
+                    <td>' . htmlspecialchars($name) . '</td>
+                    <td class="text-center">' . $qty . '</td>
+                     <td class="text-right">'.number_format($item['total_price'],0).'</td>
+                </tr>';
+}
+
+$html .= '
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="section text-center">
+         <div class="label">Tracking ID</div>
+         <div class="value" style="font-size: 14px; letter-spacing: 1px;">' . htmlspecialchars($order['tracking_id'] ?? $order['order_id']) . '</div>
+         <div class="barcode">
+            <barcode code="' . htmlspecialchars($order['tracking_id'] ?? $order['order_id']) . '" type="C39" size="0.8" height="1.0" />
+         </div>
+    </div>
+
+    <div class="footer">
+        Thank you for choosing WaryChary!
+    </div>
 </body>
-</html>
+</html>';
+
+try {
+    // 3x5 inches = 76.2mm x 127mm
+    $mpdf = new Mpdf([
+        'mode' => 'utf-8', 
+        'format' => [76.2, 127], // Width, Height in mm
+        'margin_left' => 2,
+        'margin_right' => 2,
+        'margin_top' => 2,
+        'margin_bottom' => 2,
+        'default_font' => 'sans-serif'
+    ]);
+    
+    $mpdf->WriteHTML($html);
+    $mpdf->Output('Receipt_' . $order['order_id'] . '.pdf', 'I'); // Inline view
+} catch (\Mpdf\MpdfException $e) {
+    echo "Error generating PDF: " . $e->getMessage();
+}
+?>
