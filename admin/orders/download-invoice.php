@@ -55,8 +55,12 @@ $item_stmt->bindParam(':oid', $order_id);
 $item_stmt->execute();
 $items = $item_stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Fetch User (Customer) Info if not fully in order table
-// (Assuming order table has shipping info snapshot, which it should)
+// Company Details
+$company_name = "WaryChary India";
+$company_address = "Hissar Cant, Haryana";
+$company_email = "support@warychary.com";
+$company_mobile = "+91 98765 43210"; 
+$company_gst = "GSTIN: 07AABCU9603R1Z2"; 
 
 // Invoice HTML (Reused structure)
 $html = '
@@ -81,8 +85,22 @@ $html = '
 </head>
 <body>
     <div class="header">
-        <div class="logo">WaryChary</div>
-        <span class="invoice-title">INVOICE</span>
+        <table width="100%">
+            <tr>
+                <td width="60%">
+                    <img src="../../assets/logo/logo.png" style="width: 150px; max-height: 60px;"><br>
+                    <div style="font-size: 10px; color: #555; margin-top: 5px;">
+                        <strong>' . $company_name . '</strong><br>
+                        ' . $company_address . '<br>
+                        ' . $company_gst . '<br>
+                        Email: ' . $company_email . ' | Mobile: ' . $company_mobile . '
+                    </div>
+                </td>
+                <td width="40%" style="text-align: right; vertical-align: top;">
+                    <span class="invoice-title">INVOICE</span>
+                </td>
+            </tr>
+        </table>
     </div>
 
     <table class="details-table">
