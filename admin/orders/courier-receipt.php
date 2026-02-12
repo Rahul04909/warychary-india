@@ -159,9 +159,6 @@ $html .= '
     <div class="section text-center">
          <div class="label">Tracking ID</div>
          <div class="value" style="font-size: 14px; letter-spacing: 1px;">' . htmlspecialchars($order['tracking_id'] ?? $order['order_id']) . '</div>
-         <div class="barcode">
-            <barcode code="' . htmlspecialchars($order['tracking_id'] ?? $order['order_id']) . '" type="C39" size="0.8" height="1.0" />
-         </div>
     </div>
 
     <div class="footer">
