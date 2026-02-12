@@ -13,12 +13,12 @@ $db = $database->getConnection();
 $message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = $_POST['email'];
+    $input = $_POST['email']; // Can be email or mobile
     $password = $_POST['password'];
 
-    $query = "SELECT id, name, email, password, status FROM partners WHERE email = :email LIMIT 1";
+    $query = "SELECT id, name, email, password, status FROM partners WHERE (email = :input OR mobile = :input) LIMIT 1";
     $stmt = $db->prepare($query);
-    $stmt->bindParam(':email', $email);
+    $stmt->bindParam(':input', $input);
     $stmt->execute();
 
     if ($stmt->rowCount() > 0) {
@@ -98,8 +98,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <form action="" method="POST">
         <div class="mb-3">
-            <label class="form-label">Email Address</label>
-            <input type="email" name="email" class="form-control" required placeholder="Enter your email">
+            <label class="form-label">Email Address or Mobile Number</label>
+            <input type="text" name="email" class="form-control" required placeholder="Enter email or mobile">
         </div>
         <div class="mb-4">
             <label class="form-label">Password</label>
