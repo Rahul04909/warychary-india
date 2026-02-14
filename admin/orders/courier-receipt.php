@@ -46,8 +46,8 @@ $items = $item_stmt->fetchAll(PDO::FETCH_ASSOC);
 // Company Details (Hardcoded as per request)
 $company_email = "support@warychary.com";
 // Placeholder for Mobile and GST as they were not found in codebase
-$company_mobile = "+91 98765 43210"; 
-$company_gst = "GSTIN: 07AABCU9603R1Z2"; 
+$company_mobile = "+91 98137 16032"; 
+$company_gst = "GSTIN: 06CARPS9500A3ZL"; 
 
 // Customer Details Logic
 // Priority: Order Shipping Details > Order Details (legacy) > User Profile Details
