@@ -99,7 +99,7 @@ $html = '
         
         .label { font-size: 9px; color: #000; text-transform: uppercase; font-weight: bold; }
         .value { font-size: 11px; font-weight: bold; }
-        .address-block { font-size: 11px; margin-top: 2px; font-weight: normal; }
+        .address-block { font-size: 11px; margin-top: 2px; font-weight: bold; }
         
         table { width: 100%; border-collapse: collapse; margin-top: 5px; }
         th { text-align: left; font-size: 9px; border-bottom: 1px solid #000; font-weight: bold; }
