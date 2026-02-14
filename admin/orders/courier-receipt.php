@@ -170,13 +170,13 @@ $html = '
 foreach ($items as $item) {
     $name = $item['product_name'] ?? $item['name'] ?? 'Item';
     $qty = $item['quantity'];
-    if (strlen($name) > 30) $name = substr($name, 0, 28) . '..';
+    // Removed truncation to allow wrapping
     
     $html .= '
                 <tr>
                     <td>' . htmlspecialchars($name) . '</td>
                     <td class="text-center">' . $qty . '</td>
-                     <td class="text-right">'.number_format($item['total_price'],0).'</td>
+                     <td class="text-right">&#8377;' . number_format($item['total_price'],0) . '</td>
                 </tr>';
 }
 
