@@ -70,7 +70,7 @@ $html = '
             margin: 2mm;
         }
         body { 
-            font-family: sans-serif; 
+            font-family: "Arial", "Helvetica", sans-serif; 
             font-size: 10px; 
             color: #000; 
             line-height: 1.2;
@@ -97,9 +97,9 @@ $html = '
         .section { margin-bottom: 5px; padding-bottom: 5px; border-bottom: 1px dashed #666; }
         .section:last-child { border-bottom: none; }
         
-        .label { font-size: 8px; color: #333; text-transform: uppercase; font-weight: bold; }
-        .value { font-size: 10px; }
-        .address-block { font-size: 10px; margin-top: 2px; }
+        .label { font-size: 9px; color: #000; text-transform: uppercase; font-weight: bold; }
+        .value { font-size: 11px; font-weight: bold; }
+        .address-block { font-size: 11px; margin-top: 2px; font-weight: normal; }
         
         table { width: 100%; border-collapse: collapse; margin-top: 5px; }
         th { text-align: left; font-size: 9px; border-bottom: 1px solid #000; font-weight: bold; }
