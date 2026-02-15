@@ -127,12 +127,12 @@ $html = '
     <div class="section">
         <div class="label">DELIVERY TO:</div>
         <div class="value bold" style="font-size: 11px;">' . htmlspecialchars($c_name) . '</div>
-        <div class="value">Phone: ' . htmlspecialchars($c_mobile) . '</div>
-        <div class="value">Email: ' . htmlspecialchars($c_email) . '</div>
         <div class="address-block">
             ' . nl2br(htmlspecialchars($c_address)) . '<br>
             ' . htmlspecialchars($c_city) . ', ' . htmlspecialchars($c_state) . ' - ' . htmlspecialchars($c_pincode) . '
         </div>
+        <div class="value">Phone: ' . htmlspecialchars($c_mobile) . '</div>
+        <div class="value">Email: ' . htmlspecialchars($c_email) . '</div>
     </div>
 
     <div class="section">
