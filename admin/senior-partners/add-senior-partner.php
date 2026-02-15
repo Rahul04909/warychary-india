@@ -271,7 +271,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 
                 <div class="col-md-6 mb-3">
                     <label class="form-label">Password <span class="text-danger">*</span></label>
-                    <input type="password" name="password" class="form-control" required placeholder="Create password">
+                    <div class="input-group">
+                        <input type="password" name="password" id="password" class="form-control" required placeholder="Create password">
+                        <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
                 </div>
                 
                   <div class="col-md-6 mb-3">
@@ -337,5 +342,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </form>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const togglePassword = document.getElementById('togglePassword');
+        const password = document.getElementById('password');
+
+        togglePassword.addEventListener('click', function (e) {
+            // toggle the type attribute
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            
+            // toggle the eye / eye slash icon
+            const icon = this.querySelector('i');
+            icon.classList.toggle('fa-eye');
+            icon.classList.toggle('fa-eye-slash');
+        });
+    });
+</script>
 
 <?php include_once __DIR__ . '/../includes/footer.php'; ?>
