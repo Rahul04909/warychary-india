@@ -601,7 +601,7 @@ include_once 'includes/header.php';
                         <input type="text" name="state" class="form-control" required placeholder="State">
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label">City <span class="text-danger">*</span></label>
+                        <label class="form-label">City/District <span class="text-danger">*</span></label>
                         <input type="text" name="city" class="form-control" required placeholder="City">
                     </div>
                     <div class="col-md-4">

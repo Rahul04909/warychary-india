@@ -191,7 +191,7 @@ $html .= '
     </div>
 
     <div class="footer">
-        Thank you for choosing WaryChary!
+        Thank you for choosing Warychary!
     </div>
 </body>
 </html>';

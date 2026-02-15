@@ -741,7 +741,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register_partner'])) 
                                     </div>
                                     <div class="col-md-6">
                                         <div class="input-group-custom">
-                                            <label for="partner_district" class="form-label">City</label>
+                                            <label for="partner_district" class="form-label">City/District</label>
                                             <div class="input-wrapper">
                                                 <i class="fas fa-city"></i>
                                                 <input type="text" class="form-control" id="partner_district" name="partner_district" required placeholder="Enter City">
