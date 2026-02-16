@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Handle Images
     $target_dir = "../../uploads/products/";
     
-    // Featured Image
+// Featured Image
     $featured_image_path = $row['featured_image'];
     if (isset($_FILES['featured_image']) && $_FILES['featured_image']['error'] == 0) {
         $fileName = time() . '_' . basename($_FILES["featured_image"]["name"]);
@@ -55,6 +55,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $featured_image_path = "uploads/products/" . $fileName;
         }
     }
+
+    // Gallery Images Processing
+    $current_gallery = !empty($row['gallery_images']) ? json_decode($row['gallery_images'], true) : [];
+    if (!is_array($current_gallery)) $current_gallery = [];
+
+    // 1. Handle Removals
+    if (isset($_POST['remove_gallery_images']) && is_array($_POST['remove_gallery_images'])) {
+        foreach ($_POST['remove_gallery_images'] as $rem_path) {
+            if (($key = array_search($rem_path, $current_gallery)) !== false) {
+                unset($current_gallery[$key]);
+                // Optional: Delete file from server if needed
+                if (file_exists("../../" . $rem_path)) {
+                    unlink("../../" . $rem_path);
+                }
+            }
+        }
+    }
+
+    // 2. Handle New Uploads
+    if (isset($_FILES['gallery_images'])) {
+        $countfiles = count($_FILES['gallery_images']['name']);
+        for($i=0; $i<$countfiles; $i++){
+            if($_FILES['gallery_images']['error'][$i] == 0){
+                $fileName = time() . '_gal_' . $i . '_' . basename($_FILES['gallery_images']['name'][$i]);
+                $targetFilePath = $target_dir . $fileName;
+                if(move_uploaded_file($_FILES['gallery_images']['tmp_name'][$i], $targetFilePath)){
+                    $current_gallery[] = "uploads/products/" . $fileName;
+                }
+            }
+        }
+    }
+    
+    // Re-index array and encode
+    $gallery_json = !empty($current_gallery) ? json_encode(array_values($current_gallery)) : null;
 
     // Free Product Image
     $free_prod_image = $row['free_product_image'];
@@ -69,7 +103,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Update Query
-    $update_query = "UPDATE products SET name=:name, short_description=:short_desc, description=:desc, mrp=:mrp, purchase_price=:pp, sales_price=:sp, delivery_cost=:dc, packing_cost=:pc, total_cost=:tc, is_free_product_active=:ifa, free_product_name=:fpn, free_product_image=:fpi, status=:status, featured_image=:f_img WHERE id=:id";
+    $update_query = "UPDATE products SET name=:name, short_description=:short_desc, description=:desc, mrp=:mrp, purchase_price=:pp, sales_price=:sp, delivery_cost=:dc, packing_cost=:pc, total_cost=:tc, is_free_product_active=:ifa, free_product_name=:fpn, free_product_image=:fpi, status=:status, featured_image=:f_img, gallery_images=:gallery_images WHERE id=:id";
     
     $up_stmt = $db->prepare($update_query);
     $up_stmt->bindParam(':name', $name);
@@ -86,6 +120,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $up_stmt->bindParam(':fpi', $free_prod_image);
     $up_stmt->bindParam(':status', $status);
     $up_stmt->bindParam(':f_img', $featured_image_path);
+    $up_stmt->bindParam(':gallery_images', $gallery_json);
     $up_stmt->bindParam(':id', $id);
 
     if ($up_stmt->execute()) {
@@ -160,6 +195,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <div class="mb-2"><img src="../../<?php echo htmlspecialchars($row['featured_image']); ?>" width="100"></div>
                                 <?php endif; ?>
                                 <input type="file" name="featured_image" class="form-control" accept="image/*">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Gallery Images</label>
+                                <?php 
+                                $existing_gallery = !empty($row['gallery_images']) ? json_decode($row['gallery_images'], true) : [];
+                                if (!empty($existing_gallery) && is_array($existing_gallery)) {
+                                    echo '<div class="row gx-2 mb-2">';
+                                    foreach ($existing_gallery as $img_path) {
+                                        echo '<div class="col-4 mb-2 text-center">';
+                                        echo '<div class="border rounded p-1">';
+                                        echo '<img src="../../' . htmlspecialchars($img_path) . '" class="img-fluid mb-1" style="max-height: 60px;">';
+                                        echo '<div class="form-check">';
+                                        echo '<input class="form-check-input" type="checkbox" name="remove_gallery_images[]" value="' . htmlspecialchars($img_path) . '" id="rem_' . md5($img_path) . '">';
+                                        echo '<label class="form-check-label text-danger small" for="rem_' . md5($img_path) . '">Del</label>';
+                                        echo '</div>';
+                                        echo '</div>';
+                                        echo '</div>';
+                                    }
+                                    echo '</div>';
+                                }
+                                ?>
+                                <input type="file" name="gallery_images[]" class="form-control" multiple accept="image/*">
+                                <small class="text-muted d-block mt-1">Select multiple to add new</small>
                             </div>
                         </div>
                     </div>
