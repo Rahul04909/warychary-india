@@ -70,13 +70,13 @@ $html = '
 <head>
     <style>
         @page {
-            margin: 2mm;
+            margin: 1.5mm;
         }
         body { 
             font-family: "Arial", "Helvetica", sans-serif; 
-            font-size: 10px; 
+            font-size: 9px; 
             color: #000; 
-            line-height: 1.2;
+            line-height: 1.1;
         }
         .text-center { text-align: center; }
         .text-right { text-align: right; }
@@ -84,36 +84,36 @@ $html = '
         
         .header { 
             border-bottom: 2px solid #000; 
-            padding-bottom: 5px; 
-            margin-bottom: 5px; 
+            padding-bottom: 3px; 
+            margin-bottom: 3px; 
             text-align: center;
         }
         .logo { 
-            width: 120px; 
-            max-height: 50px; 
+            width: 100px; 
+            max-height: 40px; 
             object-fit: contain;
-            margin-bottom: 5px;
+            margin-bottom: 3px;
         }
-        .company-details { font-size: 8px; margin-top: 2px; }
-        .receipt-title { font-size: 12px; font-weight: bold; margin-top: 5px; text-decoration: underline; }
+        .company-details { font-size: 7.5px; margin-top: 1px; }
+        .receipt-title { font-size: 11px; font-weight: bold; margin-top: 3px; text-decoration: underline; }
         
-        .section { margin-bottom: 5px; padding-bottom: 5px; border-bottom: 1px dashed #666; }
+        .section { margin-bottom: 3px; padding-bottom: 3px; border-bottom: 1px dashed #666; }
         .section:last-child { border-bottom: none; }
         
-        .label { font-size: 9px; color: #000; text-transform: uppercase; font-weight: bold; }
-        .value { font-size: 11px; font-weight: bold; }
-        .address-block { font-size: 11px; margin-top: 2px; font-weight: bold; }
+        .label { font-size: 8px; color: #000; text-transform: uppercase; font-weight: bold; }
+        .value { font-size: 10px; font-weight: bold; }
+        .address-block { font-size: 10px; margin-top: 1px; font-weight: bold; }
         
         table { width: 100%; border-collapse: collapse; margin-top: 5px; }
         th { text-align: left; font-size: 9px; border-bottom: 1px solid #000; font-weight: bold; }
         td { font-size: 9px; padding: 2px 0; border-bottom: 1px solid #ddd; }
         
         .footer { 
-            margin-top: 10px; 
+            margin-top: 5px; 
             text-align: center; 
             font-size: 8px; 
             border-top: 1px solid #000; 
-            padding-top: 5px;
+            padding-top: 3px;
         }
     </style>
 </head>
@@ -202,7 +202,7 @@ try {
         'version'    => Version::AUTO,
         'outputType' => QRCode::OUTPUT_IMAGE_PNG,
         'eccLevel'   => QRCode::ECC_L,
-        'scale'      => 5,
+        'scale'      => 4,
     ]);
 
     $qrcode = new QRCode($options);
@@ -210,9 +210,9 @@ try {
 
     $html .= '
     <div class="section text-center">
-         <div class="label" style="margin-bottom: 5px;">Scan for Order Details</div>
-         <img src="' . $qr_image_data . '" style="width: 80px; height: 80px;">
-         <div class="value" style="font-size: 10px; margin-top: 5px;">#' . htmlspecialchars($order['order_id']) . '</div>
+         <div class="label" style="margin-bottom: 2px;">Scan for Order Details</div>
+         <img src="' . $qr_image_data . '" style="width: 70px; height: 70px;">
+         <div class="value" style="font-size: 9px; margin-top: 2px;">#' . htmlspecialchars($order['order_id']) . '</div>
     </div>';
 
     $html .= '
