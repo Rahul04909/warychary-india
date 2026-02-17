@@ -1,7 +1,4 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 session_start();
 // Admin Auth
 if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
@@ -15,6 +12,7 @@ include_once '../../database/db_config.php';
 use Mpdf\Mpdf;
 use chillerlan\QRCode\QRCode;
 use chillerlan\QRCode\QROptions;
+use chillerlan\QRCode\Common\Version;
 
 if (!isset($_GET['id'])) {
     die("Order ID is required.");
@@ -191,7 +189,8 @@ $html .= '
             </tbody>
         </table>
     </div>';
-    
+
+try {
     // Generate QR Code data
     $qr_data = "Order Receipt\n";
     $qr_data .= "Order ID: #" . $order['order_id'] . "\n";
@@ -200,7 +199,7 @@ $html .= '
     $qr_data .= "Address: " . $c_address . ", " . $c_city . ", " . $c_state . " - " . $c_pincode;
 
     $options = new QROptions([
-        'version'    => 5,
+        'version'    => Version::AUTO,
         'outputType' => QRCode::OUTPUT_IMAGE_PNG,
         'eccLevel'   => QRCode::ECC_L,
         'scale'      => 5,
@@ -214,15 +213,15 @@ $html .= '
          <div class="label" style="margin-bottom: 5px;">Scan for Order Details</div>
          <img src="' . $qr_image_data . '" style="width: 80px; height: 80px;">
          <div class="value" style="font-size: 10px; margin-top: 5px;">#' . htmlspecialchars($order['order_id']) . '</div>
-    </div>
+    </div>';
 
+    $html .= '
     <div class="footer">
         Thank you for choosing Warychary!
     </div>
 </body>
 </html>';
 
-try {
     // 3x5 inches = 76.2mm x 127mm
     $mpdf = new Mpdf([
         'mode' => 'utf-8', 
