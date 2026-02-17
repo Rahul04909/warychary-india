@@ -4,6 +4,7 @@
         "razorpay/razorpay": "^2.9",
         "mpdf/mpdf": "^8.2",
         "summernote/summernote": "^0.8.8",
-        "phpoffice/phpspreadsheet": "^5.4"
+        "phpoffice/phpspreadsheet": "^5.4",
+        "chillerlan/php-qrcode": "^5.0"
     }
 }

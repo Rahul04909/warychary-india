@@ -10,6 +10,8 @@ require_once '../../vendor/autoload.php';
 include_once '../../database/db_config.php';
 
 use Mpdf\Mpdf;
+use chillerlan\QRCode\QRCode;
+use chillerlan\QRCode\QROptions;
 
 if (!isset($_GET['id'])) {
     die("Order ID is required.");
@@ -185,11 +187,30 @@ foreach ($items as $item) {
 $html .= '
             </tbody>
         </table>
-    </div>
+    </div>';
     
+    // Generate QR Code data
+    $qr_data = "Order Receipt\n";
+    $qr_data .= "Order ID: #" . $order['order_id'] . "\n";
+    $qr_data .= "Customer: " . $c_name . "\n";
+    $qr_data .= "Phone: " . $c_mobile . "\n";
+    $qr_data .= "Address: " . $c_address . ", " . $c_city . ", " . $c_state . " - " . $c_pincode;
+
+    $options = new QROptions([
+        'version'    => 5,
+        'outputType' => QRCode::OUTPUT_IMAGE_PNG,
+        'eccLevel'   => QRCode::ECC_L,
+        'scale'      => 5,
+    ]);
+
+    $qrcode = new QRCode($options);
+    $qr_image_data = $qrcode->render($qr_data);
+
+    $html .= '
     <div class="section text-center">
-         <div class="label">Your Order ID</div>
-         <div class="value" style="font-size: 14px; letter-spacing: 1px; font-weight: bold;">' . htmlspecialchars($order['order_id']) . '</div>
+         <div class="label" style="margin-bottom: 5px;">Scan for Order Details</div>
+         <img src="' . $qr_image_data . '" style="width: 80px; height: 80px;">
+         <div class="value" style="font-size: 10px; margin-top: 5px;">#' . htmlspecialchars($order['order_id']) . '</div>
     </div>
 
     <div class="footer">

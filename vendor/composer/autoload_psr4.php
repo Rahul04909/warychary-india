@@ -7,6 +7,8 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'setasign\\Fpdi\\' => array($vendorDir . '/setasign/fpdi/src'),
+    'chillerlan\\Settings\\' => array($vendorDir . '/chillerlan/php-settings-container/src'),
+    'chillerlan\\QRCode\\' => array($vendorDir . '/chillerlan/php-qrcode/src'),
     'ZipStream\\' => array($vendorDir . '/maennchen/zipstream-php/src'),
     'WpOrg\\Requests\\' => array($vendorDir . '/rmccue/requests/src'),
     'Razorpay\\Tests\\' => array($vendorDir . '/razorpay/razorpay/tests'),
