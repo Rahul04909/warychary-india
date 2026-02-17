@@ -121,7 +121,9 @@ $html = '
             ' . $company_gst . '<br>
             Email: ' . $company_email . ' | Mobile: ' . $company_mobile . '
         </div>
-        <div class="receipt-title">COURIER RECEIPT</div>
+        <div class="company-details" style="margin-top: 5px; font-weight: bold;">
+            21, CHOUDHARY COMPLEX, HISAR CANTT,<br>Hisar, Hisar, Haryana, 125006
+        </div>
     </div>
 
     <div class="section">
