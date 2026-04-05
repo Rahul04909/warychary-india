@@ -58,7 +58,11 @@ try {
         // Update details if needed? For now, we keep existing user ID.
     } else {
         // Create new guest user
-        $new_user_sql = "INSERT INTO users (`name`, `email`, `mobile`, `address`, `city`, `state`, `pincode`, `created_at`) VALUES (:name, :email, :mobile, :address, :city, :state, :pincode, NOW())";
+        $temp_password = bin2hex(random_bytes(4)); // 8 characters random hex
+        $password_hash = password_hash($temp_password, PASSWORD_DEFAULT);
+        $default_gender = 'Other';
+
+        $new_user_sql = "INSERT INTO users (`name`, `email`, `mobile`, `address`, `city`, `state`, `pincode`, `gender`, `password`, `created_at`) VALUES (:name, :email, :mobile, :address, :city, :state, :pincode, :gender, :password, NOW())";
         $new_stmt = $db->prepare($new_user_sql);
         $new_stmt->bindParam(':name', $name);
         $new_stmt->bindParam(':email', $email);
@@ -67,6 +71,8 @@ try {
         $new_stmt->bindParam(':city', $city);
         $new_stmt->bindParam(':state', $state);
         $new_stmt->bindParam(':pincode', $pincode);
+        $new_stmt->bindParam(':gender', $default_gender);
+        $new_stmt->bindParam(':password', $password_hash);
         $new_stmt->execute();
         $user_id = $db->lastInsertId();
     }
