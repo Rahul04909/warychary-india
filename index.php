@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<?php 
+<?php
 require_once 'includes/referral_check.php';
-$url_prefix = ''; 
+$url_prefix = '';
 ?>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,20 +23,22 @@ $url_prefix = '';
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
     <?php include 'includes/topbar.php'; ?>
     <?php include 'includes/header.php'; ?>
-    
+
     <main>
         <?php include 'components/hero.php'; ?>
         <?php include 'components/products.php'; ?>
         <?php include 'components/promo-banner.php'; ?>
-        <?php include 'components/testimonials.php'; ?>
+
         <?php include 'components/standards.php'; ?>
     </main>
 
     <?php include 'includes/footer.php'; ?>
 
 </body>
+
 </html>
