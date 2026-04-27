@@ -1,7 +1,5 @@
 <?php
 session_start();
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 // Admin Auth
 if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
     header("Location: ../login.php");
@@ -202,18 +200,19 @@ try {
 
     $options = new QROptions([
         'version'    => Version::AUTO,
-        'outputType' => QRCode::OUTPUT_IMAGE_PNG,
+        'outputType' => QRCode::OUTPUT_MARKUP_SVG, // Use SVG to avoid GD dependency
         'eccLevel'   => QRCode::ECC_L,
         'scale'      => 4,
     ]);
 
     $qrcode = new QRCode($options);
-    $qr_image_data = $qrcode->render($qr_data);
+    $qr_svg_content = $qrcode->render($qr_data);
+    $qr_base64 = 'data:image/svg+xml;base64,' . base64_encode($qr_svg_content);
 
     $html .= '
     <div class="section text-center">
          <div class="label" style="margin-bottom: 2px;">Scan for Order Details</div>
-         <img src="' . $qr_image_data . '" style="width: 70px; height: 70px;">
+         <img src="' . $qr_base64 . '" style="width: 70px; height: 70px;">
          <div class="value" style="font-size: 9px; margin-top: 2px;">#' . htmlspecialchars($order['order_id']) . '</div>
     </div>';
 
@@ -237,7 +236,7 @@ try {
     
     $mpdf->WriteHTML($html);
     $mpdf->Output('Receipt_' . $order['order_id'] . '.pdf', 'I'); 
-} catch (\Mpdf\MpdfException $e) {
+} catch (Throwable $e) {
     echo "Error generating PDF: " . $e->getMessage();
 }
 ?>
