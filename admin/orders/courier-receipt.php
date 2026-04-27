@@ -1,5 +1,7 @@
 <?php
 session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 // Admin Auth
 if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
     header("Location: ../login.php");
@@ -49,8 +51,8 @@ $items = $item_stmt->fetchAll(PDO::FETCH_ASSOC);
 // Company Details (Hardcoded as per request)
 $company_email = "support@warychary.com";
 // Placeholder for Mobile and GST as they were not found in codebase
-$company_mobile = "+91 98137 16032"; 
-$company_gst = "GSTIN: 06CARPS9500A3ZL"; 
+$company_mobile = "+91 98137 16032";
+$company_gst = "GSTIN: 06CARPS9500A3ZL";
 
 // Customer Details Logic
 // Priority: Order Shipping Details > Order Details (legacy) > User Profile Details
@@ -176,12 +178,12 @@ foreach ($items as $item) {
     $name = $item['product_name'] ?? $item['name'] ?? 'Item';
     $qty = $item['quantity'];
     // Removed truncation to allow wrapping
-    
+
     $html .= '
                 <tr>
                     <td>' . htmlspecialchars($name) . '</td>
                     <td class="text-center">' . $qty . '</td>
-                     <td class="text-right">&#8377;' . number_format($item['total_price'],0) . '</td>
+                     <td class="text-right">&#8377;' . number_format($item['total_price'], 0) . '</td>
                 </tr>';
 }
 
@@ -199,20 +201,19 @@ try {
     $qr_data .= "Address: " . $c_address . ", " . $c_city . ", " . $c_state . " - " . $c_pincode;
 
     $options = new QROptions([
-        'version'    => Version::AUTO,
-        'outputType' => QRCode::OUTPUT_MARKUP_SVG, // Use SVG to avoid GD dependency
-        'eccLevel'   => QRCode::ECC_L,
-        'scale'      => 4,
+        'version' => Version::AUTO,
+        'outputType' => QRCode::OUTPUT_IMAGE_PNG,
+        'eccLevel' => QRCode::ECC_L,
+        'scale' => 4,
     ]);
 
     $qrcode = new QRCode($options);
-    $qr_svg_content = $qrcode->render($qr_data);
-    $qr_base64 = 'data:image/svg+xml;base64,' . base64_encode($qr_svg_content);
+    $qr_image_data = $qrcode->render($qr_data);
 
     $html .= '
     <div class="section text-center">
          <div class="label" style="margin-bottom: 2px;">Scan for Order Details</div>
-         <img src="' . $qr_base64 . '" style="width: 70px; height: 70px;">
+         <img src="' . $qr_image_data . '" style="width: 70px; height: 70px;">
          <div class="value" style="font-size: 9px; margin-top: 2px;">#' . htmlspecialchars($order['order_id']) . '</div>
     </div>';
 
@@ -225,18 +226,18 @@ try {
 
     // 3x5 inches = 76.2mm x 127mm
     $mpdf = new Mpdf([
-        'mode' => 'utf-8', 
-        'format' => [76.2, 127], 
+        'mode' => 'utf-8',
+        'format' => [76.2, 127],
         'margin_left' => 2,
         'margin_right' => 2,
         'margin_top' => 2,
         'margin_bottom' => 2,
         'default_font' => 'sans-serif'
     ]);
-    
+
     $mpdf->WriteHTML($html);
-    $mpdf->Output('Receipt_' . $order['order_id'] . '.pdf', 'I'); 
-} catch (Throwable $e) {
+    $mpdf->Output('Receipt_' . $order['order_id'] . '.pdf', 'I');
+} catch (\Mpdf\MpdfException $e) {
     echo "Error generating PDF: " . $e->getMessage();
 }
 ?>
