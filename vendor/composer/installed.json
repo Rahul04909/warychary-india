@@ -2,17 +2,17 @@
     "packages": [
         {
             "name": "chillerlan/php-qrcode",
-            "version": "5.0.5",
-            "version_normalized": "5.0.5.0",
+            "version": "4.4.2",
+            "version_normalized": "4.4.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/chillerlan/php-qrcode.git",
-                "reference": "7b66282572fc14075c0507d74d9837dab25b38d6"
+                "reference": "345ed8e4ffb56e6b3fcd9f42e3970b9026fa6ce4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/chillerlan/php-qrcode/zipball/7b66282572fc14075c0507d74d9837dab25b38d6",
-                "reference": "7b66282572fc14075c0507d74d9837dab25b38d6",
+                "url": "https://api.github.com/repos/chillerlan/php-qrcode/zipball/345ed8e4ffb56e6b3fcd9f42e3970b9026fa6ce4",
+                "reference": "345ed8e4ffb56e6b3fcd9f42e3970b9026fa6ce4",
                 "shasum": ""
             },
             "require": {
@@ -21,46 +21,33 @@
                 "php": "^7.4 || ^8.0"
             },
             "require-dev": {
-                "chillerlan/php-authenticator": "^4.3.1 || ^5.2.1",
-                "ext-fileinfo": "*",
-                "phan/phan": "^5.5.2",
-                "phpcompatibility/php-compatibility": "10.x-dev",
+                "phan/phan": "^5.4.5",
                 "phpmd/phpmd": "^2.15",
                 "phpunit/phpunit": "^9.6",
                 "setasign/fpdf": "^1.8.2",
-                "slevomat/coding-standard": "^8.23.0",
-                "squizlabs/php_codesniffer": "^4.0.0"
+                "squizlabs/php_codesniffer": "^3.11"
             },
             "suggest": {
                 "chillerlan/php-authenticator": "Yet another Google authenticator! Also creates URIs for mobile apps.",
                 "setasign/fpdf": "Required to use the QR FPDF output.",
                 "simple-icons/simple-icons": "SVG icons that you can use to embed as logos in the QR Code"
             },
-            "time": "2025-11-23T23:51:44+00:00",
+            "time": "2024-11-15T15:36:24+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "chillerlan\\QRCode\\": "src"
+                    "chillerlan\\QRCode\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "MIT",
-                "Apache-2.0"
+                "MIT"
             ],
             "authors": [
                 {
                     "name": "Kazuhiko Arase",
-                    "homepage": "https://github.com/kazuhikoarase/qrcode-generator"
-                },
-                {
-                    "name": "ZXing Authors",
-                    "homepage": "https://github.com/zxing/zxing"
-                },
-                {
-                    "name": "Ashot Khanamiryan",
-                    "homepage": "https://github.com/khanamiryan/php-qrcode-detector-decoder"
+                    "homepage": "https://github.com/kazuhikoarase"
                 },
                 {
                     "name": "Smiley",
@@ -72,43 +59,40 @@
                     "homepage": "https://github.com/chillerlan/php-qrcode/graphs/contributors"
                 }
             ],
-            "description": "A QR Code generator and reader with a user-friendly API. PHP 7.4+",
+            "description": "A QR code generator with a user friendly API. PHP 7.4+",
             "homepage": "https://github.com/chillerlan/php-qrcode",
             "keywords": [
                 "phpqrcode",
                 "qr",
                 "qr code",
-                "qr-reader",
                 "qrcode",
-                "qrcode-generator",
-                "qrcode-reader"
+                "qrcode-generator"
             ],
             "support": {
-                "docs": "https://php-qrcode.readthedocs.io",
                 "issues": "https://github.com/chillerlan/php-qrcode/issues",
-                "source": "https://github.com/chillerlan/php-qrcode"
+                "source": "https://github.com/chillerlan/php-qrcode/tree/4.4.2"
             },
             "funding": [
                 {
                     "url": "https://ko-fi.com/codemasher",
-                    "type": "Ko-Fi"
+                    "type": "ko_fi"
                 }
             ],
             "install-path": "../chillerlan/php-qrcode"
         },
         {
             "name": "chillerlan/php-settings-container",
-            "version": "3.2.1",
-            "version_normalized": "3.2.1.0",
+            "version": "3.3.0",
+            "version_normalized": "3.3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/chillerlan/php-settings-container.git",
-                "reference": "95ed3e9676a1d47cab2e3174d19b43f5dbf52681"
+                "reference": "a0a487cbf5344f721eb504bf0f59bada40c381b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/chillerlan/php-settings-container/zipball/95ed3e9676a1d47cab2e3174d19b43f5dbf52681",
-                "reference": "95ed3e9676a1d47cab2e3174d19b43f5dbf52681",
+                "url": "https://api.github.com/repos/chillerlan/php-settings-container/zipball/a0a487cbf5344f721eb504bf0f59bada40c381b7",
+                "reference": "a0a487cbf5344f721eb504bf0f59bada40c381b7",
                 "shasum": ""
             },
             "require": {
@@ -116,13 +100,15 @@
                 "php": "^8.1"
             },
             "require-dev": {
+                "phan/phan": "^5.5.2",
                 "phpmd/phpmd": "^2.15",
-                "phpstan/phpstan": "^1.11",
-                "phpstan/phpstan-deprecation-rules": "^1.2",
+                "phpstan/phpstan": "^2.1.31",
+                "phpstan/phpstan-deprecation-rules": "^2.0.3",
                 "phpunit/phpunit": "^10.5",
-                "squizlabs/php_codesniffer": "^3.10"
+                "slevomat/coding-standard": "^8.22",
+                "squizlabs/php_codesniffer": "^4.0"
             },
-            "time": "2024-07-16T11:13:48+00:00",
+            "time": "2026-03-20T21:10:52+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -147,7 +133,8 @@
                 "Settings",
                 "configuration",
                 "container",
-                "helper"
+                "helper",
+                "property hook"
             ],
             "support": {
                 "issues": "https://github.com/chillerlan/php-settings-container/issues",
@@ -443,17 +430,17 @@
         },
         {
             "name": "mpdf/mpdf",
-            "version": "v8.2.7",
-            "version_normalized": "8.2.7.0",
+            "version": "v8.3.1",
+            "version_normalized": "8.3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mpdf/mpdf.git",
-                "reference": "b59670a09498689c33ce639bac8f5ba26721dab3"
+                "reference": "2a454ec334109911fdb323a284c19dbf3f049810"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mpdf/mpdf/zipball/b59670a09498689c33ce639bac8f5ba26721dab3",
-                "reference": "b59670a09498689c33ce639bac8f5ba26721dab3",
+                "url": "https://api.github.com/repos/mpdf/mpdf/zipball/2a454ec334109911fdb323a284c19dbf3f049810",
+                "reference": "2a454ec334109911fdb323a284c19dbf3f049810",
                 "shasum": ""
             },
             "require": {
@@ -477,10 +464,11 @@
             },
             "suggest": {
                 "ext-bcmath": "Needed for generation of some types of barcodes",
+                "ext-imagick": "Needed if developing the Mpdf library",
                 "ext-xml": "Needed mainly for SVG manipulation",
                 "ext-zlib": "Needed for compression of embedded resources, such as fonts"
             },
-            "time": "2025-12-01T10:18:02+00:00",
+            "time": "2026-03-11T10:58:44+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -741,17 +729,17 @@
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v7.0.2",
-            "version_normalized": "7.0.2.0",
+            "version": "v6.12.0",
+            "version_normalized": "6.12.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "ebf1655bd5b99b3f97e1a3ec0a69e5f4cd7ea088"
+                "reference": "d1ac35d784bf9f5e61b424901d5a014967f15b12"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/ebf1655bd5b99b3f97e1a3ec0a69e5f4cd7ea088",
-                "reference": "ebf1655bd5b99b3f97e1a3ec0a69e5f4cd7ea088",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/d1ac35d784bf9f5e61b424901d5a014967f15b12",
+                "reference": "d1ac35d784bf9f5e61b424901d5a014967f15b12",
                 "shasum": ""
             },
             "require": {
@@ -765,14 +753,13 @@
                 "doctrine/annotations": "^1.2.6 || ^1.13.3",
                 "php-parallel-lint/php-console-highlighter": "^1.0.0",
                 "php-parallel-lint/php-parallel-lint": "^1.3.2",
-                "phpcompatibility/php-compatibility": "^10.0.0@dev",
-                "squizlabs/php_codesniffer": "^3.13.5",
+                "phpcompatibility/php-compatibility": "^9.3.5",
+                "roave/security-advisories": "dev-latest",
+                "squizlabs/php_codesniffer": "^3.7.2",
                 "yoast/phpunit-polyfills": "^1.0.4"
             },
             "suggest": {
                 "decomplexity/SendOauth2": "Adapter for using XOAUTH2 authentication",
-                "directorytree/imapengine": "For uploading sent messages via IMAP, see gmail example",
-                "ext-imap": "Needed to support advanced email address parsing according to RFC822",
                 "ext-mbstring": "Needed to send email in multibyte encoding charset or decode encoded addresses",
                 "ext-openssl": "Needed for secure SMTP sending and DKIM signing",
                 "greew/oauth2-azure-provider": "Needed for Microsoft Azure XOAUTH2 authentication",
@@ -782,7 +769,7 @@
                 "symfony/polyfill-mbstring": "To support UTF-8 if the Mbstring PHP extension is not enabled (^1.2)",
                 "thenetworg/oauth2-azure": "Needed for Microsoft XOAUTH2 authentication"
             },
-            "time": "2026-01-09T18:02:33+00:00",
+            "time": "2025-10-15T16:49:08+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -814,7 +801,7 @@
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
             "support": {
                 "issues": "https://github.com/PHPMailer/PHPMailer/issues",
-                "source": "https://github.com/PHPMailer/PHPMailer/tree/v7.0.2"
+                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.12.0"
             },
             "funding": [
                 {
@@ -826,25 +813,24 @@
         },
         {
             "name": "phpoffice/phpspreadsheet",
-            "version": "5.4.0",
-            "version_normalized": "5.4.0.0",
+            "version": "2.4.5",
+            "version_normalized": "2.4.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPOffice/PhpSpreadsheet.git",
-                "reference": "48f2fe37d64c2dece0ef71fb2ac55497566782af"
+                "reference": "ec7815be350e03df90f3e2ace92653fa6cb4327c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/48f2fe37d64c2dece0ef71fb2ac55497566782af",
-                "reference": "48f2fe37d64c2dece0ef71fb2ac55497566782af",
+                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/ec7815be350e03df90f3e2ace92653fa6cb4327c",
+                "reference": "ec7815be350e03df90f3e2ace92653fa6cb4327c",
                 "shasum": ""
             },
             "require": {
-                "composer/pcre": "^1||^2||^3",
+                "composer/pcre": "^1 || ^2 || ^3",
                 "ext-ctype": "*",
                 "ext-dom": "*",
                 "ext-fileinfo": "*",
-                "ext-filter": "*",
                 "ext-gd": "*",
                 "ext-iconv": "*",
                 "ext-libxml": "*",
@@ -858,32 +844,30 @@
                 "maennchen/zipstream-php": "^2.1 || ^3.0",
                 "markbaker/complex": "^3.0",
                 "markbaker/matrix": "^3.0",
-                "php": "^8.1",
+                "php": ">=8.1.0 <8.6.0",
                 "psr/simple-cache": "^1.0 || ^2.0 || ^3.0"
             },
             "require-dev": {
                 "dealerdirect/phpcodesniffer-composer-installer": "dev-main",
                 "dompdf/dompdf": "^2.0 || ^3.0",
-                "ext-intl": "*",
                 "friendsofphp/php-cs-fixer": "^3.2",
                 "mitoteam/jpgraph": "^10.5",
                 "mpdf/mpdf": "^8.1.1",
                 "phpcompatibility/php-compatibility": "^9.3",
-                "phpstan/phpstan": "^1.1 || ^2.0",
-                "phpstan/phpstan-deprecation-rules": "^1.0 || ^2.0",
-                "phpstan/phpstan-phpunit": "^1.0 || ^2.0",
-                "phpunit/phpunit": "^10.5",
+                "phpstan/phpstan": "^1.1",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "phpunit/phpunit": "^9.6 || ^10.5",
                 "squizlabs/php_codesniffer": "^3.7",
                 "tecnickcom/tcpdf": "^6.5"
             },
             "suggest": {
                 "dompdf/dompdf": "Option for rendering PDF with PDF Writer",
-                "ext-intl": "PHP Internationalization Functions, required for NumberFormat Wizard and StringHelper::setLocale()",
+                "ext-intl": "PHP Internationalization Functions, required for NumberFormatter Wizard",
                 "mitoteam/jpgraph": "Option for rendering charts, or including charts with PDF or HTML Writers",
                 "mpdf/mpdf": "Option for rendering PDF with PDF Writer",
                 "tecnickcom/tcpdf": "Option for rendering PDF with PDF Writer"
             },
-            "time": "2026-01-11T04:52:00+00:00",
+            "time": "2026-04-19T05:48:49+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -932,7 +916,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHPOffice/PhpSpreadsheet/issues",
-                "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/5.4.0"
+                "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/2.4.5"
             },
             "install-path": "../phpoffice/phpspreadsheet"
         },
@@ -1169,17 +1153,17 @@
         },
         {
             "name": "rmccue/requests",
-            "version": "v2.0.17",
-            "version_normalized": "2.0.17.0",
+            "version": "v2.0.18",
+            "version_normalized": "2.0.18.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WordPress/Requests.git",
-                "reference": "74d1648cc34e16a42ea25d548fc73ec107a90421"
+                "reference": "2e5b8434e0dd54b35bcf1e9a5b52ba2ad84cf773"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WordPress/Requests/zipball/74d1648cc34e16a42ea25d548fc73ec107a90421",
-                "reference": "74d1648cc34e16a42ea25d548fc73ec107a90421",
+                "url": "https://api.github.com/repos/WordPress/Requests/zipball/2e5b8434e0dd54b35bcf1e9a5b52ba2ad84cf773",
+                "reference": "2e5b8434e0dd54b35bcf1e9a5b52ba2ad84cf773",
                 "shasum": ""
             },
             "require": {
@@ -1202,7 +1186,7 @@
                 "ext-openssl": "For secure transport support",
                 "ext-zlib": "For improved performance when decompressing encoded streams"
             },
-            "time": "2025-12-12T17:47:19+00:00",
+            "time": "2026-04-30T00:41:23+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1258,28 +1242,28 @@
         },
         {
             "name": "setasign/fpdi",
-            "version": "v2.6.4",
-            "version_normalized": "2.6.4.0",
+            "version": "v2.6.6",
+            "version_normalized": "2.6.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Setasign/FPDI.git",
-                "reference": "4b53852fde2734ec6a07e458a085db627c60eada"
+                "reference": "de0cf35911be3e9ea63b48e0f307883b1c7c48ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Setasign/FPDI/zipball/4b53852fde2734ec6a07e458a085db627c60eada",
-                "reference": "4b53852fde2734ec6a07e458a085db627c60eada",
+                "url": "https://api.github.com/repos/Setasign/FPDI/zipball/de0cf35911be3e9ea63b48e0f307883b1c7c48ac",
+                "reference": "de0cf35911be3e9ea63b48e0f307883b1c7c48ac",
                 "shasum": ""
             },
             "require": {
                 "ext-zlib": "*",
-                "php": "^7.1 || ^8.0"
+                "php": ">=7.2 <=8.5.99999"
             },
             "conflict": {
                 "setasign/tfpdf": "<1.31"
             },
             "require-dev": {
-                "phpunit/phpunit": "^7",
+                "phpunit/phpunit": "^8.5.52",
                 "setasign/fpdf": "~1.8.6",
                 "setasign/tfpdf": "~1.33",
                 "squizlabs/php_codesniffer": "^3.5",
@@ -1288,7 +1272,7 @@
             "suggest": {
                 "setasign/fpdf": "FPDI will extend this class but as it is also possible to use TCPDF or tFPDF as an alternative. There's no fixed dependency configured."
             },
-            "time": "2025-08-05T09:57:14+00:00",
+            "time": "2026-03-13T08:38:20+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1321,7 +1305,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Setasign/FPDI/issues",
-                "source": "https://github.com/Setasign/FPDI/tree/v2.6.4"
+                "source": "https://github.com/Setasign/FPDI/tree/v2.6.6"
             },
             "funding": [
                 {
