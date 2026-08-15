@@ -1,10 +1,10 @@
-<!DOCTYPE html>
 <?php
 require_once 'includes/referral_check.php';
 $url_prefix = '';
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 ?>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>

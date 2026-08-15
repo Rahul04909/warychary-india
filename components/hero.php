@@ -5,7 +5,7 @@
         <div class="hero-wrapper">
             <!-- Slide 1 -->
             <div class="slide">
-                <img src="assets/hero/hero-one.png" alt="Banner 1">
+                <img src="assets/hero/50e405c8-801b-4ca2-9dbb-5ed690bd16bc.jpg" alt="Banner 1">
             </div>
         </div>
         
